@@ -66,17 +66,24 @@
         {% for bean in beans %}
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
-                        <img src="{{ bean['img-url'] }}" class="card-img-top" alt="...">
+                        <a href="{{ bean.url }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
                         <div class="card-body">
-                            <h3 class="card-title">{{ bean.brand }}: {{ bean.name }}</h3>
-                            <ul>
+                            <h3 class="card-title text-center mb-4">{{ bean.brand }}: {{ bean.name }}</h3>
+                            <ul class="bean-info">
                                 <li>Roast: {{ bean.roast }}</li>
                                 <li>Origin: {{ bean.origin }}</li>
                                 <li>Organic: {{ bean.organic }}</li>
-                                <li><a href="{{ bean.url }}">Link</a></li>
-                                <li>Notes: {{ bean.notes }}</li>
+                                <li><a href="{{ bean.url }}">More Info</a></li>
                             </ul>
-                            <p><small class="text-muted">Submitted by Sam Baker</small></p>
+                            <h5 class="text-center my-3">Notes:</h5>
+                            <div class="notes-container">
+                                {% for note in bean.notes %}
+                                    <span class="bean-notes">{{ note }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="row mt-4 custom-card-footer">
+                                <div class="user-submitted text-muted mt-3">Submitted by <a href="#">Sam Baker</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -72,6 +72,13 @@ h2, h3 {
     text-transform: capitalize;
 }
 
+.card-title{
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .card {
     height: 100%;
 }
@@ -82,8 +89,45 @@ h2, h3 {
     object-fit: cover;
 }
 
-ul {
+.card-img-top:hover {
+    filter: grayscale(100%);
+}
+
+ul.bean-info {
     columns: 2;
     -webkit-columns: 2;
     -moz-columns: 2;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.bean-notes {
+    background-color: #F8F8F8;
+    padding: 10px;
+    border-radius: 10px;
+    text-transform: capitalize;
+    white-space: nowrap;
+    line-height: 50px;
+    margin: 0px 5px;
+}
+
+.bean-notes:hover {
+    background-color: #F8A825;
+}
+
+.notes-container {
+    text-align: center;
+}
+
+.custom-card-footer {
+    height: 15px;
+}
+
+.user-submitted {
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
 }
