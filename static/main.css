@@ -72,8 +72,18 @@ h2, h3 {
     text-transform: capitalize;
 }
 
+.card {
+    height: 100%;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
 ul {
     columns: 2;
     -webkit-columns: 2;
     -moz-columns: 2;
-  }
+}

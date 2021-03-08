@@ -61,29 +61,27 @@
         </div>
     </div>
 
-    
+    <div class="container-fluid">
+        <div class="row gy-4">
         {% for bean in beans %}
-        {% if loop.index0 % 3 == 0 %}
-            <div class="card-group">
-        {% endif %}
-                <div class="card">
-                    <img src="{{ bean['img-url'] }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h3 class="card-title">{{ bean.brand }}: {{ bean.name }}</h3>
-                        <ul>
-                            <li>Roast: {{ bean.roast }}</li>
-                            <li>Origin: {{ bean.origin }}</li>
-                            <li>Organic: {{ bean.organic }}</li>
-                            <li><a href="{{ bean.url }}">Link</a></li>
-                            <li>Notes: {{ bean.notes }}</li>
-                        </ul>
-                        <p><small class="text-muted">Submitted by Sam Baker</small></p>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <img src="{{ bean['img-url'] }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ bean.brand }}: {{ bean.name }}</h3>
+                            <ul>
+                                <li>Roast: {{ bean.roast }}</li>
+                                <li>Origin: {{ bean.origin }}</li>
+                                <li>Organic: {{ bean.organic }}</li>
+                                <li><a href="{{ bean.url }}">Link</a></li>
+                                <li>Notes: {{ bean.notes }}</li>
+                            </ul>
+                            <p><small class="text-muted">Submitted by Sam Baker</small></p>
+                        </div>
                     </div>
                 </div>
-                {% if loop.index0 % 3 == 2 or loop.last %}
-                    </div>
-                {% endif %}
         {% endfor %}
+    </div>
    
 
 
