@@ -104,8 +104,15 @@ ul.bean-info {
     text-transform: capitalize;
 }
 
-.bean-notes {
+.bean-note {
     background-color: #F8F8F8;
+}
+
+.cloud-note {
+    background-color: white;
+}
+
+.note-bubble {
     padding: 10px;
     border-radius: 10px;
     text-transform: capitalize;
@@ -114,7 +121,7 @@ ul.bean-info {
     margin: 0px 5px;
 }
 
-.bean-notes:hover {
+.note-bubble:hover {
     background-color: #F8A825;
 }
 
@@ -130,4 +137,11 @@ ul.bean-info {
     position: absolute;
     bottom: 10px;
     text-align: center;
+}
+
+.filter-checks {
+    text-transform: capitalize;
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
 }

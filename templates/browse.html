@@ -4,60 +4,48 @@
     
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center mt-4">
-                <form>
-                    <select class="search-criteria search-inputs">
-                        <option value="roast">Roast</option>
-                        <option value="origin">Origin</option>
-                        <option value="brand">Brand</option>
-                        <option value="name">Name</option>
-                    </select>
-                    <input class="search-text search-inputs" type="text">
-                    <input class="search-submit search-inputs" type="submit">
-                </form>
-                <button class="btn btn-secondary my-4">Add another search criteria</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="container">
-        <div class="row">
-            <h2 class="text-center my-4">Common tasting notes</h2>
+            <h2 class="text-center my-4">Popular tasting notes</h2>
             <div class="word-cloud text-center">
-                <span>almond</span>
-                <span>chocolate</span>
-                <span>caramel</span>
-                <span>fudge</span>
-                <span>cherry</span>
-                <span>lemon</span>
-                <span>orange</span>
-                <span>banana</span>
-                <span>malt</span>
+                <span class="note-bubble cloud-note">almond</span>
+                <span class="note-bubble cloud-note">chocolate</span>
+                <span class="note-bubble cloud-note">caramel</span>
+                <span class="note-bubble cloud-note">fudge</span>
+                <span class="note-bubble cloud-note">cherry</span>
+                <span class="note-bubble cloud-note">lemon</span>
+                <span class="note-bubble cloud-note">orange</span>
+                <span class="note-bubble cloud-note">banana</span>
+                <span class="note-bubble cloud-note">malt</span>
             </div>
         </div>
     </div>
 
     <div class="container mb-2">
-        <div class="row">
-            <h2 class="text-center my-4">Browse all</h2>
-            <form>
-                <select class="search-criteria search-inputs">
-                    <option value="dark">Dark</option>
-                    <option value="medium">Medium</option>
-                    <option value="light">Light</option>
-                </select>
-                <select class="search-criteria search-inputs">
-                    <option value="brazil">Brazil</option>
-                    <option value="colombia">Colombia</option>
-                    <option value="ethiopia">Ethiopia</option>
-                </select>
-                <select class="search-criteria search-inputs">
-                    <option value="union">Union</option>
-                    <option value="starbucks">Starbucks</option>
-                    <option value="grumpymule">Grumpy Mule</option>
-                </select>
-                <button class="btn btn-secondary">Reset</button>
-            </form>
+        <h2 class="text-center my-4">Browse all</h2>
+        <div class="row text-center">
+            <div class="col-12 col-lg-3">
+                <h4>Roast</h4>
+                <div class="filter-checks">
+                    {% for roast in roast_types %}
+                        <input type="checkbox" id="roast1" name="roast1" value="{{ roast }}">
+                        <label for="roast1">{{ roast }}</label><br>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <h4>Origin</h4>
+                <div class="filter-checks">
+                    {% for origin in origins %}
+                        <input type="checkbox" id="roast1" name="roast1" value="{{ origin }}">
+                        <label for="roast1">{{ origin }}</label><br>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12 col-lg-3">
+                <h4>Organic</h4>
+            </div>
+            <div class="col-12 col-lg-3">
+                <h4>Reset</h4>
+            </div>
         </div>
     </div>
 
@@ -78,7 +66,7 @@
                             <h5 class="text-center my-3">Notes:</h5>
                             <div class="notes-container">
                                 {% for note in bean.notes %}
-                                    <span class="bean-notes">{{ note }}</span>
+                                    <span class="note-bubble bean-note">{{ note }}</span>
                                 {% endfor %}
                             </div>
                             <div class="row mt-4 custom-card-footer">

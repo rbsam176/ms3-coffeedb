@@ -1,4 +1,5 @@
 import os
+import sys
 from flask import (
     Flask, flash, render_template, 
     redirect, request, session, url_for)
@@ -24,7 +25,9 @@ def index():
 @app.route("/browse")
 def browse():
     beans = mongo.db.beans.find()
-    return render_template("browse.html", beans=beans)
+    roast_types = mongo.db.beans.distinct('roast')
+    origins = mongo.db.beans.distinct('origin')
+    return render_template("browse.html", beans=beans, roast_types=roast_types, origins=origins)
 
 
 
