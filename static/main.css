@@ -1,0 +1,79 @@
+body {
+    background-color: #F8F8F8;
+    color: #151720;
+    font-family: 'Hind Madurai', sans-serif;
+}
+
+h2, h3 {
+    font-family: 'Lora', serif;
+}
+
+.navbar-custom {
+    background-color: #F8A825;
+}
+
+#logo-text {
+    color: #3E3C57;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 36px;
+}
+
+.nav-item .nav-link {
+    /* color: #3E3C57; */
+    font-size: 18px;
+    margin: 0px 5px;
+}
+
+#navbarContent > ul > li > a {
+    color: #3E3C57;
+}
+
+#hero-banner {
+    background-color: #F8A825;
+    height: 40vh;
+}
+
+#hero-banner .row {
+    height: 100%;
+}
+
+.featured-box {
+    background-color: #F8F8F8;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.featured-img {
+    object-fit: cover;
+}
+
+.search-inputs {
+    height: 60px;
+    border-radius: 25px;
+}
+
+.search-criteria {
+    width: 100px;
+    padding-left: 20px;
+}
+
+.search-text {
+    width: 70%;
+    text-align: center;
+}
+
+.search-submit {
+    width: 10%;
+    border: none;
+    background-color: lightgreen;
+}
+
+.card-title, .card-text {
+    text-transform: capitalize;
+}
+
+ul {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+  }

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mt-4">
+                <form>
+                    <select class="search-criteria search-inputs">
+                        <option value="roast">Roast</option>
+                        <option value="origin">Origin</option>
+                        <option value="brand">Brand</option>
+                        <option value="name">Name</option>
+                    </select>
+                    <input class="search-text search-inputs" type="text">
+                    <input class="search-submit search-inputs" type="submit">
+                </form>
+                <button class="btn btn-secondary my-4">Add another search criteria</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center my-4">Common tasting notes</h2>
+            <div class="word-cloud text-center">
+                <span>almond</span>
+                <span>chocolate</span>
+                <span>caramel</span>
+                <span>fudge</span>
+                <span>cherry</span>
+                <span>lemon</span>
+                <span>orange</span>
+                <span>banana</span>
+                <span>malt</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-2">
+        <div class="row">
+            <h2 class="text-center my-4">Browse all</h2>
+            <form>
+                <select class="search-criteria search-inputs">
+                    <option value="dark">Dark</option>
+                    <option value="medium">Medium</option>
+                    <option value="light">Light</option>
+                </select>
+                <select class="search-criteria search-inputs">
+                    <option value="brazil">Brazil</option>
+                    <option value="colombia">Colombia</option>
+                    <option value="ethiopia">Ethiopia</option>
+                </select>
+                <select class="search-criteria search-inputs">
+                    <option value="union">Union</option>
+                    <option value="starbucks">Starbucks</option>
+                    <option value="grumpymule">Grumpy Mule</option>
+                </select>
+                <button class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    
+        {% for bean in beans %}
+        {% if loop.index0 % 3 == 0 %}
+            <div class="card-group">
+        {% endif %}
+                <div class="card">
+                    <img src="{{ bean['img-url'] }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ bean.brand }}: {{ bean.name }}</h3>
+                        <ul>
+                            <li>Roast: {{ bean.roast }}</li>
+                            <li>Origin: {{ bean.origin }}</li>
+                            <li>Organic: {{ bean.organic }}</li>
+                            <li><a href="{{ bean.url }}">Link</a></li>
+                            <li>Notes: {{ bean.notes }}</li>
+                        </ul>
+                        <p><small class="text-muted">Submitted by Sam Baker</small></p>
+                    </div>
+                </div>
+                {% if loop.index0 % 3 == 2 or loop.last %}
+                    </div>
+                {% endif %}
+        {% endfor %}
+   
+
+
+
+    {% for bean in beans %}
+        {{ bean.brand }}<br>
+        {{ bean.name }}<br>
+        {{ bean.roast }}<br>
+        {{ bean.origin }}<br>
+        {{ bean.notes }}<br>
+        {{ bean.organic }}<br>
+        {{ bean.url }}<br><br>
+    {% endfor %}
+
+{% endblock %}

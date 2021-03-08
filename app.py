@@ -17,9 +17,15 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-def hello():
+def index():
     beans = mongo.db.beans.find()
-    return render_template("beans.html", beans=beans)
+    return render_template("index.html", beans=beans)
+
+@app.route("/browse")
+def browse():
+    beans = mongo.db.beans.find()
+    return render_template("browse.html", beans=beans)
+
 
 
 if __name__ == "__main__":
