@@ -19,11 +19,12 @@
         </div>
     </div>
 
-    <div class="container mb-2">
+    <div class="container-fluid mb-4">
         <h2 class="text-center my-4">Browse all</h2>
-        <div class="row text-center">
-            <div class="col-12 col-lg-3">
-                <h4>Roast</h4>
+        <h3 class="text-center my-4">Filter criteria:</h3>
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <h4 class="text-center">Roast</h4>
                 <div class="filter-checks">
                     {% for roast in roast_types %}
                         <input type="checkbox" id="roast1" name="roast1" value="{{ roast }}">
@@ -31,8 +32,8 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-12 col-lg-3">
-                <h4>Origin</h4>
+            <div class="col-12 col-lg-4">
+                <h4 class="text-center">Origin</h4>
                 <div class="filter-checks">
                     {% for origin in origins %}
                         <input type="checkbox" id="roast1" name="roast1" value="{{ origin }}">
@@ -40,11 +41,19 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-12 col-lg-3">
-                <h4>Organic</h4>
-            </div>
-            <div class="col-12 col-lg-3">
-                <h4>Reset</h4>
+            <div class="col-12 col-lg-4">
+                <div class="row">
+                    <div class="col-12 col-lg-6 text-center">
+                        <h4>Organic</h4>
+                        <input type="radio" id="organicToggleOn" name="organicToggleOn">
+                        <label for="organicToggleOn">On</label><br>
+                        <input type="radio" id="organicToggleOff" name="organicToggleOff">
+                        <label for="organicToggleOff">Off</label>
+                    </div>
+                    <div class="col-12 col-lg-6 text-center">
+                        <button class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

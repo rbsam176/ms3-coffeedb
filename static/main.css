@@ -144,4 +144,13 @@ ul.bean-info {
     columns: 2;
     -webkit-columns: 2;
     -moz-columns: 2;
+    text-align: center;
+}
+
+.filter-checks > label {
+    min-width: 80px;
+}
+
+#organic-toggle {
+    transform: scale(2);
 }
