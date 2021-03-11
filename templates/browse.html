@@ -3,9 +3,11 @@
 {% block content %}
     
     <div class="container">
-        <div class="row">
-            <h2 class="text-center my-4">Popular tasting notes</h2>
-            <div class="word-cloud text-center">
+        <div class="row justify-content-center">
+            <h2 class="my-4">Popular tasting notes</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="word-cloud">
                 <span class="note-bubble cloud-note">almond</span>
                 <span class="note-bubble cloud-note">chocolate</span>
                 <span class="note-bubble cloud-note">caramel</span>
@@ -19,9 +21,8 @@
         </div>
     </div>
 
-    <div class="container-fluid mb-4">
-        <h2 class="text-center my-4">Browse all</h2>
-        <h3 class="text-center my-4">Filter criteria:</h3>
+    <div class="container-fluid">
+        <h2 class="text-center my-4">Filter criteria</h2>
         <form class="row" method="POST" name="sentCriteria" id="filterCriteria" novalidate>
             <div class="col-12 col-lg-4">
                 <h4 class="text-center">Roast</h4>
@@ -45,10 +46,11 @@
                 <div class="row">
                     <div class="col-12 col-lg-6 text-center form-group">
                         <h4>Organic</h4>
-                        <input type="radio" id="organicToggleOn" name="organicToggleOn">
-                        <label for="organicToggleOn">On</label><br>
-                        <input type="radio" id="organicToggleOff" name="organicToggleOff">
-                        <label for="organicToggleOff">Off</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Toggle</label>
+                            <!-- <label for="organicToggleOn">On</label> -->
+                        </div>
                     </div>
                     <div class="col-12 col-lg-6 text-center form-group">
                         <button class="btn btn-secondary">Reset</button><br>
@@ -62,7 +64,7 @@
     <div class="container-fluid">
         <div class="row gy-4">
         {% for bean in beans %}
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4 p-2">
                     <div class="card">
                         <a href="{{ bean.url }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
                         <div class="card-body">
@@ -79,7 +81,7 @@
                                     <span class="note-bubble bean-note">{{ note }}</span>
                                 {% endfor %}
                             </div>
-                            <div class="row mt-4 custom-card-footer">
+                            <div class="row mt-4 custom-card-footer justify-content-center">
                                 <div class="user-submitted text-muted mt-3">Submitted by <a href="#">Sam Baker</a></div>
                             </div>
                         </div>
