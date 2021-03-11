@@ -28,27 +28,31 @@ def browse():
     roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
     if request.method == "POST":
-        roastChecked = []
-        originChecked = []
-        for item in request.form: # APPENDS ALL KEY VALUE PAIRS TO THEIR OWN ARRAYS
-            checkboxReturn = item.split('=')
-            if checkboxReturn[0] == 'roast':
-                roastChecked.append(checkboxReturn[1])
-            if checkboxReturn[0] == 'origin':
-                originChecked.append(checkboxReturn[1])
+        if request.form.get('submit', None) == "Submit": # IF POST REQUEST WAS FROM SUBMIT BUTTON
+            roastChecked = []
+            originChecked = []
+            for item in request.form: # APPENDS ALL KEY VALUE PAIRS TO THEIR OWN ARRAYS
+                checkboxReturn = item.split('=')
+                if checkboxReturn[0] == 'roast':
+                    roastChecked.append(checkboxReturn[1])
+                if checkboxReturn[0] == 'origin':
+                    originChecked.append(checkboxReturn[1])
 
-        # DYNAMICALLY CREATES A FIND QUERY
-        dynamicQuery = {}
-        dynamicQuery["$and"]=[]
-        # CHECKS IF VALUES EXIST AND ADDS TO DYNAMIC QUERY
-        if roastChecked:
-            dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
-        if originChecked:
-            dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
-        if 'organicRequired' in request.form:
-            dynamicQuery["$and"].append({ "organic": True })
-        # REPLACES VIEW WITH DYNAMIC QUERY SET BY USE FILTER INPUT
-        beans = mongo.db.beans.find(dynamicQuery)
+            # DYNAMICALLY CREATES A FIND QUERY
+            # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
+            dynamicQuery = {}
+            dynamicQuery["$and"]=[]
+            # CHECKS IF VALUES EXIST AND ADDS TO DYNAMIC QUERY
+            if roastChecked:
+                dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
+            if originChecked:
+                dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
+            if 'organicRequired' in request.form:
+                dynamicQuery["$and"].append({ "organic": True })
+            # REPLACES VIEW WITH DYNAMIC QUERY SET BY USE FILTER INPUT
+            beans = mongo.db.beans.find(dynamicQuery)
+        elif request.form.get('reset', None) == "Reset": # IF POST REQUEST WAS FROM RESET BUTTON
+            beans = mongo.db.beans.find() # DISPLAY DEFAULT VIEW SHOWING ALL RESULTS
 
     return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types)
 
