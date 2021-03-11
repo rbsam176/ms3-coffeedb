@@ -22,40 +22,41 @@
     <div class="container-fluid mb-4">
         <h2 class="text-center my-4">Browse all</h2>
         <h3 class="text-center my-4">Filter criteria:</h3>
-        <div class="row">
+        <form class="row" method="POST" name="sentCriteria" id="filterCriteria" novalidate>
             <div class="col-12 col-lg-4">
                 <h4 class="text-center">Roast</h4>
-                <div class="filter-checks">
+                <div class="filter-checks form-group">
                     {% for roast in roast_types %}
-                        <input type="checkbox" id="roast1" name="roast1" value="{{ roast }}">
-                        <label for="roast1">{{ roast }}</label><br>
+                        <input type="checkbox" id="{{ roast }}" name="{{ roast }}">
+                        <label for="{{ roast }}">{{ roast }}</label><br>
                     {% endfor %}
                 </div>
             </div>
             <div class="col-12 col-lg-4">
                 <h4 class="text-center">Origin</h4>
-                <div class="filter-checks">
+                <div class="filter-checks form-group">
                     {% for origin in origins %}
-                        <input type="checkbox" id="roast1" name="roast1" value="{{ origin }}">
-                        <label for="roast1">{{ origin }}</label><br>
+                        <input type="checkbox" id="{{ origin }}" name="{{ origin }}">
+                        <label for="{{ origin }}">{{ origin }}</label><br>
                     {% endfor %}
                 </div>
             </div>
             <div class="col-12 col-lg-4">
                 <div class="row">
-                    <div class="col-12 col-lg-6 text-center">
+                    <div class="col-12 col-lg-6 text-center form-group">
                         <h4>Organic</h4>
                         <input type="radio" id="organicToggleOn" name="organicToggleOn">
                         <label for="organicToggleOn">On</label><br>
                         <input type="radio" id="organicToggleOff" name="organicToggleOff">
                         <label for="organicToggleOff">Off</label>
                     </div>
-                    <div class="col-12 col-lg-6 text-center">
-                        <button class="btn btn-secondary">Reset</button>
+                    <div class="col-12 col-lg-6 text-center form-group">
+                        <button class="btn btn-secondary">Reset</button><br>
+                        <input type="submit" class="btn btn-primary"></input>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <div class="container-fluid">
@@ -86,18 +87,8 @@
                 </div>
         {% endfor %}
     </div>
-   
 
-
-
-    {% for bean in beans %}
-        {{ bean.brand }}<br>
-        {{ bean.name }}<br>
-        {{ bean.roast }}<br>
-        {{ bean.origin }}<br>
-        {{ bean.notes }}<br>
-        {{ bean.organic }}<br>
-        {{ bean.url }}<br><br>
-    {% endfor %}
-
+{% endblock %}
+{% block scripts %}
+<script src="/static/browse.js"></script>
 {% endblock %}

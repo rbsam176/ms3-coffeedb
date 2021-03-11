@@ -29,8 +29,6 @@ def browse():
     origins = mongo.db.beans.distinct('origin')
     return render_template("browse.html", beans=beans, roast_types=roast_types, origins=origins)
 
-
-
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
     port=int(os.environ.get("PORT")),
