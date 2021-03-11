@@ -61,8 +61,27 @@
     </div>
 
     <div class="container-fluid">
-        <h5 class="text-center">{{ beans.count() }} {% if beans.count() == 1 %}product{% else %}products{% endif %} displayed</h5>
-        {% if beans.count() == 0 %}<hr><h5 class="text-center">Sorry!</h5><p class="text-center">There are no {% if organicChecked %}<strong><u>organic</u></strong>{% endif %} <strong><u>{{ roastChecked[0] }}</u></strong> roasted beans {% if originChecked[0] == 'blend' %}that have a <strong><u>mixed origin</u></strong>{% else %} from <strong><u> {{ originChecked[0] }}</u></strong>{% endif %} listed!</p>{% endif %}
+        <h5 class="text-center">{{ beans.count() }} 
+            {% if beans.count() == 1 %}
+                product
+            {% else %}
+                products
+            {% endif %}
+             displayed</h5>
+        {% if beans.count() == 0 %}
+            <hr>
+        <h5 class="text-center">Sorry!</h5>
+        <p class="text-center">There are no 
+            {% if organicChecked %}
+                <strong>organic</strong>
+            {% endif %} 
+            <strong>{{ roastChecked|join(', ') }}</strong> roasted beans 
+            {% if originChecked[0] == 'blend' %}
+                that have a <strong>mixed origin</strong>
+            {% else %} from <strong> {{ originChecked|join(', ') }}</strong>
+            {% endif %} listed!
+        </p>
+            {% endif %}
         <div class="row gy-4">
         {% for bean in beans %}
                 <div class="col-12 col-md-6 col-lg-4 p-2">
