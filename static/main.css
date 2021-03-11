@@ -150,6 +150,8 @@ ul.bean-info {
     min-width: 80px;
 }
 
-#organic-toggle {
-    transform: scale(2);
+#organicLabel {
+    width: 6em;
+    text-align: right;
 }
+

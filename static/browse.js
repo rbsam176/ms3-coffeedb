@@ -10,3 +10,11 @@
 //         }
 //     })
 // }
+
+$("#organicRequired").on('click', function(){
+    if ($("#organicLabel").text() == "Not required"){
+        $("#organicLabel").text("Is required")
+    } else if ($("#organicLabel").text() == "Is required"){
+        $("#organicLabel").text("Not required")
+    }
+})
