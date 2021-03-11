@@ -37,17 +37,19 @@ def browse():
             if checkboxReturn[0] == 'origin':
                 originChecked.append(checkboxReturn[1])
 
-        dynamicQuery = {"$and": [{}]}
+
+        dynamicQuery = {}
+        dynamicQuery["$and"]=[]
 
         if roastChecked:
-            dynamicQuery['roast'] = {"$in": roastChecked}
+            dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
         if originChecked:
-            dynamicQuery['origin'] = {"$in": originChecked}
+            dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
         if 'organicRequired' in request.form:
-            dynamicQuery['organic'] = True
+            dynamicQuery["$and"].append({ "organic": True })
         
-        print(dynamicQuery)
         beans = mongo.db.beans.find(dynamicQuery)
+
 
 
     return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types)
