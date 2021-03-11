@@ -26,17 +26,21 @@ def index():
 def browse():
     beans = mongo.db.beans.find()
     roast_types = mongo.db.beans.distinct('roast')
-    origins = mongo.db.beans.distinct('origin')
+    origin_types = mongo.db.beans.distinct('origin')
     if request.method == "POST":
         print(request.form)
-        stateOfCheckbox = {}
+        roastChecked = []
+        originChecked = []
         for item in request.form:
-            # print(item)
-            stateOfCheckbox[item] = True
-            beans = mongo.db.beans.find({"roast": item})
-        # print(stateOfCheckbox)
+            checkboxReturn = item.split('=')
+            if checkboxReturn[0] == 'roast':
+                roastChecked.append(checkboxReturn[1])
+            if checkboxReturn[0] == 'origin':
+                originChecked.append(checkboxReturn[1])
+
+        beans = mongo.db.beans.find({"$and": [{"roast": {"$in": roastChecked}}, {"origin": {"$in": originChecked}}]})
         
-    return render_template("browse.html", beans=beans, roast_types=roast_types, origins=origins)
+    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types)
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
