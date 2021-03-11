@@ -29,6 +29,7 @@ def browse():
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
     roastChecked = []
     originChecked = []
+    organicChecked = []
     if request.method == "POST":
         if request.form.get('submit', None) == "Submit": # IF POST REQUEST WAS FROM SUBMIT BUTTON, SOURCE: https://stackoverflow.com/questions/8552675/form-sending-error-flask
             # roastChecked = []
@@ -39,6 +40,9 @@ def browse():
                     roastChecked.append(checkboxReturn[1])
                 if checkboxReturn[0] == 'origin':
                     originChecked.append(checkboxReturn[1])
+                if item == 'organicRequired':
+                    organicChecked.append(True)
+            
 
             # DYNAMICALLY CREATES A FIND QUERY
             # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
@@ -49,14 +53,14 @@ def browse():
                 dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
             if originChecked:
                 dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
-            if 'organicRequired' in request.form:
+            if organicChecked:
                 dynamicQuery["$and"].append({ "organic": True })
             # REPLACES VIEW WITH DYNAMIC QUERY SET BY USE FILTER INPUT
             beans = mongo.db.beans.find(dynamicQuery)
         elif request.form.get('reset', None) == "Reset": # IF POST REQUEST WAS FROM RESET BUTTON
             beans = mongo.db.beans.find() # DISPLAY DEFAULT VIEW SHOWING ALL RESULTS
 
-    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked)
+    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked)
 
 
 if __name__ == "__main__":

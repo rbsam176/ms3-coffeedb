@@ -47,8 +47,8 @@
                     <div class="col-12 col-lg-6 text-center form-group">
                         <h4>Organic</h4>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="organicRequired" name="organicRequired">
-                            <label class="custom-control-label" id="organicLabel" for="organicRequired">Not required</label>
+                            <input type="checkbox" class="custom-control-input" id="organicRequired" name="organicRequired" {% if organicChecked %} checked {% endif %}>
+                            <label class="custom-control-label" id="organicLabel" for="organicRequired">{% if organicChecked %}Is required{% else %}Not required{% endif %}</label>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 text-center form-group">
