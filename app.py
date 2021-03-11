@@ -22,11 +22,20 @@ def index():
     beans = mongo.db.beans.find()
     return render_template("index.html", beans=beans)
 
-@app.route("/browse")
+@app.route("/browse", methods=["GET", "POST"])
 def browse():
     beans = mongo.db.beans.find()
     roast_types = mongo.db.beans.distinct('roast')
     origins = mongo.db.beans.distinct('origin')
+    if request.method == "POST":
+        print(request.form)
+        stateOfCheckbox = {}
+        for item in request.form:
+            # print(item)
+            stateOfCheckbox[item] = True
+            beans = mongo.db.beans.find({"roast": item})
+        # print(stateOfCheckbox)
+        
     return render_template("browse.html", beans=beans, roast_types=roast_types, origins=origins)
 
 if __name__ == "__main__":
