@@ -27,10 +27,12 @@ def browse():
     beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS
     roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
+    roastChecked = []
+    originChecked = []
     if request.method == "POST":
-        if request.form.get('submit', None) == "Submit": # IF POST REQUEST WAS FROM SUBMIT BUTTON
-            roastChecked = []
-            originChecked = []
+        if request.form.get('submit', None) == "Submit": # IF POST REQUEST WAS FROM SUBMIT BUTTON, SOURCE: https://stackoverflow.com/questions/8552675/form-sending-error-flask
+            # roastChecked = []
+            # originChecked = []
             for item in request.form: # APPENDS ALL KEY VALUE PAIRS TO THEIR OWN ARRAYS
                 checkboxReturn = item.split('=')
                 if checkboxReturn[0] == 'roast':
@@ -54,7 +56,7 @@ def browse():
         elif request.form.get('reset', None) == "Reset": # IF POST REQUEST WAS FROM RESET BUTTON
             beans = mongo.db.beans.find() # DISPLAY DEFAULT VIEW SHOWING ALL RESULTS
 
-    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types)
+    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked)
 
 
 if __name__ == "__main__":

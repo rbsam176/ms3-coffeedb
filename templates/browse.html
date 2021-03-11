@@ -28,7 +28,7 @@
                 <h4 class="text-center">Roast</h4>
                 <div class="filter-checks form-group">
                     {% for roast in roast_types %}
-                        <input type="checkbox" id="{{ roast }}" name="roast={{ roast }}">
+                        <input type="checkbox" id="{{ roast }}" name="roast={{ roast }}" {% if roastChecked|length != 0 %} {% if roast in roastChecked %} checked  {% endif %} {% endif %}>
                         <label for="{{ roast }}">{{ roast }}</label><br>
                     {% endfor %}
                 </div>
@@ -37,7 +37,7 @@
                 <h4 class="text-center">Origin</h4>
                 <div class="filter-checks form-group">
                     {% for origin in origin_types %}
-                        <input type="checkbox" id="{{ origin }}" name="origin={{ origin }}">
+                        <input type="checkbox" id="{{ origin }}" name="origin={{ origin }}" {% if originChecked|length != 0 %} {% if origin in originChecked %} checked  {% endif %} {% endif %}>
                         <label for="{{ origin }}">{{ origin }}</label><br>
                     {% endfor %}
                 </div>
