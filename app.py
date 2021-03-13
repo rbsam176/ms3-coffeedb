@@ -25,15 +25,21 @@ def index():
 @app.route("/browse", methods=["GET", "POST"])
 def browse():
     beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS
+    notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES
+    uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF ALL UNIQUE NOTES
     roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
-    roastChecked = []
-    originChecked = []
-    organicChecked = []
+    roastChecked = [] # RETURNS LIST OF ALL ROAST TYPES THAT WERE CHECKED
+    originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
+    organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
+    notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
+    notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
+    notesCount = {note:notesList.count(note) for note in uniqueNotes} # CONTAINS UNIQUE NOTES WITH ITS COUNT OF OCCURANCE
+    print(notesCount)
+
+    
     if request.method == "POST":
         if request.form.get('submit', None) == "Submit": # IF POST REQUEST WAS FROM SUBMIT BUTTON, SOURCE: https://stackoverflow.com/questions/8552675/form-sending-error-flask
-            # roastChecked = []
-            # originChecked = []
             for item in request.form: # APPENDS ALL KEY VALUE PAIRS TO THEIR OWN ARRAYS
                 checkboxReturn = item.split('=')
                 if checkboxReturn[0] == 'roast':
@@ -59,7 +65,10 @@ def browse():
             beans = mongo.db.beans.find(dynamicQuery)
         elif request.form.get('reset', None) == "Reset": # IF POST REQUEST WAS FROM RESET BUTTON
             beans = mongo.db.beans.find() # DISPLAY DEFAULT VIEW SHOWING ALL RESULTS
+        
 
+
+    beans = list(beans)
     return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked)
 
 

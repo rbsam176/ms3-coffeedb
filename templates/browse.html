@@ -19,6 +19,7 @@
                 <span class="note-bubble cloud-note">malt</span>
             </div>
         </div>
+        
     </div>
 
     <div class="container-fluid">
@@ -61,14 +62,14 @@
     </div>
 
     <div class="container-fluid">
-        <h5 class="text-center">{{ beans.count() }} 
-            {% if beans.count() == 1 %}
+        <h5 class="text-center">{{ beans|length }} 
+            {% if beans|length == 1 %}
                 product
             {% else %}
                 products
             {% endif %}
              displayed</h5>
-        {% if beans.count() == 0 %}
+        {% if beans|length == 0 %}
             <hr>
             <h5 class="text-center">Sorry!</h5>
             <p class="text-center">There are no 
@@ -110,6 +111,7 @@
                 </div>
         {% endfor %}
     </div>
+
 
 {% endblock %}
 {% block scripts %}
