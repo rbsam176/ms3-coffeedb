@@ -112,6 +112,22 @@ ul.bean-info {
     background-color: white;
 }
 
+.cloud-75 {
+    font-size: 175%;
+}
+
+.cloud-50 {
+    font-size: 125%;
+}
+
+.cloud-25 {
+    font-size: 100%;
+}
+
+.cloud-0 {
+    font-size: 80%;
+}
+
 .note-bubble {
     padding: 10px;
     border-radius: 10px;

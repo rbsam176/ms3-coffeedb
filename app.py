@@ -1,5 +1,6 @@
 import os
 import sys
+import random
 from flask import (
     Flask, flash, render_template, 
     redirect, request, session, url_for)
@@ -35,7 +36,32 @@ def browse():
     notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
     notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
     notesCount = {note:notesList.count(note) for note in uniqueNotes} # CONTAINS UNIQUE NOTES WITH ITS COUNT OF OCCURANCE
-    print(notesCount)
+
+
+    notesPercentage = {}
+    for x in notesCount:
+        length = len(uniqueNotes) # RETURNS NUMBER OF NOTES
+        occurance = notesCount.get(x) # RETURNS HOW MANY TIMES NOTES OCCUR
+        percentage = occurance / length * 100 # DIVIDES TOTAL NUMBER OF NOTES BY OCCURANCE 
+        notesPercentage[x] = percentage # ADDS TO DICTIONARY
+
+
+    highestNoteDict = max(notesPercentage, key=notesPercentage.get) # SOURCE: https://stackoverflow.com/a/14091645
+    highestPercent = notesPercentage.get(highestNoteDict) # HIGHEST PERCENTAGE
+    
+    notesRelativePercentage = {}
+    for x in notesPercentage:
+        relativePercentage = notesPercentage.get(x) / highestPercent * 100 # DIVIDES PERCENTAGE BY THE HIGHEST PERCENTAGE
+        notesRelativePercentage[x] = round(relativePercentage, 1) # ROUNDS IT DOWN
+    
+    print(notesRelativePercentage)
+
+    # take the highest percentage
+    # divide the figure by the number of font sizes in the cloud
+    # if the note's percentage is > 75% of highest percentage, be h2
+    # if the note's percentage is > 50% of highest percentage, be h3 etc.
+    ## make dictionary of note name and h size, eg: lemon: h4
+    ### then in jinja use like this: <{{ note-font-size }}>{{ note }}</{{ note-font-size }}>
 
     
     if request.method == "POST":
@@ -69,7 +95,7 @@ def browse():
 
 
     beans = list(beans)
-    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked)
+    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage)
 
 
 if __name__ == "__main__":
