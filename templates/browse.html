@@ -8,10 +8,9 @@
         </div>
         <div class="row justify-content-center">
             <div class="word-cloud">
-
                 {% for key, value in notesRelativePercentage.items() %}
                     {% if value > 75 %}
-                        <span class="note-bubble cloud-note cloud-75">{{ key }}</span>
+                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-note cloud-75">
                     {% elif value > 50 %}
                         <span class="note-bubble cloud-note cloud-50">{{ key }}</span>
                     {% elif value > 25 %}
@@ -22,7 +21,6 @@
                 {% endfor %}
             </div>
         </div>
-        
     </div>
 
     <div class="container-fluid">
@@ -57,7 +55,7 @@
                     </div>
                     <div class="col-12 col-lg-6 text-center form-group">
                         <input type="submit" name="reset" value="Reset" class="btn btn-secondary"><br>
-                        <input type="submit" name="submit" value="Submit" class="btn btn-primary"></input>
+                        <input type="submit" name="submit" value="Submit" class="btn btn-primary">
                     </div>
                 </div>
             </div>

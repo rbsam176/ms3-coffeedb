@@ -37,14 +37,12 @@ def browse():
     notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
     notesCount = {note:notesList.count(note) for note in uniqueNotes} # CONTAINS UNIQUE NOTES WITH ITS COUNT OF OCCURANCE
 
-
     notesPercentage = {}
     for x in notesCount:
         length = len(uniqueNotes) # RETURNS NUMBER OF NOTES
         occurance = notesCount.get(x) # RETURNS HOW MANY TIMES NOTES OCCUR
         percentage = occurance / length * 100 # DIVIDES TOTAL NUMBER OF NOTES BY OCCURANCE 
         notesPercentage[x] = percentage # ADDS TO DICTIONARY
-
 
     highestNoteDict = max(notesPercentage, key=notesPercentage.get) # SOURCE: https://stackoverflow.com/a/14091645
     highestPercent = notesPercentage.get(highestNoteDict) # HIGHEST PERCENTAGE
@@ -53,19 +51,12 @@ def browse():
     for x in notesPercentage:
         relativePercentage = notesPercentage.get(x) / highestPercent * 100 # DIVIDES PERCENTAGE BY THE HIGHEST PERCENTAGE
         notesRelativePercentage[x] = round(relativePercentage, 1) # ROUNDS IT DOWN
-    
-    print(notesRelativePercentage)
 
-    # take the highest percentage
-    # divide the figure by the number of font sizes in the cloud
-    # if the note's percentage is > 75% of highest percentage, be h2
-    # if the note's percentage is > 50% of highest percentage, be h3 etc.
-    ## make dictionary of note name and h size, eg: lemon: h4
-    ### then in jinja use like this: <{{ note-font-size }}>{{ note }}</{{ note-font-size }}>
 
-    
     if request.method == "POST":
-        if request.form.get('submit', None) == "Submit": # IF POST REQUEST WAS FROM SUBMIT BUTTON, SOURCE: https://stackoverflow.com/questions/8552675/form-sending-error-flask
+        if request.form.get('submit', None) == "Submit" or request.form.get('tag', None) in uniqueNotes: # IF POST REQUEST WAS FROM SUBMIT BUTTON, SOURCE: https://stackoverflow.com/questions/8552675/form-sending-error-flask
+            if request.form.get('tag', None):
+                print(request.form.get)
             for item in request.form: # APPENDS ALL KEY VALUE PAIRS TO THEIR OWN ARRAYS
                 checkboxReturn = item.split('=')
                 if checkboxReturn[0] == 'roast':
@@ -93,8 +84,10 @@ def browse():
             beans = mongo.db.beans.find() # DISPLAY DEFAULT VIEW SHOWING ALL RESULTS
         
 
+    beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
 
-    beans = list(beans)
+
+
     return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage)
 
 
