@@ -118,7 +118,7 @@ input[name="tag"] {
     margin: 4px;
 }
 
-.note-highlight {
+input[type=checkbox]:checked + label.cloud-note {
     background-color: #F8A825;
     border: none;
 }
@@ -150,6 +150,7 @@ input[name="tag"] {
 
 .note-bubble:hover {
     background-color: #F8A825;
+    cursor: pointer;
 }
 
 .notes-container {
@@ -181,4 +182,5 @@ input[name="tag"] {
     width: 6em;
     text-align: right;
 }
+
 

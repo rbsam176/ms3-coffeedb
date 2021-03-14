@@ -33,6 +33,7 @@ def browse():
     roastChecked = [] # RETURNS LIST OF ALL ROAST TYPES THAT WERE CHECKED
     originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
     organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
+    notesChecked = [] # RETURNS LIST OF ALL NOTES THAT WERE CHECKED
     notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
     notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
     notesCount = {note:notesList.count(note) for note in uniqueNotes} # CONTAINS UNIQUE NOTES WITH ITS COUNT OF OCCURANCE
@@ -57,48 +58,34 @@ def browse():
     dynamicQuery = {}
     dynamicQuery["$and"]=[]
 
-    noteClicked = []
-
-    if request.method == "POST":
-        if request.form.get('submit', None) == "Submit" or request.form.get('tag', None) in uniqueNotes: # IF POST REQUEST WAS FROM SUBMIT BUTTON, SOURCE: https://stackoverflow.com/questions/8552675/form-sending-error-flask
-            if request.form.get('tag', None): # IF TAG BUTTON WAS CLICKED
-                noteClicked.append(request.form.get('tag', None)) # GET TAG NAME
-                for note in noteClicked:
-                    dynamicQuery["$and"].append({"notes": noteClicked[0]}) # APPEND TO DYNAMIC QUERY
-
-                
-            for item in request.form: # APPENDS ALL KEY VALUE PAIRS TO THEIR OWN ARRAYS
-                checkboxReturn = item.split('=')
-                if checkboxReturn[0] == 'roast':
-                    roastChecked.append(checkboxReturn[1])
-                if checkboxReturn[0] == 'origin':
-                    originChecked.append(checkboxReturn[1])
-                if item == 'organicRequired':
-                    organicChecked.append(True)
-            
-            
-            # CHECKS IF VALUES EXIST AND ADDS TO DYNAMIC QUERY
-            if roastChecked:
-                dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
-            if originChecked:
-                dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
-            if organicChecked:
-                dynamicQuery["$and"].append({ "organic": True })
-
-
-            # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
-            if dynamicQuery["$and"]:
-                beans = mongo.db.beans.find(dynamicQuery)
-
-            
-        elif request.form.get('reset', None) == "Reset": # IF POST REQUEST WAS FROM RESET BUTTON
-            beans = mongo.db.beans.find() # DISPLAY DEFAULT VIEW SHOWING ALL RESULTS
+    # GETS USER INPUT DATA AND APPENDS IT TO LISTS
+    if request.method == "GET":
+        for roast in request.args.getlist("roast"):
+            roastChecked.append(roast)
+        for origin in request.args.getlist("origin"):
+            originChecked.append(origin)
+        if bool(request.args.getlist("organicRequired")):
+            organicChecked.append(True)
+        for tag in request.args.getlist("tag"):
+            notesChecked.append(tag)
+       
+        # CHECKS IF LIST VALUES EXIST AND APPENDS TO DYNAMIC QUERY
+        if roastChecked:
+            dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
+        if originChecked:
+            dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
+        if organicChecked:
+            dynamicQuery["$and"].append({ "organic": True })
+        if notesChecked:
+            dynamicQuery["$and"].append({ "notes": { "$in": notesChecked }})
         
+        # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
+        if dynamicQuery["$and"]:
+            beans = mongo.db.beans.find(dynamicQuery)
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
 
-    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, noteClicked=noteClicked)
-
+    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, notesChecked=notesChecked)
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),

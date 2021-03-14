@@ -10,13 +10,17 @@
             <div class="word-cloud">
                 {% for key, value in notesRelativePercentage.items() %}
                     {% if value > 75 %}
-                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-75 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
+                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                        <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
                     {% elif value > 50 %}
-                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-50 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
+                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                        <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
                     {% elif value > 25 %}
-                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-25 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
+                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                        <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
                     {% else %}
-                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-0 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
+                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                        <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -25,12 +29,12 @@
 
     <div class="container-fluid">
         <h2 class="text-center my-4">Filter criteria</h2>
-        <form class="row" method="POST" name="sentCriteria" id="filterCriteria" novalidate>
+        <form class="row" method="GET" name="sentCriteria" id="filterCriteria" novalidate>
             <div class="col-12 col-lg-4">
                 <h4 class="text-center">Roast</h4>
                 <div class="filter-checks form-group">
                     {% for roast in roast_types %}
-                        <input type="checkbox" id="{{ roast }}" name="roast={{ roast }}" {% if roastChecked|length != 0 %} {% if roast in roastChecked %} checked  {% endif %} {% endif %}>
+                        <input type="checkbox" id="{{ roast }}" value="{{ roast }}" name="roast" {% if roastChecked|length != 0 %} {% if roast in roastChecked %} checked  {% endif %} {% endif %}>
                         <label for="{{ roast }}">{{ roast }}</label><br>
                     {% endfor %}
                 </div>
@@ -39,7 +43,7 @@
                 <h4 class="text-center">Origin</h4>
                 <div class="filter-checks form-group">
                     {% for origin in origin_types %}
-                        <input type="checkbox" id="{{ origin }}" name="origin={{ origin }}" {% if originChecked|length != 0 %} {% if origin in originChecked %} checked  {% endif %} {% endif %}>
+                        <input type="checkbox" id="{{ origin }}" value="{{ origin }}" name="origin" {% if originChecked|length != 0 %} {% if origin in originChecked %} checked  {% endif %} {% endif %}>
                         <label for="{{ origin }}">{{ origin }}</label><br>
                     {% endfor %}
                 </div>
@@ -49,13 +53,13 @@
                     <div class="col-12 col-lg-6 text-center form-group">
                         <h4>Organic</h4>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="organicRequired" name="organicRequired" {% if organicChecked %} checked {% endif %}>
+                            <input type="checkbox" class="custom-control-input" value="True" id="organicRequired" name="organicRequired" {% if organicChecked %} checked {% endif %}>
                             <label class="custom-control-label" id="organicLabel" for="organicRequired">{% if organicChecked %}Is required{% else %}Not required{% endif %}</label>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 text-center form-group">
-                        <input type="submit" name="reset" value="Reset" class="btn btn-secondary"><br>
-                        <input type="submit" name="submit" value="Submit" class="btn btn-primary">
+                        <a href="{{ url_for('browse') }}" class="btn btn-secondary">Reset</a><br>
+                        <input id="submitCriteria" type="submit" name="submit" value="Submit" class="btn btn-primary">
                     </div>
                 </div>
             </div>
