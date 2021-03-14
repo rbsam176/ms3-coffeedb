@@ -113,6 +113,11 @@ ul.bean-info {
     border: none;
 }
 
+.checkbox-container input[type="checkbox"]{
+    opacity: 0;
+    position: absolute;
+}
+
 input[name="tag"] {
     padding: 4px 8px;
     margin: 4px;
@@ -145,7 +150,8 @@ input[type=checkbox]:checked + label.cloud-note {
     text-transform: capitalize;
     white-space: nowrap;
     line-height: 50px;
-    margin: 0px 5px;
+    margin: 5px;
+    vertical-align: middle;
 }
 
 .note-bubble:hover {

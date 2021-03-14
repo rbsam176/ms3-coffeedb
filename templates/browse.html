@@ -7,23 +7,29 @@
             <h2 class="my-4">Popular tasting notes</h2>
         </div>
         <div class="row justify-content-center">
-            <div class="word-cloud">
-                {% for key, value in notesRelativePercentage.items() %}
-                    {% if value > 75 %}
+            {% for key, value in notesRelativePercentage.items() %}
+                {% if value > 75 %}
+                    <span class="checkbox-container">
                         <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
                         <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
-                    {% elif value > 50 %}
+                    </span>
+                {% elif value > 50 %}
+                    <span class="checkbox-container">
                         <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
                         <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
-                    {% elif value > 25 %}
+                    </span>
+                {% elif value > 25 %}
+                    <span class="checkbox-container">
                         <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
                         <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
-                    {% else %}
+                    </span>
+                {% else %}
+                    <span class="checkbox-container">
                         <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
                         <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
-                    {% endif %}
-                {% endfor %}
-            </div>
+                    </span>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 
