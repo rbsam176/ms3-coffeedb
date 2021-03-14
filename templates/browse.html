@@ -10,13 +10,13 @@
             <div class="word-cloud">
                 {% for key, value in notesRelativePercentage.items() %}
                     {% if value > 75 %}
-                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-note cloud-75">
+                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-75 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
                     {% elif value > 50 %}
-                        <span class="note-bubble cloud-note cloud-50">{{ key }}</span>
+                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-50 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
                     {% elif value > 25 %}
-                        <span class="note-bubble cloud-note cloud-25">{{ key }}</span>
+                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-25 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
                     {% else %}
-                        <span class="note-bubble cloud-note cloud-0">{{ key }}</span>
+                        <input type="submit" form="filterCriteria" name="tag" value="{{ key }}" class="note-bubble cloud-0 {% if key in noteClicked %}note-highlight{% else %}cloud-note{% endif %}">
                     {% endif %}
                 {% endfor %}
             </div>

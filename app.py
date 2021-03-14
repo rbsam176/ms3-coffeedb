@@ -52,11 +52,21 @@ def browse():
         relativePercentage = notesPercentage.get(x) / highestPercent * 100 # DIVIDES PERCENTAGE BY THE HIGHEST PERCENTAGE
         notesRelativePercentage[x] = round(relativePercentage, 1) # ROUNDS IT DOWN
 
+    # DYNAMICALLY CREATES A FIND QUERY
+    # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
+    dynamicQuery = {}
+    dynamicQuery["$and"]=[]
+
+    noteClicked = []
 
     if request.method == "POST":
         if request.form.get('submit', None) == "Submit" or request.form.get('tag', None) in uniqueNotes: # IF POST REQUEST WAS FROM SUBMIT BUTTON, SOURCE: https://stackoverflow.com/questions/8552675/form-sending-error-flask
-            if request.form.get('tag', None):
-                print(request.form.get)
+            if request.form.get('tag', None): # IF TAG BUTTON WAS CLICKED
+                noteClicked.append(request.form.get('tag', None)) # GET TAG NAME
+                for note in noteClicked:
+                    dynamicQuery["$and"].append({"notes": noteClicked[0]}) # APPEND TO DYNAMIC QUERY
+
+                
             for item in request.form: # APPENDS ALL KEY VALUE PAIRS TO THEIR OWN ARRAYS
                 checkboxReturn = item.split('=')
                 if checkboxReturn[0] == 'roast':
@@ -66,11 +76,7 @@ def browse():
                 if item == 'organicRequired':
                     organicChecked.append(True)
             
-
-            # DYNAMICALLY CREATES A FIND QUERY
-            # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
-            dynamicQuery = {}
-            dynamicQuery["$and"]=[]
+            
             # CHECKS IF VALUES EXIST AND ADDS TO DYNAMIC QUERY
             if roastChecked:
                 dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
@@ -78,17 +84,20 @@ def browse():
                 dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
             if organicChecked:
                 dynamicQuery["$and"].append({ "organic": True })
-            # REPLACES VIEW WITH DYNAMIC QUERY SET BY USE FILTER INPUT
-            beans = mongo.db.beans.find(dynamicQuery)
+
+
+            # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
+            if dynamicQuery["$and"]:
+                beans = mongo.db.beans.find(dynamicQuery)
+
+            
         elif request.form.get('reset', None) == "Reset": # IF POST REQUEST WAS FROM RESET BUTTON
             beans = mongo.db.beans.find() # DISPLAY DEFAULT VIEW SHOWING ALL RESULTS
         
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
 
-
-
-    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage)
+    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, noteClicked=noteClicked)
 
 
 if __name__ == "__main__":

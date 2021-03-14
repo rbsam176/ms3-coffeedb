@@ -113,6 +113,16 @@ ul.bean-info {
     border: none;
 }
 
+input[name="tag"] {
+    padding: 4px 8px;
+    margin: 4px;
+}
+
+.note-highlight {
+    background-color: #F8A825;
+    border: none;
+}
+
 .cloud-75 {
     font-size: 175%;
 }
