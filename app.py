@@ -23,6 +23,14 @@ def index():
     beans = mongo.db.beans.find()
     return render_template("index.html", beans=beans)
 
+@app.route("/add")
+def add():
+    beans = mongo.db.beans.find().sort("_id", -1).limit(3)
+    coffeeImg = "https://images.photowall.com/products/49771/coffee-beans.jpg"
+    roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
+    origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
+    return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types)
+
 @app.route("/browse", methods=["GET", "POST"])
 def browse():
     beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS

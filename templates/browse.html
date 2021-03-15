@@ -96,7 +96,7 @@
             </p>
         {% endif %}
         <div class="row gy-4">
-        {% for bean in beans %}
+            {% for bean in beans %}
                 <div class="col-12 col-md-6 col-lg-4 p-2">
                     <div class="card">
                         <a href="{{ bean.url }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
@@ -120,7 +120,8 @@
                         </div>
                     </div>
                 </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 
 

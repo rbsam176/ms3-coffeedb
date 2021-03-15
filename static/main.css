@@ -89,6 +89,21 @@ h2, h3 {
     object-fit: cover;
 }
 
+.img-upload {
+    background-color: white;
+    border-bottom: 1px dashed black;
+}
+
+#img-filebrowser {
+    width: 200px;
+    margin: 100px auto;
+}
+
+.addBeanInput {
+    display: inline;
+    white-space: nowrap;
+}
+
 .card-img-top:hover {
     filter: grayscale(100%);
 }
