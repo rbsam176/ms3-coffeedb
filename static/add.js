@@ -83,3 +83,12 @@ $("#addNote").on('click', function(e) {
         $("#customNoteInput").focus()
     }
 })
+
+// TOGGLES DISABLED STATE FOR 'ADD' NOTE BUTTON DEPENDING ON INPUT EXISTENCE
+$("#customNoteInput").on('input', function() {
+    if ($("#customNoteInput").val().length > 0) {
+        $("#addNote").prop("disabled", false)
+    } else if ($("#customNoteInput").val().length < 1) {
+        $("#addNote").prop("disabled", true)
+    }
+})
