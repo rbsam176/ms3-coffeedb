@@ -39,6 +39,7 @@ def add():
         print(request.form["organic"])
         print(request.form["website"])
         print(request.form.getlist('note'))
+        print(request.form['imgURL'])
 
     return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes, brand_names=brand_names)
 

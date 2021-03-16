@@ -108,3 +108,17 @@ $("#submitCoffee").on('click', function(){
         return false
     }
 })
+
+$("#imgUpload").on('click', function(e){
+    e.preventDefault()
+    const client = filestack.init("AvaoIzsbLTTG0R1N7vg2Uz");
+    const options = {
+        onFileUploadFinished: file => {
+            console.log("finished")
+            console.log(file['url'])
+            $("#imgURL").val(file['url'])
+            $("#imgPreview").attr('src', file['url'])
+            }
+        }
+    client.picker(options).open()
+})
