@@ -3,10 +3,10 @@ $('.dynamicSelection').on('change', function () {
     toggleInput = $(this).parent().next('.toggleInput')
     if ($(this).val() == "Other..."){
         $(toggleInput).css('display', 'block')
-        $(".customInput").attr('required', true)
+        $(toggleInput).children().attr('required', true)
     } else {
         $(toggleInput).css('display', 'none')
-        $(".customInput").attr('required', false)
+        $(toggleInput).children().attr('required', false)
     }
 });
 
