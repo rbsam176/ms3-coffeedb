@@ -16,7 +16,7 @@
                     <div class="form-group row">
                         <label for="addBrand" class="col-md-12 col-lg-2 col-form-label">Brand</label>
                         <div class="col-md-12 col-lg-10">
-                            <select class="dynamicSelection form-control form-control-lg">
+                            <select id="brandInput" class="dynamicSelection form-control form-control-lg">
                                 <optgroup>
                                     {% for brand in brand_names %}
                                         <option>{{ brand }}</option>
@@ -34,13 +34,13 @@
                     <div class="form-group row">
                         <label for="coffeeName" class="col-md-12 col-lg-2 col-form-label">Name</label>
                         <div class="col-md-12 col-lg-10">
-                            <input type="text" class="form-control form-control-lg">
+                            <input id="nameInput" type="text" class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="addRoast" class="col-md-12 col-lg-2 col-form-label">Roast</label>
                         <div class="col-md-12 col-lg-10">
-                            <select class="form-control form-control-lg">
+                            <select id="roastInput" class="form-control form-control-lg">
                                 {% for roast in roast_types %}
                                     <option>{{ roast }}</option>
                                 {% endfor %}
@@ -50,7 +50,7 @@
                     <div class="form-group row">
                         <label for="addOrigin" class="col-md-12 col-lg-2 col-form-label">Origin</label>
                         <div class="col-md-12 col-lg-10">
-                            <select class="dynamicSelection form-control form-control-lg">
+                            <select id="originInput" class="dynamicSelection form-control form-control-lg">
                                 <optgroup>
                                     {% for origin in origin_types %}
                                         <option>{{ origin }}</option>
@@ -68,13 +68,13 @@
                     <div class="form-group row">
                         <label for="organicToggle" class="col-md-12 col-lg-2 col-form-label">Organic</label>
                         <div class="col-md-12 col-lg-10">
-                            <input class="ml-2 form-check-input" type="checkbox" value="" id="organicToggle">
+                            <input id="organicToggle" class="ml-2 form-check-input" type="checkbox" value="">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="websiteLink" class="col-md-12 col-lg-2 col-form-label">Website</label>
                         <div class="col-md-12 col-lg-10">
-                            <input type="url" placeholder="https://example.com" class="form-control form-control-lg">
+                            <input id="websiteInput" type="url" placeholder="https://example.com" class="form-control form-control-lg">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -106,18 +106,15 @@
             <div class="card">
                 <a href="#"><img src="{{ coffeeImg }}" class="card-img-top hover-shadow" alt="..."></a>
                 <div class="card-body">
-                    <h3 class="card-title text-center mb-4">Brand: Coffee</h3>
+                    <h3 class="card-title text-center mb-4"><span id="brand-preview">Brand:</span><span id="name-preview">Coffee</span></h3>
                     <ul class="bean-info">
-                        <li>Roast: </li>
-                        <li>Origin: </li>
-                        <li>Organic: </li>
-                        <li><a href="#">More Info</a></li>
+                        <li>Roast: <span id="roast-preview"></span></li>
+                        <li>Origin: <span id="origin-preview"></span></li>
+                        <li>Organic: <span id="organic-preview">False</span></li>
+                        <li><a id="website-preview" href="">More Info</a></li>
                     </ul>
                     <h5 class="text-center my-3">Notes:</h5>
-                    <div class="notes-container">
-                        <span class="note-bubble bean-note">Note</span>
-                        <span class="note-bubble bean-note">Note</span>
-                        <span class="note-bubble bean-note">Note</span>
+                    <div class="preview-notes-container">
                     </div>
                     <div class="row mt-4 custom-card-footer justify-content-center">
                         <div class="user-submitted text-muted mt-3">Submitted by <a href="#">Sam Baker</a></div>
