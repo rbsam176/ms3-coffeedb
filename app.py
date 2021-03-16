@@ -23,7 +23,7 @@ def index():
     beans = mongo.db.beans.find()
     return render_template("index.html", beans=beans)
 
-@app.route("/add")
+@app.route("/add", methods=["GET", "POST"])
 def add():
     beans = mongo.db.beans.find().sort("_id", -1).limit(3)
     coffeeImg = "https://images.photowall.com/products/49771/coffee-beans.jpg"
@@ -31,9 +31,18 @@ def add():
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
     uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF UNIQUE NOTES
     brand_names = mongo.db.beans.distinct('brand') # RETURNS LIST OF UNIQUE BRANDS
+    if request.method == "POST":
+        print(request.form["brand"])
+        print(request.form["name"])
+        print(request.form["roast"])
+        print(request.form["origin"])
+        print(request.form["organic"])
+        print(request.form["website"])
+        print(request.form.getlist('note'))
+
     return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes, brand_names=brand_names)
 
-@app.route("/browse", methods=["GET", "POST"])
+@app.route("/browse", methods=["GET"])
 def browse():
     beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES

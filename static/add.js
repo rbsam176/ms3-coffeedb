@@ -18,6 +18,11 @@ $(".toggleInput").on('input', function() {
         $(parentSelect).attr("disabled", false);
     } else {
         $(parentSelect).attr("disabled", true);
+        if ($(this).prev().children('select').attr('id') == "brandInput"){
+            $("#brand-preview").text(customInput.val())
+        } else if ($(this).prev().children('select').attr('id') == "originInput") {
+            $("#origin-preview").text(customInput.val())
+        }
     }
 })
 
@@ -33,7 +38,11 @@ dynamicElements = [
 $("select, input").on("keyup change", function() {
     for (x in dynamicElements){
         if (dynamicElements[x].includes($(this).attr("id"))){
+            if ($(`#${dynamicElements[x][0]}`).val() == "Other..."){
+                return
+            } else {
             $(dynamicElements[x][1]).text($(this).val())
+            }
         }
     }
 })
@@ -63,7 +72,6 @@ function appendToPreview(tag){
 // USED https://stackoverflow.com/a/40280312 FOR SUPPORT
 $("form").on('change', 'input:checkbox.note-checkbox', function() {
     if($(this).is(':checked')){
-        console.log("clicked")
         appendToPreview($(this).parent().text())
     } else if(!$(this).is(':checked')){
         $(".preview-notes-container").children(`.tag-preview:contains(${$(this).parent().text()})`).remove()
@@ -75,7 +83,7 @@ $("#addNote").on('click', function(e) {
     e.preventDefault()
     var rawInputText = $("#customNoteInput").val()
     if (rawInputText.length > 0){
-        $(".add-notes-container").append(`<li class="add-notes-checkboxes"><label><input class="note-checkbox" type="checkbox" checked>${rawInputText}</label></li>`)
+        $(".add-notes-container").append(`<li class="add-notes-checkboxes"><label><input class="note-checkbox" name="note" value="${rawInputText}" type="checkbox" checked>${rawInputText}</label></li>`)
         appendToPreview(rawInputText)
         $("#customNoteInput").val('')
     } else {
@@ -90,5 +98,13 @@ $("#customNoteInput").on('input', function() {
         $("#addNote").prop("disabled", false)
     } else if ($("#customNoteInput").val().length < 1) {
         $("#addNote").prop("disabled", true)
+    }
+})
+
+// PROVIDES VALIDATION 
+$("#submitCoffee").on('click', function(){
+    if (!$('.note-checkbox:checked').length){
+        $(".add-notes-container").effect("shake")
+        return false
     }
 })
