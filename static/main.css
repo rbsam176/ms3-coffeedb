@@ -196,7 +196,6 @@ input[type=checkbox]:checked + label.cloud-note {
 .note-bubble {
     padding: 10px;
     border-radius: 10px;
-    text-transform: capitalize;
     white-space: nowrap;
     line-height: 50px;
     margin: 5px;

@@ -53,11 +53,33 @@ $("#websiteInput").on('input', function() {
     $("#website-preview").attr('href', $(this).val())
 })
 
-// APPENDS CHECKED NOTE TO PREVIEW RENDER
-$(".add-notes-checkboxes").children("input").on("click", function() {
+// APPENDS HTML TO PREVIEW RENDER CONTAINER
+function appendToPreview(tag){
+    $(".preview-notes-container").append(`<span class="note-bubble tag-preview bean-note">${tag}</span>`)
+}
+
+// LISTENS FOR NOTE CHECKED AND RUNS APPENDING FUNCTION OR REMOVES
+// HAD DOM BUBBLING ISSUE, WHERE IF THE ELEMENT DOESN'T EXIST ON DOCUMENT READY THEN IT CAN'T TARGET DYNAMICALLY CREATED ELEMENTS
+// USED https://stackoverflow.com/a/40280312 FOR SUPPORT
+$("form").on('change', 'input:checkbox.note-checkbox', function() {
     if($(this).is(':checked')){
-        $(".preview-notes-container").append(`<span class="note-bubble tag-preview bean-note">${$(this).next('label').text()}</span>`)
+        console.log("clicked")
+        appendToPreview($(this).parent().text())
     } else if(!$(this).is(':checked')){
-        $(".preview-notes-container").children(`.tag-preview:contains(${$(this).next('label').text()})`).remove()
+        $(".preview-notes-container").children(`.tag-preview:contains(${$(this).parent().text()})`).remove()
+    }
+})
+
+// ADDS CUSTOM INPUT NOTE TO INPUT CONTAINER AND LIVE PREVIEW CONTAINER
+$("#addNote").on('click', function(e) {
+    e.preventDefault()
+    var rawInputText = $("#customNoteInput").val()
+    if (rawInputText.length > 0){
+        $(".add-notes-container").append(`<li class="add-notes-checkboxes"><label><input class="note-checkbox" type="checkbox" checked>${rawInputText}</label></li>`)
+        appendToPreview(rawInputText)
+        $("#customNoteInput").val('')
+    } else {
+        $("#customNoteInput").effect("shake")
+        $("#customNoteInput").focus()
     }
 })
