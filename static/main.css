@@ -124,7 +124,7 @@ ul.add-notes-container li label {
     margin: 5px;
 }
 
-#otherOrigin {
+.toggleInput {
     display: none;
 }
 

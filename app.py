@@ -29,8 +29,9 @@ def add():
     coffeeImg = "https://images.photowall.com/products/49771/coffee-beans.jpg"
     roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
-    uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF ALL UNIQUE NOTES
-    return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes)
+    uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF UNIQUE NOTES
+    brand_names = mongo.db.beans.distinct('brand') # RETURNS LIST OF UNIQUE BRANDS
+    return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes, brand_names=brand_names)
 
 @app.route("/browse", methods=["GET", "POST"])
 def browse():
