@@ -124,6 +124,10 @@ ul.add-notes-container li label {
     margin: 5px;
 }
 
+#otherOrigin {
+    display: none;
+}
+
 #livePreview {
     position: sticky;
     top: 0px;
