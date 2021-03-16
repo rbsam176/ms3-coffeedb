@@ -91,12 +91,42 @@ h2, h3 {
 
 .img-upload {
     background-color: white;
+    height: 300px;
     border-bottom: 1px dashed black;
 }
 
 #img-filebrowser {
     width: 200px;
-    margin: 100px auto;
+    margin: 120px auto;
+}
+
+ul.add-notes-container li {
+    display:inline-block;
+    list-style: none;
+}
+
+.add-notes-container {
+    padding-left: 0px;
+}
+
+ul.add-notes-container li input {
+    margin-right: 5px;
+}
+
+ul.add-notes-container li label {
+    margin-bottom: 0px;
+}
+
+.add-notes-checkboxes {
+    background-color: #F8F8F8;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+#livePreview {
+    position: sticky;
+    top: 0px;
 }
 
 .addBeanInput {
