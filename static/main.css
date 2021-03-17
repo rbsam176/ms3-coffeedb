@@ -232,7 +232,7 @@ input[type=checkbox]:checked + label.cloud-note {
     min-width: 80px;
 }
 
-#organicLabel {
+.organicLabel {
     width: 6em;
     text-align: right;
 }

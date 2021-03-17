@@ -15,8 +15,8 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <label for="brandInput" class="col-md-12 col-lg-2 col-form-label">Brand*</label>
-                        <div class="col-md-12 col-lg-10">
+                        <label for="brandInput" class="col-md-12 col-lg-3 col-form-label text-center">Brand*</label>
+                        <div class="col-md-12 col-lg-9">
                             <select id="brandInput" name="brand" class="dynamicSelection form-control form-control-lg" required>
                                 <option selected disabled value="">Select brand</option>
                                 {% for brand in brand_names %}
@@ -26,19 +26,19 @@
                                 <option>Other...</option>
                             </select>
                         </div>
-                        <div class="col-md-12 col-lg-10 offset-lg-2 toggleInput">
+                        <div class="col-md-12 col-lg-9 offset-lg-3 toggleInput">
                             <input type="text" name="brand" class="customInput mt-3 form-control form-control-lg" placeholder="Enter new brand">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="nameInput" class="col-md-12 col-lg-2 col-form-label">Name*</label>
-                        <div class="col-md-12 col-lg-10">
+                        <label for="nameInput" class="col-md-12 col-lg-3 col-form-label text-center">Name*</label>
+                        <div class="col-md-12 col-lg-9">
                             <input id="nameInput" name="name" type="text" placeholder="Enter coffee name" class="form-control form-control-lg" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="roastInput" class="col-md-12 col-lg-2 col-form-label">Roast*</label>
-                        <div class="col-md-12 col-lg-10">
+                        <label for="roastInput" class="col-md-12 col-lg-3 col-form-label text-center">Roast*</label>
+                        <div class="col-md-12 col-lg-9">
                             <select id="roastInput" name="roast" class="form-control form-control-lg" required>
                                 <option value="" disabled selected>Select roast</option>
                                 {% for roast in roast_types %}
@@ -48,8 +48,8 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="originInput" class="col-md-12 col-lg-2 col-form-label">Origin*</label>
-                        <div class="col-md-12 col-lg-10">
+                        <label for="originInput" class="col-md-12 col-lg-3 col-form-label text-center">Origin*</label>
+                        <div class="col-md-12 col-lg-9">
                             <select id="originInput" name="origin" class="dynamicSelection form-control form-control-lg" required>
                                 <option selected disabled value="">Select origin</option>
                                 {% for origin in origin_types %}
@@ -59,25 +59,30 @@
                                 <option>Other...</option>
                             </select>
                         </div>
-                        <div class="col-md-12 col-lg-10 offset-lg-2 toggleInput">
+                        <div class="col-md-12 col-lg-9 offset-lg-3 toggleInput">
                             <input type="text" name="origin" class="customInput form-control form-control-lg" placeholder="Enter new origin">
                         </div>
                     </div>
+                    <!-- <div class="form-group row">
+                        <label for="organicToggle" class="col-md-12 col-lg-3 col-form-label">Organic</label>
+                        <input id="organicToggle" name="organic" value="True" class="col-md-12 col-lg-9" type="checkbox">
+                    </div> -->
                     <div class="form-group row">
-                        <label for="organicToggle" class="col-md-12 col-lg-2 col-form-label">Organic</label>
-                        <div class="col-md-12 col-lg-10">
-                            <input id="organicToggle" name="organic" value="True" class="ml-2 form-check-input" type="checkbox">
+                        <label for="organicToggle" class="col-md-12 col-lg-3 col-form-label text-center">Organic</label>
+                        <div class="custom-control custom-switch col-md-12 col-lg-8 ml-3 text-center text-lg-left pt-1">
+                            <input id="organicToggle" name="organic" type="checkbox" class="custom-control-input" value="True">
+                            <label id="organicLabel" class="custom-control-label" for="organicToggle">Off</label>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="websiteInput" class="col-md-12 col-lg-2 col-form-label">Website*</label>
-                        <div class="col-md-12 col-lg-10">
+                        <label for="websiteInput" class="col-md-12 col-lg-3 col-form-label text-center">Website*</label>
+                        <div class="col-md-12 col-lg-9">
                             <input id="websiteInput" name="website" type="url" placeholder="https://example.com" class="form-control form-control-lg" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <span class="col-md-12 col-lg-2 col-form-label">Notes</span>
-                        <div class="col-md-12 col-lg-10 add-notes">
+                        <span class="col-md-12 col-lg-3 col-form-label text-center">Notes</span>
+                        <div class="col-md-12 col-lg-9 add-notes">
                             <ul class="add-notes-container">
                                 {% for note in uniqueNotes %}
                                     <li class="add-notes-checkboxes"><label><input name="note" value="{{ note }}" class="note-checkbox" type="checkbox">{{ note }}</label></li>
@@ -86,14 +91,16 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="customNoteInput" class="col-12 col-form-label">Add another note</label>
-                        <div class="col-md-12 col-lg-8">
-                            <input id="customNoteInput" type="text" class="form-control form-control-lg">
-                            <button id="addNote" class="btn btn-primary" disabled>Add</button>
+                        <label for="customNoteInput" class="col-12 col-form-label text-center">Add another note</label>
+                        <div class="col-12 input-group">
+                            <input id="customNoteInput" type="text" class="form-control">
+                            <div class="input-group-append">
+                                <button id="addNote" class="btn btn-outline-primary" type="button" disabled>Add</button>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-12">
+                        <div class="col-12 text-center">
                             <input id="submitCoffee" type="submit" class="btn btn-primary"></input>
                         </div>
                     </div>
