@@ -163,9 +163,20 @@ $(window).resize(function(){
     }
 });
 
+// RESETS MOBILE UPLOADER BACK TO DEFAULT
 $("#resetUpload").on('click', function(){
     $(".img-upload").css('background-image', "")
     $(".img-upload").css('background-size', "")
     $("#img-filebrowser").css('display', 'block')
     $('#imgURL').val("")
+})
+
+// PREVENTS ENTER KEY DEFAULT BEHAVIOUR
+// ADDS CUSTOM NOTE TO CONTAINER ON ENTER KEY INPUT
+$("#customNoteInput").keydown(function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault()
+        $("#addNote").click()
+        return false
+    }
 })
