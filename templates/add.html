@@ -2,7 +2,14 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">Add a coffee</h2>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <h2 class="text-center mt-4">Add a coffee</h2>
+        </div>
+        <div class="d-none d-md-block col-6">
+            <h2 class="text-center mt-4">Live preview</h2>
+        </div>
+    </div>
     <div class="row gy-4 justify-content-center">
         <div class="col-12 col-md-6 p-2">
             <form id="addCoffee" class="card" method="POST">
@@ -83,7 +90,7 @@
                     <div class="form-group row">
                         <span class="col-md-12 col-lg-3 col-form-label text-center">Notes</span>
                         <div class="col-md-12 col-lg-9 add-notes">
-                            <ul class="add-notes-container">
+                            <ul class="add-notes-container text-center text-lg-left">
                                 {% for note in uniqueNotes %}
                                     <li class="add-notes-checkboxes"><label><input name="note" value="{{ note }}" class="note-checkbox" type="checkbox">{{ note }}</label></li>
                                 {% endfor %}
