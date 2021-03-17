@@ -32,14 +32,18 @@ def add():
     uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF UNIQUE NOTES
     brand_names = mongo.db.beans.distinct('brand') # RETURNS LIST OF UNIQUE BRANDS
     if request.method == "POST":
-        print(request.form["brand"])
-        print(request.form["name"])
-        print(request.form["roast"])
-        print(request.form["origin"])
-        print(bool(request.form.get("organic")))
-        print(request.form["website"])
-        print(request.form.getlist('note'))
-        print(request.form['imgURL'])
+        userInput = {
+            "brand": request.form["brand"],
+            "name": request.form["name"],
+            "roast": request.form["roast"],
+            "origin": request.form["origin"],
+            "notes": request.form.getlist('note'),
+            "organic": bool(request.form.get("organic")),
+            "url": request.form["website"],
+            "img-url": request.form['imgURL']
+        }
+
+        mongo.db.beans.insert_one(userInput)
 
     return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes, brand_names=brand_names)
 
