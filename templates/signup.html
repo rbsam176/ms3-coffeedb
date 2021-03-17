@@ -8,6 +8,15 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title text-center mb-4">Enter your information</h3>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert {% if category == 'warning' %}alert-warning{% endif %}{% if category == 'success' %}alert-success{% endif %}" role="alert">
+                                    <strong>Alert!</strong> {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <div class="row mt-4 justify-content-center">
                         <form id="signup" method="POST">
                             <div class="form-row">

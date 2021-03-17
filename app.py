@@ -119,10 +119,10 @@ def signup():
     brand_names = mongo.db.beans.distinct('brand') # GETS ALL UNIQUE VALUES WITH KEY OF 'BRAND'
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
     if request.method == "POST":
-        existing_user = mongo.db.beans.find_one({"email": request.form.get("inputEmail").lower()})
+        existing_user = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
         if existing_user:
-            print("already exists")
-            return
+            flash(u"An account with this email already exists", "warning")
+            return redirect(url_for("signup"))
         newUser = {
             "first_name": request.form.get("inputFirstName").lower(),
             "last_name": request.form.get("inputLastName").lower(),
@@ -138,7 +138,7 @@ def signup():
         }
         mongo.db.users.insert_one(newUser)
         session["user"] = request.form.get("inputEmail").lower()
-        print(newUser)
+        flash(u"Registration Successful!", "success")
 
     return render_template("signup.html", roast_types=roast_types, brand_names=brand_names, origin_types=origin_types)
 
