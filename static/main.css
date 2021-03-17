@@ -138,13 +138,6 @@ ul.add-notes-container li label {
     white-space: nowrap;
 }
 
-#imgURL {
-    width: 250px;
-    height: 50px;
-    border-radius: 10px;
-    text-align: center;
-}
-
 .card-img-top:hover {
     filter: grayscale(100%);
 }

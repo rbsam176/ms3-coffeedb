@@ -4,13 +4,13 @@
 <div class="container">
     <h2 class="text-center my-4">Add a coffee</h2>
     <div class="row gy-4 justify-content-center">
-        <div class="col-6 p-2">
+        <div class="col-12 col-md-6 p-2">
             <form id="addCoffee" class="card" method="POST">
                 <div class="img-upload form-group">
                     <div id="img-filebrowser" class="form-group text-center">
                         <a id="uploadTrigger" class="btn btn-primary">Upload Image</a>
                         <label for="imgURL" class="my-2">Or enter image URL below</label>
-                        <input id="imgURL" name="imgURL" type="url" required placeholder="https://example.com/image.jpg">
+                        <input id="imgURL" class="form-control form-control-lg text-center" name="imgURL" type="url" required placeholder="http://example.com/image.jpg">
                     </div>
                 </div>
                 <div class="card-body">
@@ -100,7 +100,7 @@
                 </div>
             </form>
         </div>
-        <div id="livePreview" class="col-6 p-2 h-100">
+        <div id="livePreview" class="col-6 d-none d-md-block p-2 h-100">
             <div class="card">
                 <a href="#"><img id="imgPreview" src="{{ coffeeImg }}" class="card-img-top hover-shadow" alt="..."></a>
                 <div class="card-body">
