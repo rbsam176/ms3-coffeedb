@@ -122,10 +122,50 @@ $("#submitCoffee").on('click', function(){
 $("#uploadTrigger").on('click', function(e){
     const client = filestack.init("AvaoIzsbLTTG0R1N7vg2Uz");
     const options = {
+        // WRITES URL TO TEXT INPUT
+        // IF ON MOBILE VIEW, HIDE UPLOADER UI AND INSERT RESET UI
         onFileUploadFinished: file => {
             $("#imgURL").val(file['url'])
             $("#imgPreview").attr('src', file['url'])
+            if ($("#livePreview").is(":hidden")){
+                $(".img-upload").css('background-image', `url("${file['url']}")`)
+                $(".img-upload").css('background-size', 'cover')
+                $("#img-filebrowser").css('display', 'none')
+                $('#resetUpload').css('display', 'block')
             }
-        }
+        },
+        accept: 'image/*'
+    }
     client.picker(options).open()
+})
+
+// ON WINDOW RESIZE, HIDE/SHOW UPLOAD UI AND RESET UI
+$(window).resize(function(){     
+    if ($("#livePreview").is(":visible")){ // DESKTOP
+        if ($(".img-upload").css('background-image') != 'none'){ // HAS BACKGROUND
+            $(".img-upload").css('background-image', "") // HIDE BACKGROUND
+            $(".img-upload").css('background-size', "")
+            $("#img-filebrowser").css('display', 'block') // SHOW UPLOADER
+            $('#resetUpload').css('display', 'none') // HIDE RESET BUTTON
+        }
+    } else if ($("#livePreview").is(":hidden")){ // MOBILE
+        if ($(".img-upload").css('background-image') == 'none'){ // HAS NO BACKGROUND
+            if ($('#imgURL').val()){ // IF IMAGE EXISTS
+                $(".img-upload").css('background-image', `url("${$('#imgURL').val()}")`) // SHOW IMAGE
+                $(".img-upload").css('background-size', 'cover')
+                $("#img-filebrowser").css('display', 'none') // HIDE UPLOADER
+                $('#resetUpload').css('display', 'block') // SHOW RESET BUTTON
+            }
+        } else if ($(".img-upload").css('background-image') != 'none'){ // HAS BACKGROUND
+            $("#img-filebrowser").css('display', 'none') // HIDE UPLOADER
+            $('#resetUpload').css('display', 'block') // SHOW RESET BUTTON
+        }
+    }
+});
+
+$("#resetUpload").on('click', function(){
+    $(".img-upload").css('background-image', "")
+    $(".img-upload").css('background-size', "")
+    $("#img-filebrowser").css('display', 'block')
+    $('#imgURL').val("")
 })

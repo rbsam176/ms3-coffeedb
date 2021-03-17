@@ -133,6 +133,10 @@ ul.add-notes-container li label {
     top: 0px;
 }
 
+#resetUpload {
+    display: none;
+}
+
 .addBeanInput {
     display: inline;
     white-space: nowrap;
