@@ -5,7 +5,7 @@
     <h2 class="text-center my-4">Add a coffee</h2>
     <div class="row gy-4 justify-content-center">
         <div class="col-6 p-2">
-            <form class="card" method="POST">
+            <form id="addCoffee" class="card" method="POST">
                 <div class="img-upload form-group">
                     <div id="img-filebrowser" class="form-group text-center">
                         <a id="uploadTrigger" class="btn btn-primary">Upload Image</a>
@@ -18,15 +18,12 @@
                         <label for="brandInput" class="col-md-12 col-lg-2 col-form-label">Brand*</label>
                         <div class="col-md-12 col-lg-10">
                             <select id="brandInput" name="brand" class="dynamicSelection form-control form-control-lg" required>
-                                <optgroup>
-                                    <option value="" disabled selected>Select brand</option>
-                                    {% for brand in brand_names %}
-                                        <option>{{ brand }}</option>
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup>
-                                    <option>Other...</option>
-                                </optgroup>
+                                <option selected disabled value="">Select brand</option>
+                                {% for brand in brand_names %}
+                                    <option>{{ brand }}</option>
+                                {% endfor %}
+                                <option disabled></option>
+                                <option>Other...</option>
                             </select>
                         </div>
                         <div class="col-md-12 col-lg-10 offset-lg-2 toggleInput">
@@ -54,15 +51,12 @@
                         <label for="originInput" class="col-md-12 col-lg-2 col-form-label">Origin*</label>
                         <div class="col-md-12 col-lg-10">
                             <select id="originInput" name="origin" class="dynamicSelection form-control form-control-lg" required>
-                                <optgroup>
-                                    <option value="" disabled selected>Select origin</option>
-                                    {% for origin in origin_types %}
-                                        <option>{{ origin }}</option>
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup>
-                                    <option>Other...</option>
-                                </optgroup>
+                                <option selected disabled value="">Select origin</option>
+                                {% for origin in origin_types %}
+                                    <option>{{ origin }}</option>
+                                {% endfor %}
+                                <option disabled></option>
+                                <option>Other...</option>
                             </select>
                         </div>
                         <div class="col-md-12 col-lg-10 offset-lg-2 toggleInput">
