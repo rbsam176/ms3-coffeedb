@@ -1,6 +1,7 @@
 import os
 import sys
 import random
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import (
     Flask, flash, render_template, 
     redirect, request, session, url_for)
@@ -110,6 +111,37 @@ def browse():
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
 
     return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, notesChecked=notesChecked)
+
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
+    brand_names = mongo.db.beans.distinct('brand') # GETS ALL UNIQUE VALUES WITH KEY OF 'BRAND'
+    origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
+    if request.method == "POST":
+        existing_user = mongo.db.beans.find_one({"email": request.form.get("inputEmail").lower()})
+        if existing_user:
+            print("already exists")
+            return
+        newUser = {
+            "first_name": request.form.get("inputFirstName").lower(),
+            "last_name": request.form.get("inputLastName").lower(),
+            "email": request.form.get("inputEmail"),
+            "password": generate_password_hash(request.form.get("inputPassword")),
+            "birthdate": request.form.get("inputBirthdate").lower(),
+            "country": request.form.get("inputCountry").lower(),
+            "pref_roast": request.form.get("inputPrefRoast").lower(),
+            "pref_brand": request.form.get("inputPrefBrand").lower(),
+            "pref_organic": request.form.get("inputPrefOrganic").lower(),
+            "pref_origin": request.form.get("inputPrefOrigin").lower(),
+            "discovery": request.form.get("inputDiscovery").lower()
+        }
+        mongo.db.users.insert_one(newUser)
+        session["user"] = request.form.get("inputEmail").lower()
+        print(newUser)
+
+    return render_template("signup.html", roast_types=roast_types, brand_names=brand_names, origin_types=origin_types)
+
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),

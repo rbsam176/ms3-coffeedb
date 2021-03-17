@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">Sign Up</h2>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Enter your information</h3>
+                    <div class="row mt-4 justify-content-center">
+                        <form id="signup" method="POST">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputFirstName">First name*</label>
+                                    <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" placeholder="John/Jane" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputLastName">Last name*</label>
+                                    <input type="text" class="form-control" name="inputLastName" id="inputLastName" placeholder="Smith" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputEmail">Email*</label>
+                              <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="email@domain.com" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword">Password*</label>
+                                    <input type="password" class="form-control mb-3" name="inputPassword" id="inputPassword" placeholder="Password" required>
+                                    <label for="inputConfirmPassword">Confirm Password*</label>
+                                    <input type="password" class="form-control" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    password checker here
+                                </div>
+                            </div>
+                            <p class="lead text-center mt-3">Optional information</p>
+                            <p class="text-muted text-center"><a href="#">What do we use this information for?</a></p>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputBirthdate">Date of Birth</label>
+                                    <input type="date" class="form-control" name="inputBirthdate" id="inputBirthdate">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputCountry">Country</label>
+                                    <input type="text" class="form-control" name="inputCountry" id="inputCountry" placeholder="Country">
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputPrefRoast">Preferred roast</label>
+                                    <select class="form-control" name="inputPrefRoast" id="inputPrefRoast">
+                                        {% for roast in roast_types %}
+                                            <option>{{ roast }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPrefBrand">Preferred brand</label>
+                                    <select class="form-control" name="inputPrefBrand" id="inputPrefBrand">
+                                        {% for brand in brand_names %}
+                                            <option>{{ brand }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div> 
+                                <div class="form-group col-md-6">
+                                    <label for="inputPrefOrganic">Do you prefer organic coffee?</label>
+                                    <select class="form-control" name="inputPrefOrganic" id="inputPrefOrganic">
+                                        <option>Yes</option>
+                                        <option>Can't tell the difference</option>
+                                        <option>Never think about it</option>
+                                    </select>
+                                </div> 
+                                <div class="form-group col-md-6">
+                                    <label for="inputPrefOrigin">Preferred coffee origin</label>
+                                    <select class="form-control" name="inputPrefOrigin" id="inputPrefOrigin">
+                                        {% for origin in origin_types %}
+                                            <option>{{ origin }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div> 
+                                <div class="form-group col-12">
+                                    <label for="inputDiscovery">How did you find out about us?</label>
+                                    <select class="form-control" name="inputDiscovery" id="inputDiscovery">
+                                        <option>Search engine</option>
+                                        <option>From a friend</option>
+                                        <option>Online advertising</option>
+                                        <option>Offline advertising</option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <small class="text-muted">This information can be adjusted from your profile later</small><br>
+                            <button type="submit" class="btn btn-primary mt-3">Sign up</button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/signup.js"></script>
+{% endblock %}
