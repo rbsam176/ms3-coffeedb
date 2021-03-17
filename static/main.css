@@ -96,8 +96,8 @@ h2, h3 {
 }
 
 #img-filebrowser {
-    width: 200px;
-    margin: 120px auto;
+    width: 300px;
+    margin: 100px auto;
 }
 
 ul.add-notes-container li {
@@ -136,6 +136,13 @@ ul.add-notes-container li label {
 .addBeanInput {
     display: inline;
     white-space: nowrap;
+}
+
+#imgURL {
+    width: 250px;
+    height: 50px;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .card-img-top:hover {

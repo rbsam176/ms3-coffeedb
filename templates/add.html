@@ -8,9 +8,9 @@
             <form class="card" method="POST">
                 <div class="img-upload form-group">
                     <div id="img-filebrowser" class="form-group text-center">
-                        <label for="imgURL">Upload image</label>
-                        <input id="imgUpload" type="file" class="form-control-file" id="exampleFormControlFile1">
-                        <input id="imgURL" name="imgURL" type="url" placeholder="Enter image url here">
+                        <a id="uploadTrigger" class="btn btn-primary">Upload Image</a>
+                        <label for="imgURL" class="my-2">Or enter image URL below</label>
+                        <input id="imgURL" name="imgURL" type="url" required placeholder="https://example.com/image.jpg">
                     </div>
                 </div>
                 <div class="card-body">
@@ -72,7 +72,7 @@
                     <div class="form-group row">
                         <label for="organicToggle" class="col-md-12 col-lg-2 col-form-label">Organic</label>
                         <div class="col-md-12 col-lg-10">
-                            <input id="organicToggle" name="organic" value="True" class="ml-2 form-check-input" type="checkbox" value="">
+                            <input id="organicToggle" name="organic" value="True" class="ml-2 form-check-input" type="checkbox">
                         </div>
                     </div>
                     <div class="form-group row">

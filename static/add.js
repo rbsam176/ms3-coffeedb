@@ -109,13 +109,11 @@ $("#submitCoffee").on('click', function(){
     }
 })
 
-$("#imgUpload").on('click', function(e){
-    e.preventDefault()
+// LINKS TO FILESTACK IMAGE UPLOAD API
+$("#uploadTrigger").on('click', function(e){
     const client = filestack.init("AvaoIzsbLTTG0R1N7vg2Uz");
     const options = {
         onFileUploadFinished: file => {
-            console.log("finished")
-            console.log(file['url'])
             $("#imgURL").val(file['url'])
             $("#imgPreview").attr('src', file['url'])
             }

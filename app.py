@@ -36,7 +36,7 @@ def add():
         print(request.form["name"])
         print(request.form["roast"])
         print(request.form["origin"])
-        print(request.form["organic"])
+        print(bool(request.form.get("organic")))
         print(request.form["website"])
         print(request.form.getlist('note'))
         print(request.form['imgURL'])
