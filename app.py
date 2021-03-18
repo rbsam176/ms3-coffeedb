@@ -182,8 +182,14 @@ def login():
 def profile(username):
     username = mongo.db.users.find_one(
             {"username": session["user"]})["username"]
+    first_name = mongo.db.users.find_one(
+        {"username": session["user"]})["first_name"]
+    last_name = mongo.db.users.find_one(
+        {"username": session["user"]})["last_name"]
+    full_name = first_name + " " + last_name
+    user_submissions = mongo.db.beans.find({"username": username})
     if session["user"]:
-        return render_template("profile.html", username=username)
+        return render_template("profile.html", username=username, first_name=first_name, user_submissions=user_submissions, full_name=full_name)
     
     return redirect(url_for("login"))
 

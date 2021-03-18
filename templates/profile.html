@@ -1,29 +1,31 @@
-{% extends "base.html" %}
+{% extends "base_profile.html" %}
 
-{% block content %}
-<div class="container">
-    <h2 class="text-center my-4">Welcome</h2>
-    <div class="row">
-        <div class="col-12">
+{% block profile_content %}
+<div class="row gy-4">
+    {% for bean in user_submissions %}
+        <div class="col-12 col-md-6 col-lg-4 p-2">
             <div class="card">
+                <a href="{{ bean.url }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
                 <div class="card-body">
-                    <h3 class="card-title text-center mb-4">Profile</h3>
-                    <div class="row mt-4 justify-content-center">
-                        {% with messages = get_flashed_messages(with_categories=true) %}
-                            {% if messages %}
-                                {% for category, message in messages %}
-                                <div class="row text-center justify-content-center">
-                                    <div class="col-10 alert {% if category == 'warning' %}alert-warning{% endif %}{% if category == 'success' %}alert-success{% endif %}" role="alert">
-                                        <strong>Alert!</strong> {{ message }}
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            {% endif %}
-                        {% endwith %}
+                    <h3 class="card-title text-center mb-4">{{ bean.brand }}: {{ bean.name }}</h3>
+                    <ul class="bean-info">
+                        <li>Roast: {{ bean.roast }}</li>
+                        <li>Origin: {{ bean.origin }}</li>
+                        <li>Organic: {{ bean.organic }}</li>
+                        <li><a href="{{ bean.url }}">More Info</a></li>
+                    </ul>
+                    <h5 class="text-center my-3">Notes:</h5>
+                    <div class="notes-container">
+                        {% for note in bean.notes %}
+                            <span class="note-bubble bean-note">{{ note }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="row mt-4 custom-card-footer justify-content-center">
+                        <div class="user-submitted text-muted mt-3">Submitted by <a href="#">{{ full_name }}</a></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endfor %}
 </div>
 {% endblock %}
