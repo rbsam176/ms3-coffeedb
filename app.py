@@ -32,6 +32,11 @@ def add():
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
     uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF UNIQUE NOTES
     brand_names = mongo.db.beans.distinct('brand') # RETURNS LIST OF UNIQUE BRANDS
+    username = mongo.db.users.find_one(
+            {"username": session["user"]})["username"]
+    first_name = mongo.db.users.find_one({"username": session["user"]})["first_name"]
+    last_name = mongo.db.users.find_one({"username": session["user"]})["last_name"]
+    full_name = first_name + " " + last_name
     if request.method == "POST":
         userInput = {
             "brand": request.form["brand"],
@@ -41,12 +46,13 @@ def add():
             "notes": request.form.getlist('note'),
             "organic": bool(request.form.get("organic")),
             "url": request.form["website"],
-            "img-url": request.form['imgURL']
+            "img-url": request.form['imgURL'],
+            "username": username,
+            "full_name": full_name
         }
-
         mongo.db.beans.insert_one(userInput)
 
-    return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes, brand_names=brand_names)
+    return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes, brand_names=brand_names, full_name=full_name)
 
 @app.route("/browse", methods=["GET"])
 def browse():
