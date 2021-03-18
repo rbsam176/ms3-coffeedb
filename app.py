@@ -145,6 +145,23 @@ def signup():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        existing_user = mongo.db.users.find_one(
+            {"email": request.form.get("loginEmail").lower()})
+
+        if existing_user:
+            # CHECKS IF HASHED PASSWORD MATCHES USER INPUT
+            if check_password_hash(existing_user["password"], request.form.get("loginPassword")):
+                session["user"] = request.form.get("loginEmail").lower()
+                flash(u"Welcome {}".format(existing_user["first_name"].capitalize()), "success")
+            else:
+                # INVALID PASSWORD MATCH
+                flash(u"Could not find a matching user", "warning")
+                return redirect(url_for("login"))
+        else:
+            # INCORRECT EMAIL
+            flash(u"Could not find a matching user", "warning")
+            return redirect(url_for("login"))
     return render_template("login.html")
 
 if __name__ == "__main__":
