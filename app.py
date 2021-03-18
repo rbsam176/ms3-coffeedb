@@ -119,14 +119,19 @@ def signup():
     brand_names = mongo.db.beans.distinct('brand') # GETS ALL UNIQUE VALUES WITH KEY OF 'BRAND'
     origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
     if request.method == "POST":
-        existing_user = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
-        if existing_user:
+        existing_user_email = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
+        existing_user_username = mongo.db.users.find_one({"username": request.form.get("inputUsername").lower()})
+        if existing_user_email:
             flash(u"An account with this email already exists", "warning")
+            return redirect(url_for("signup"))
+        if existing_user_username:
+            flash(u"An account with this username already exists", "warning")
             return redirect(url_for("signup"))
         newUser = {
             "first_name": request.form.get("inputFirstName").lower(),
             "last_name": request.form.get("inputLastName").lower(),
             "email": request.form.get("inputEmail"),
+            "username": request.form.get("inputUsername"),
             "password": generate_password_hash(request.form.get("inputPassword")),
             "birthdate": request.form.get("inputBirthdate").lower(),
             "country": request.form.get("inputCountry").lower(),
@@ -137,8 +142,9 @@ def signup():
             "discovery": request.form.get("inputDiscovery").lower()
         }
         mongo.db.users.insert_one(newUser)
-        session["user"] = request.form.get("inputEmail").lower()
+        session["user"] = request.form.get("inputUsername").lower()
         flash(u"Registration Successful!", "success")
+        return redirect(url_for("profile", username=session["user"]))
 
     return render_template("signup.html", roast_types=roast_types, brand_names=brand_names, origin_types=origin_types)
 
@@ -146,14 +152,16 @@ def signup():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        existing_user = mongo.db.users.find_one(
+        existing_user_email = mongo.db.users.find_one(
             {"email": request.form.get("loginEmail").lower()})
-
-        if existing_user:
+        existing_user_username = mongo.db.users.find_one(
+            {"username": request.form.get("loginUsername").lower()})
+        if existing_user_email or existing_user_username:
             # CHECKS IF HASHED PASSWORD MATCHES USER INPUT
-            if check_password_hash(existing_user["password"], request.form.get("loginPassword")):
-                session["user"] = request.form.get("loginEmail").lower()
-                flash(u"Welcome {}".format(existing_user["first_name"].capitalize()), "success")
+            if check_password_hash(existing_user_username["password"], request.form.get("loginPassword")):
+                session["user"] = request.form.get("loginUsername").lower()
+                flash(u"Welcome {}".format(existing_user_username["first_name"].capitalize()), "success")
+                return redirect(url_for("profile", username=session["user"]))
             else:
                 # INVALID PASSWORD MATCH
                 flash(u"Could not find a matching user", "warning")
@@ -163,6 +171,15 @@ def login():
             flash(u"Could not find a matching user", "warning")
             return redirect(url_for("login"))
     return render_template("login.html")
+
+@app.route("/profile/<username>", methods=["GET", "POST"])
+def profile(username):
+    username = mongo.db.users.find_one(
+            {"username": session["user"]})["username"]
+    if session["user"]:
+        return render_template("profile.html", username=username)
+    
+    return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
