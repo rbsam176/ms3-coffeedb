@@ -143,6 +143,10 @@ def signup():
     return render_template("signup.html", roast_types=roast_types, brand_names=brand_names, origin_types=origin_types)
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    return render_template("login.html")
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
     port=int(os.environ.get("PORT")),

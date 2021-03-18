@@ -38,12 +38,12 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputPassword">Password*</label>
-                                    <input type="password" class="form-control mb-3" name="inputPassword" id="inputPassword" placeholder="Password" required>
+                                    <input type="password" class="form-control mb-3" minlength="8" maxlength="15" name="inputPassword" id="inputPassword" placeholder="Password" required>
                                     <label for="inputConfirmPassword">Confirm Password*</label>
-                                    <input type="password" class="form-control" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" required>
+                                    <input type="password" class="form-control" minlength="8" maxlength="15" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" required>
                                 </div>
                                 <div class="form-group col-md-6 mt-4 bg-light p-2">
-                                    <i class="bi bi-check-circle-fill"></i> Minimum 8 characters<br>
+                                    <i class="bi bi-check-circle-fill"></i> Between 8 - 15 characters<br>
                                     <i class="bi bi-check-circle"></i> Minimum 1 uppercase character<br>
                                     <i class="bi bi-check-circle"></i> Minimum 1 symbol ~`! @#$%^&*()_-+={[}]|\:;"'<,>.?/<br>
                                     <i class="bi bi-check-circle"></i> Mininum 1 number<br>
@@ -105,6 +105,7 @@
                                 </div> 
                             </div>
                             <small class="text-muted">This information can be adjusted from your profile later</small><br>
+                            <small>Already have an account? <a href="{{ url_for('login') }}">Sign in to your account here.</a></small><br>
                             <button type="submit" class="btn btn-primary mt-3">Sign up</button>
                           </form>
                     </div>
