@@ -10,14 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Madurai&family=Lora:ital,wght@1,600&family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" type="text/css">
-    <title>Beans</title>
+    <title>CoffeeDB</title>
 
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 
 
 </head>
 <body>
-    
     <nav class="navbar navbar-light navbar-expand-lg navbar-custom">
         <div class="container-fluid">
             <a id="logo-text" class="navbar-brand" href="#">CoffeeDB</a>
@@ -26,28 +25,29 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
                 <ul class="navbar-nav mb-2 mb-lg-0">
+                    {% set active_page = request.path %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                        <a class="nav-item nav-link {% if active_page == url_for('index') %}active{% endif %}" aria-current="page" href="{{ url_for('index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('browse') }}">Browse</a>
+                        <a class="nav-link {% if active_page == url_for('browse') %}active{% endif %}" href="{{ url_for('browse') }}">Browse</a>
                     </li>
                     {% if session.user %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('add') }}">Add</a>
+                        <a class="nav-link {% if active_page == url_for('add') %}active{% endif %}" href="{{ url_for('add') }}">Add</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
+                        <a class="nav-link {% if active_page == url_for('profile', username=session['user']) %}active{% endif %}" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        <a class="nav-link {% if active_page == url_for('logout') %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a>
+                        <a class="nav-link {% if active_page == url_for('signup') %}active{% endif %}" href="{{ url_for('signup') }}">Sign Up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        <a class="nav-link {% if active_page == url_for('login') %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
                     </li>
                     {% endif %}
                 </ul>

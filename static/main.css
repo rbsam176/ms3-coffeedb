@@ -133,6 +133,13 @@ ul.add-notes-container li label {
     top: 0px;
 }
 
+#navbarContent > ul > li > a.active {
+    color: white;
+    background-color: #F8B03C;
+    border-radius: 15px;
+    padding: 10px;
+}
+
 #resetUpload {
     display: none;
 }
