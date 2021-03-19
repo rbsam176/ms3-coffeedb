@@ -193,6 +193,14 @@ def profile(username):
     
     return redirect(url_for("login"))
 
+@app.route("/profile/update_account")
+def update_account():
+    return render_template("update_account.html")
+
+@app.route("/profile/delete_account")
+def delete_account():
+    return render_template("delete_account.html")
+
 @app.route("/logout")
 def logout():
     flash(u"You have been logged out", "success")

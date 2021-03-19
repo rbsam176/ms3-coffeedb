@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-
-
 {% block content %}
 <div class="container-fluid">
     <h2 class="text-center my-4">Welcome {{ first_name }}</h2>
@@ -26,15 +24,10 @@
                     <div class="row">
                         <div class="col-12">
                             <nav class="nav nav-pills nav-justified">
-                                <div class="col-12 col-md-4"><a class="nav-item nav-link active" href="#">View your submissions</a></div>
-                                <div class="col-12 col-md-4"><a class="nav-item nav-link" href="#">Update account information</a></div>
-                                <div class="col-12 col-md-4"><a class="nav-item nav-link" href="#">Delete account</a></div>
-
-                                <!-- TO DO: MAKE 'ACTIVE' DEPENDENT ON URL -->
-                                
-
-
-
+                                {% set active_tab = request.path %}
+                                <div class="col-12 col-md-4"><a class="nav-item nav-link {% if active_page == url_for('profile', username=session['user']) %}active{% endif %}" href="{{ url_for('profile', username=session['user']) }}">View your submissions</a></div>
+                                <div class="col-12 col-md-4"><a class="nav-item nav-link {% if active_page == url_for('update_account') %}active{% endif %}" href="{{ url_for('update_account') }}">Update account information</a></div>
+                                <div class="col-12 col-md-4"><a class="nav-item nav-link {% if active_page == url_for('delete_account') %}active{% endif %}" href="{{ url_for('delete_account') }}">Delete account</a></div>
                             </nav>
                         </div>
                     </div>
