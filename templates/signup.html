@@ -71,6 +71,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="inputPrefRoast">Preferred roast</label>
                                     <select class="form-control" name="inputPrefRoast" id="inputPrefRoast">
+                                        <option selected disabled>Select roast</option>
                                         {% for roast in roast_types %}
                                             <option>{{ roast }}</option>
                                         {% endfor %}
@@ -79,6 +80,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="inputPrefBrand">Preferred brand</label>
                                     <select class="form-control" name="inputPrefBrand" id="inputPrefBrand">
+                                        <option selected disabled>Select brand</option>
                                         {% for brand in brand_names %}
                                             <option>{{ brand }}</option>
                                         {% endfor %}
@@ -87,14 +89,16 @@
                                 <div class="form-group col-md-6">
                                     <label for="inputPrefOrganic">Do you prefer organic coffee?</label>
                                     <select class="form-control" name="inputPrefOrganic" id="inputPrefOrganic">
-                                        <option>Yes</option>
-                                        <option>Can't tell the difference</option>
-                                        <option>Never think about it</option>
+                                        <option selected disabled>Select preference</option>
+                                        {% for preference in organic_preferences %}
+                                            <option>{{ preference }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div> 
                                 <div class="form-group col-md-6">
                                     <label for="inputPrefOrigin">Preferred coffee origin</label>
                                     <select class="form-control" name="inputPrefOrigin" id="inputPrefOrigin">
+                                        <option selected disabled>Select region</option>
                                         {% for origin in origin_types %}
                                             <option>{{ origin }}</option>
                                         {% endfor %}
@@ -103,10 +107,10 @@
                                 <div class="form-group col-12">
                                     <label for="inputDiscovery">How did you find out about us?</label>
                                     <select class="form-control" name="inputDiscovery" id="inputDiscovery">
-                                        <option>Search engine</option>
-                                        <option>From a friend</option>
-                                        <option>Online advertising</option>
-                                        <option>Offline advertising</option>
+                                        <option selected disabled>Select option</option>
+                                        {% for option in site_discovery %}
+                                            <option>{{ option }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div> 
                             </div>

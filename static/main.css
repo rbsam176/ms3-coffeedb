@@ -4,6 +4,10 @@ body {
     font-family: 'Hind Madurai', sans-serif;
 }
 
+select, option, input {
+    text-transform: capitalize;
+}
+
 h2, h3 {
     font-family: 'Lora', serif;
 }

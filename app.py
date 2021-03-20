@@ -18,6 +18,26 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
 
+def dynamicValues(fixed, databaseKey):
+    combinedList = [fixed] + [databaseKey]
+    removeDuplicates = set().union(*combinedList)
+    return removeDuplicates
+
+coffeeBeans = {
+    "roast_types": ["dark", "medium", "light", "unknown"],
+    "origin_types": dynamicValues(["brazil", "england"], mongo.db.beans.distinct('origin')),
+    "brand_names": dynamicValues(["union", "monmouth", "starbucks"], mongo.db.beans.distinct('brand')),
+    "unique_notes": dynamicValues(["caramel", "prune", "cherry"], mongo.db.beans.distinct('notes')),
+    "coffeeImg": "https://images.photowall.com/products/49771/coffee-beans.jpg"
+}
+
+accountPreferences = {
+    "organic_preferred": ["yes", "can't tell the difference", "never think about it"],
+    "site_discovery": ["search engine", "from a friend", "online advertising", "offline advertising"]
+}
+
+print(coffeeBeans["unique_notes"])
+
 
 @app.route("/")
 def index():
@@ -26,17 +46,15 @@ def index():
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
-    beans = mongo.db.beans.find().sort("_id", -1).limit(3)
-    coffeeImg = "https://images.photowall.com/products/49771/coffee-beans.jpg"
-    roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
-    origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
-    uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF UNIQUE NOTES
-    brand_names = mongo.db.beans.distinct('brand') # RETURNS LIST OF UNIQUE BRANDS
+    beans = mongo.db.beans.find().sort("_id", -1).limit(3) # RETURN MOST RECENT 3 ENTRIES
     username = mongo.db.users.find_one(
             {"username": session["user"]})["username"]
-    first_name = mongo.db.users.find_one({"username": session["user"]})["first_name"]
-    last_name = mongo.db.users.find_one({"username": session["user"]})["last_name"]
+    first_name = mongo.db.users.find_one(
+        {"username": session["user"]})["first_name"]
+    last_name = mongo.db.users.find_one(
+        {"username": session["user"]})["last_name"]
     full_name = first_name + " " + last_name
+    
     if request.method == "POST":
         userInput = {
             "brand": request.form["brand"],
@@ -52,15 +70,13 @@ def add():
         }
         mongo.db.beans.insert_one(userInput)
 
-    return render_template("add.html", beans=beans, coffeeImg=coffeeImg, roast_types=roast_types, origin_types=origin_types, uniqueNotes=uniqueNotes, brand_names=brand_names, full_name=full_name)
+    return render_template("add.html", beans=beans, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
 
 @app.route("/browse", methods=["GET"])
 def browse():
     beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS
-    notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES
-    uniqueNotes = mongo.db.beans.distinct('notes') # RETURNS LIST OF ALL UNIQUE NOTES
-    roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
-    origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
+    notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
+    uniqueNotes = coffeeBeans["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
     roastChecked = [] # RETURNS LIST OF ALL ROAST TYPES THAT WERE CHECKED
     originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
     organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
@@ -116,14 +132,11 @@ def browse():
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
 
-    return render_template("browse.html", beans=beans, roast_types=roast_types, origin_types=origin_types, roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, notesChecked=notesChecked)
+    return render_template("browse.html", beans=beans, roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, notesChecked=notesChecked)
 
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    roast_types = mongo.db.beans.distinct('roast') # GETS ALL UNIQUE VALUES WITH KEY OF 'ROAST'
-    brand_names = mongo.db.beans.distinct('brand') # GETS ALL UNIQUE VALUES WITH KEY OF 'BRAND'
-    origin_types = mongo.db.beans.distinct('origin') # GETS ALL UNIQUE VALUES WITH KEY OF 'ORIGIN'
     if request.method == "POST":
         existing_user_email = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
         existing_user_username = mongo.db.users.find_one({"username": request.form.get("inputUsername").lower()})
@@ -136,23 +149,23 @@ def signup():
         newUser = {
             "first_name": request.form.get("inputFirstName").lower(),
             "last_name": request.form.get("inputLastName").lower(),
-            "email": request.form.get("inputEmail"),
-            "username": request.form.get("inputUsername"),
+            "email": request.form.get("inputEmail").lower(),
+            "username": request.form.get("inputUsername").lower(),
             "password": generate_password_hash(request.form.get("inputPassword")),
-            "birthdate": request.form.get("inputBirthdate").lower(),
+            "birthdate": request.form.get("inputBirthdate"),
             "country": request.form.get("inputCountry").lower(),
-            "pref_roast": request.form.get("inputPrefRoast").lower(),
-            "pref_brand": request.form.get("inputPrefBrand").lower(),
-            "pref_organic": request.form.get("inputPrefOrganic").lower(),
-            "pref_origin": request.form.get("inputPrefOrigin").lower(),
-            "discovery": request.form.get("inputDiscovery").lower()
+            "pref_roast": request.form.get("inputPrefRoast"),
+            "pref_brand": request.form.get("inputPrefBrand"),
+            "pref_organic": request.form.get("inputPrefOrganic"),
+            "pref_origin": request.form.get("inputPrefOrigin"),
+            "discovery": request.form.get("inputDiscovery")
         }
         mongo.db.users.insert_one(newUser)
         session["user"] = request.form.get("inputUsername").lower()
         flash(u"Registration Successful!", "success")
         return redirect(url_for("profile", username=session["user"]))
 
-    return render_template("signup.html", roast_types=roast_types, brand_names=brand_names, origin_types=origin_types)
+    return render_template("signup.html", roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], origin_types=coffeeBeans["origin_types"], organic_preferences=accountPreferences["organic_preferred"], site_discovery=accountPreferences["site_discovery"])
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -195,7 +208,30 @@ def profile(username):
 
 @app.route("/profile/update_account")
 def update_account():
-    return render_template("update_account.html")
+    username = mongo.db.users.find_one(
+            {"username": session["user"]})["username"]
+    first_name = mongo.db.users.find_one(
+            {"username": session["user"]})["first_name"]
+    last_name = mongo.db.users.find_one(
+            {"username": session["user"]})["last_name"]
+    email = mongo.db.users.find_one(
+            {"username": session["user"]})["email"]
+    birthdate = mongo.db.users.find_one(
+            {"username": session["user"]})["birthdate"]
+    country = mongo.db.users.find_one(
+            {"username": session["user"]})["country"]
+    pref_roast = mongo.db.users.find_one(
+            {"username": session["user"]})["pref_roast"]
+    pref_organic = mongo.db.users.find_one(
+            {"username": session["user"]})["pref_organic"]
+    pref_origin = mongo.db.users.find_one(
+            {"username": session["user"]})["pref_origin"]
+    pref_brand = mongo.db.users.find_one(
+            {"username": session["user"]})["pref_brand"]
+    discovery = mongo.db.users.find_one(
+            {"username": session["user"]})["discovery"]
+
+    return render_template("update_account.html", username=username, first_name=first_name, last_name=last_name, email=email, birthdate=birthdate, country=country, pref_roast=pref_roast, pref_organic=pref_organic, pref_origin=pref_origin, discovery_options=accountPreferences["site_discovery"], discovery=discovery, roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], pref_brand=pref_brand, organic_preferences=accountPreferences["organic_preferred"], origin_types=coffeeBeans["origin_types"])
 
 @app.route("/profile/delete_account")
 def delete_account():

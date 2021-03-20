@@ -1,5 +1,137 @@
 {% extends "base_profile.html" %}
 
 {% block profile_content %}
-a
+    <div class="row mt-4 justify-content-center">
+        <form id="signup" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputFirstName">First name*</label>
+                    <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" value="{{ first_name }}" disabled required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputLastName">Last name*</label>
+                    <input type="text" class="form-control" name="inputLastName" id="inputLastName" value="{{ last_name }}" disabled required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                <label for="inputEmail">Email*</label>
+                <input type="email" class="form-control" name="inputEmail" id="inputEmail" value="{{ email }}" disabled required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputUsername">Username*</label>
+                    <input type="text" class="form-control" name="inputUsername" id="inputUsername" value="{{ username }}" disabled required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputPassword">Password*</label>
+                    <input type="password" class="form-control mb-3" minlength="8" maxlength="15" name="inputPassword" id="inputPassword" placeholder="Password" disabled required>
+                    <label for="inputConfirmPassword">Confirm Password*</label>
+                    <input type="password" class="form-control" minlength="8" maxlength="15" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" disabled required>
+                </div>
+                <div class="form-group col-md-6 mt-4 bg-light p-2">
+                    <i class="bi bi-check-circle-fill"></i> Between 8 - 15 characters<br>
+                    <i class="bi bi-check-circle"></i> Minimum 1 uppercase character<br>
+                    <i class="bi bi-check-circle"></i> Minimum 1 symbol ~`! @#$%^&*()_-+={[}]|\:;"'<,>.?/<br>
+                    <i class="bi bi-check-circle"></i> Mininum 1 number<br>
+                </div>
+            </div>
+            <p class="lead text-center mt-3">Optional information</p>
+            <p class="text-muted text-center"><a href="#">What do we use this information for?</a></p>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputBirthdate">Date of Birth</label>
+                    <input type="date" class="form-control" name="inputBirthdate" id="inputBirthdate" value="{% if birthdate %}{{ birthdate }}{% endif %}">
+                    <!-- NEED TO CONVERT BIRTHDATE INTO HTML5 INPUT FORMAT -->
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputCountry">Country</label>
+                    <input type="text" class="form-control" name="inputCountry" id="inputCountry" {% if country %}value="{{ country }}"{% else %}placeholder='Country'{% endif %}>
+                </div> 
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputPrefRoast">Preferred roast</label>
+                    <select class="form-control" name="inputPrefRoast" id="inputPrefRoast">
+                        {% if pref_roast is not in roast_types %}
+                            <option selected disabled>Select roast</option>
+                        {% endif %}
+                        {% for roast in roast_types %}
+                            {% if roast == pref_roast %}
+                            <option selected>{{ roast }}</option>
+                            {% else %}
+                            <option>{{ roast }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPrefBrand">Preferred brand</label>
+                    <select class="form-control" name="inputPrefBrand" id="inputPrefBrand">
+                        {% if pref_brand is not in brand_names %}
+                            <option selected disabled>Select brand</option>
+                        {% endif %}
+                        {% for brand in brand_names %}
+                            {% if brand == pref_brand %}
+                            <option selected>{{ brand }}</option>
+                            {% else %}
+                            <option>{{ brand }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div> 
+                <div class="form-group col-md-6">
+                    <label for="inputPrefOrganic">Do you prefer organic coffee?</label>
+                    <select class="form-control" name="inputPrefOrganic" id="inputPrefOrganic">
+                        {% if pref_organic is not in organic_preferences %}
+                            <option selected disabled>Select preference</option>
+                        {% endif %}
+                        {% for preference in organic_preferences %}
+                            {% if preference == pref_organic %}
+                            <option selected>{{ preference }}</option>
+                            {% else %}
+                            <option>{{ preference }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div> 
+                <div class="form-group col-md-6">
+                    <label for="inputPrefOrigin">Preferred coffee origin</label>
+                    <select class="form-control" name="inputPrefOrigin" id="inputPrefOrigin">
+                        {% if pref_origin is not in origin_types %}
+                            <option selected disabled>Select origin</option>
+                        {% endif %}
+                        {% for origin in origin_types %}
+                            {% if origin == pref_origin %}
+                            <option selected>{{ origin }}</option>
+                            {% else %}
+                            <option>{{ origin }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div> 
+                <div class="form-group col-12">
+                    <label for="inputDiscovery">How did you find out about us?</label>
+                    <select class="form-control" name="inputDiscovery" id="inputDiscovery">
+                        {% if discovery is not in discovery_options %}
+                            <option selected disabled>Select option</option>
+                        {% endif %}
+                        {% for option in discovery_options %}
+                            {% if option == discovery %}
+                            <option selected>{{ option }}</option>
+                            {% else %}
+                            <option>{{ option }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div> 
+            </div>
+            <small class="text-muted">This information can be adjusted from your profile later</small><br>
+            <small>Already have an account? <a href="{{ url_for('login') }}">Sign in to your account here.</a></small><br>
+            <button type="submit" class="btn btn-primary mt-3">Sign up</button>
+          </form>
+    </div>
+
+
 {% endblock %}
