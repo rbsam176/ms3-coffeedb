@@ -4,8 +4,9 @@ body {
     font-family: 'Hind Madurai', sans-serif;
 }
 
-select, option, input {
+select, option, input:not([type="email"]):not([type="password"]):not([type="date"]) {
     text-transform: capitalize;
+    /* need to include username */
 }
 
 h2, h3 {

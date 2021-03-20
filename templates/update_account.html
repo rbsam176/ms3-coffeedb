@@ -6,29 +6,29 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputFirstName">First name*</label>
-                    <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" value="{{ first_name }}" disabled required>
+                    <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" value="{{ first_name }}" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputLastName">Last name*</label>
-                    <input type="text" class="form-control" name="inputLastName" id="inputLastName" value="{{ last_name }}" disabled required>
+                    <input type="text" class="form-control" name="inputLastName" id="inputLastName" value="{{ last_name }}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                 <label for="inputEmail">Email*</label>
-                <input type="email" class="form-control" name="inputEmail" id="inputEmail" value="{{ email }}" disabled required>
+                <input type="email" class="form-control" name="inputEmail" id="inputEmail" value="{{ email }}" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="inputUsername">Username*</label>
-                    <input type="text" class="form-control" name="inputUsername" id="inputUsername" value="{{ username }}" disabled required>
+                    <label for="inputUsername">Username (cannot be edited)</label>
+                    <input type="text" class="form-control" name="inputUsername" id="inputUsername" value="{{ username }}" required disabled>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPassword">Password*</label>
-                    <input type="password" class="form-control mb-3" minlength="8" maxlength="15" name="inputPassword" id="inputPassword" placeholder="Password" disabled required>
+                    <input type="password" class="form-control mb-3" minlength="8" maxlength="15" name="inputPassword" id="inputPassword" placeholder="Password" required>
                     <label for="inputConfirmPassword">Confirm Password*</label>
-                    <input type="password" class="form-control" minlength="8" maxlength="15" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" disabled required>
+                    <input type="password" class="form-control" minlength="8" maxlength="15" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" required>
                 </div>
                 <div class="form-group col-md-6 mt-4 bg-light p-2">
                     <i class="bi bi-check-circle-fill"></i> Between 8 - 15 characters<br>
@@ -129,7 +129,7 @@
             </div>
             <small class="text-muted">This information can be adjusted from your profile later</small><br>
             <small>Already have an account? <a href="{{ url_for('login') }}">Sign in to your account here.</a></small><br>
-            <button type="submit" class="btn btn-primary mt-3">Sign up</button>
+            <button type="submit" class="btn btn-primary mt-3">Save changes</button>
           </form>
     </div>
 
