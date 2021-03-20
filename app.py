@@ -203,8 +203,10 @@ def profile(username):
     
     return redirect(url_for("login"))
 
-@app.route("/profile/update_account", methods=["GET", "POST"])
-def update_account():
+@app.route("/profile/<username>/update_account", methods=["GET", "POST"])
+def update_account(username):
+    username = mongo.db.users.find_one(
+            {"username": session["user"]})["username"]
     existingPreferences = {
         "first_name": mongo.db.users.find_one(
             {"username": session["user"]})["first_name"],
@@ -253,9 +255,9 @@ def update_account():
         )
 
         flash(u"Your changes have been saved", "success")
-        return redirect(url_for("update_account"))
-
-    return render_template("update_account.html", username=existingPreferences["username"], first_name=existingPreferences["first_name"], last_name=existingPreferences["last_name"], email=existingPreferences["email"], birthdate=existingPreferences["birthdate"], country=existingPreferences["country"], pref_roast=existingPreferences["pref_roast"], pref_organic=existingPreferences["pref_organic"], pref_origin=existingPreferences["pref_origin"], discovery_options=accountPreferences["site_discovery"], discovery=existingPreferences["discovery"], roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], pref_brand=existingPreferences["pref_brand"], organic_preferences=accountPreferences["organic_preferred"], origin_types=coffeeBeans["origin_types"])
+        return redirect(url_for("update_account", username=session["user"]))
+    if session["user"]:
+        return render_template("update_account.html", username=existingPreferences["username"], first_name=existingPreferences["first_name"], last_name=existingPreferences["last_name"], email=existingPreferences["email"], birthdate=existingPreferences["birthdate"], country=existingPreferences["country"], pref_roast=existingPreferences["pref_roast"], pref_organic=existingPreferences["pref_organic"], pref_origin=existingPreferences["pref_origin"], discovery_options=accountPreferences["site_discovery"], discovery=existingPreferences["discovery"], roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], pref_brand=existingPreferences["pref_brand"], organic_preferences=accountPreferences["organic_preferred"], origin_types=coffeeBeans["origin_types"])
 
 @app.route("/profile/delete_account")
 def delete_account():
