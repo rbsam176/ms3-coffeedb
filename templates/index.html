@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {{ beans }}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="row text-center justify-content-center">
+            <div class="col-10 alert {% if category == 'warning' %}alert-warning{% endif %}{% if category == 'success' %}alert-success{% endif %}" role="alert">
+                <strong>Alert!</strong> {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
 {% endblock %}
