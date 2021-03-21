@@ -188,75 +188,81 @@ def login():
             return redirect(url_for("login"))
     return render_template("login.html")
 
-@app.route("/profile/<username>", methods=["GET", "POST"])
+@app.route("/profile/<username>")
 def profile(username):
-    username = mongo.db.users.find_one(
-            {"username": session["user"]})["username"]
-    first_name = mongo.db.users.find_one(
-        {"username": session["user"]})["first_name"]
-    last_name = mongo.db.users.find_one(
-        {"username": session["user"]})["last_name"]
-    full_name = first_name + " " + last_name
-    user_submissions = mongo.db.beans.find({"username": username})
-    if session["user"]:
-        return render_template("profile.html", username=username, first_name=first_name, user_submissions=user_submissions, full_name=full_name)
-    
-    return redirect(url_for("login"))
+    users = mongo.db.users.distinct('username') # RETURNS LIST OF USERS IN DATABASE
+    if username in users: # IF URL CONTAINS REAL USERNAME
+        user_submissions = mongo.db.beans.find({"username": username}) # GETS THEIR SUBMISSIONS
+        first_name = mongo.db.users.find_one(
+            {"username": username})["first_name"] # GETS THEIR FIRST NAME
+        # RENDERS PROFILE PAGE VISISBLE TO ALL
+        return render_template("profile.html", username=username, first_name=first_name, user_submissions=user_submissions)
+    else:
+        print('username not match')
+        # REDIRECTS TO HOMEPAGE IS URL USERNAME DOESN'T EXIST IN DATABASE
+        return redirect(url_for("index"))
+
 
 @app.route("/profile/<username>/update_account", methods=["GET", "POST"])
 def update_account(username):
-    username = mongo.db.users.find_one(
-            {"username": session["user"]})["username"]
-    existingPreferences = {
-        "first_name": mongo.db.users.find_one(
-            {"username": session["user"]})["first_name"],
-        "last_name": mongo.db.users.find_one(
-            {"username": session["user"]})["last_name"],
-        "email": mongo.db.users.find_one(
-            {"username": session["user"]})["email"],
-        "username": mongo.db.users.find_one(
-            {"username": session["user"]})["username"],
-        "birthdate": mongo.db.users.find_one(
-            {"username": session["user"]})["birthdate"],
-        "country": mongo.db.users.find_one(
-            {"username": session["user"]})["country"],
-        "pref_roast": mongo.db.users.find_one(
-            {"username": session["user"]})["pref_roast"],
-        "pref_brand": mongo.db.users.find_one(
-            {"username": session["user"]})["pref_brand"],
-        "pref_organic": mongo.db.users.find_one(
-            {"username": session["user"]})["pref_organic"],
-        "pref_origin": mongo.db.users.find_one(
-            {"username": session["user"]})["pref_origin"],
-        "discovery": mongo.db.users.find_one(
-            {"username": session["user"]})["discovery"]
-    }
-
-    if request.method == "POST":
-        editedPreferences = {
-            "first_name": request.form.get("inputFirstName").lower(),
-            "last_name": request.form.get("inputLastName").lower(),
-            "email": request.form.get("inputEmail").lower(),
-            "birthdate": request.form.get("inputBirthdate"),
-            "country": request.form.get("inputCountry").lower(),
-            "pref_roast": request.form.get("inputPrefRoast"),
-            "pref_brand": request.form.get("inputPrefBrand"),
-            "pref_organic": request.form.get("inputPrefOrganic"),
-            "pref_origin": request.form.get("inputPrefOrigin"),
-            "discovery": request.form.get("inputDiscovery")
+    # IF USER ISN'T LOGGED IN OR NOT LOGGED IN AS USER OF PROFILE BEING VIEWED
+    if "user" not in session or session["user"] != username:
+        print('no user logged in')
+        # REDIRECTS TO PROFILE PAGE
+        return redirect(url_for("profile", username=username))
+    if session["user"] == username: # IF LOGGED IN AS USER BEING VIEWED
+        # GETS CURRENT PREFERENCES OF USER TO PRE-FILL INPUTS
+        existingPreferences = {
+            "first_name": mongo.db.users.find_one(
+                {"username": session["user"]})["first_name"],
+            "last_name": mongo.db.users.find_one(
+                {"username": session["user"]})["last_name"],
+            "email": mongo.db.users.find_one(
+                {"username": session["user"]})["email"],
+            "username": mongo.db.users.find_one(
+                {"username": session["user"]})["username"],
+            "birthdate": mongo.db.users.find_one(
+                {"username": session["user"]})["birthdate"],
+            "country": mongo.db.users.find_one(
+                {"username": session["user"]})["country"],
+            "pref_roast": mongo.db.users.find_one(
+                {"username": session["user"]})["pref_roast"],
+            "pref_brand": mongo.db.users.find_one(
+                {"username": session["user"]})["pref_brand"],
+            "pref_organic": mongo.db.users.find_one(
+                {"username": session["user"]})["pref_organic"],
+            "pref_origin": mongo.db.users.find_one(
+                {"username": session["user"]})["pref_origin"],
+            "discovery": mongo.db.users.find_one(
+                {"username": session["user"]})["discovery"]
         }
+        # IF UPDATE REQUEST IS SENT
+        if request.method == "POST":
+            # RETRIEVES NEW PREFERENCES
+            editedPreferences = {
+                "first_name": request.form.get("inputFirstName").lower(),
+                "last_name": request.form.get("inputLastName").lower(),
+                "email": request.form.get("inputEmail").lower(),
+                "birthdate": request.form.get("inputBirthdate"),
+                "country": request.form.get("inputCountry").lower(),
+                "pref_roast": request.form.get("inputPrefRoast"),
+                "pref_brand": request.form.get("inputPrefBrand"),
+                "pref_organic": request.form.get("inputPrefOrganic"),
+                "pref_origin": request.form.get("inputPrefOrigin"),
+                "discovery": request.form.get("inputDiscovery")
+            }
+            # FINDS THE USERS UNIQUE ID IDENTIFIER
+            userId = mongo.db.users.find_one(
+            {"username": session["user"]})["_id"]
+            # UPDATES THE DATABASE WITH NEW VALUES
+            mongo.db.users.update_one(
+                {"_id": userId},
+                {"$set": editedPreferences}
+            )
+            # VALIDATES THE UPDATE HAS COMPLETED
+            flash(u"Your changes have been saved", "success")
+            return redirect(url_for("update_account", username=session["user"]))
 
-        userId = mongo.db.users.find_one(
-        {"username": session["user"]})["_id"]
-
-        mongo.db.users.update_one(
-            {"_id": userId},
-            {"$set": editedPreferences}
-        )
-
-        flash(u"Your changes have been saved", "success")
-        return redirect(url_for("update_account", username=session["user"]))
-    if session["user"]:
         return render_template("update_account.html", username=existingPreferences["username"], first_name=existingPreferences["first_name"], last_name=existingPreferences["last_name"], email=existingPreferences["email"], birthdate=existingPreferences["birthdate"], country=existingPreferences["country"], pref_roast=existingPreferences["pref_roast"], pref_organic=existingPreferences["pref_organic"], pref_origin=existingPreferences["pref_origin"], discovery_options=accountPreferences["site_discovery"], discovery=existingPreferences["discovery"], roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], pref_brand=existingPreferences["pref_brand"], organic_preferences=accountPreferences["organic_preferred"], origin_types=coffeeBeans["origin_types"])
 
 @app.route("/profile/delete_account")
