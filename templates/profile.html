@@ -1,31 +1,6 @@
 {% extends "base_profile.html" %}
+{% import 'card.html' as card %}
 
 {% block profile_content %}
-<div class="row gy-4">
-    {% for bean in user_submissions %}
-        <div class="col-12 col-md-6 col-lg-4 p-2">
-            <div class="card">
-                <a href="{{ bean.url }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
-                <div class="card-body">
-                    <h3 class="card-title text-center mb-4">{{ bean.brand }}: {{ bean.name }}</h3>
-                    <ul class="bean-info">
-                        <li>Roast: {{ bean.roast }}</li>
-                        <li>Origin: {{ bean.origin }}</li>
-                        <li>Organic: {{ bean.organic }}</li>
-                        <li><a href="{{ bean.url }}">More Info</a></li>
-                    </ul>
-                    <h5 class="text-center my-3">Notes:</h5>
-                    <div class="notes-container">
-                        {% for note in bean.notes %}
-                            <span class="note-bubble bean-note">{{ note }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="row mt-4 custom-card-footer justify-content-center">
-                        <div class="user-submitted text-muted mt-3">Submitted by <a href="#">{{ full_name }}</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-</div>
+    {{ card.input(user_submissions) }}
 {% endblock %}
