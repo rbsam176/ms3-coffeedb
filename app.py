@@ -292,8 +292,8 @@ def delete_account(username):
                     mongo.db.users.delete_one(loggedInAccount)
                 if deletionType == deletion_types["keep_submissions"]:
                     mongo.db.users.delete_one(loggedInAccount)
-                # LOG OUT, DELETE SESSION COOKIE
                 flash(u"Your account has been permanently deleted", "success")
+                session.pop("user")
                 return redirect(url_for("index"))
             else:
                 # USERNAME IS CORRECT BUT PASSWORD INPUT DID NOT MATCH
