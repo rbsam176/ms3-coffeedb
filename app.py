@@ -265,9 +265,11 @@ def update_account(username):
 
         return render_template("update_account.html", username=existingPreferences["username"], first_name=existingPreferences["first_name"], last_name=existingPreferences["last_name"], email=existingPreferences["email"], birthdate=existingPreferences["birthdate"], country=existingPreferences["country"], pref_roast=existingPreferences["pref_roast"], pref_organic=existingPreferences["pref_organic"], pref_origin=existingPreferences["pref_origin"], discovery_options=accountPreferences["site_discovery"], discovery=existingPreferences["discovery"], roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], pref_brand=existingPreferences["pref_brand"], organic_preferences=accountPreferences["organic_preferred"], origin_types=coffeeBeans["origin_types"])
 
-@app.route("/profile/delete_account")
-def delete_account():
-    return render_template("delete_account.html")
+@app.route("/profile/<username>/delete_account", methods=["GET", "POST"])
+def delete_account(username):
+    first_name = mongo.db.users.find_one(
+            {"username": username})["first_name"] # GETS THEIR FIRST NAME
+    return render_template("delete_account.html", username=username, first_name=first_name)
 
 @app.route("/logout")
 def logout():

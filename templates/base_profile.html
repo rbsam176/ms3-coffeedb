@@ -27,13 +27,12 @@
                                 {% set active_tab = request.path %}
                                 <div class="col-12 col-md-4"><a class="nav-item nav-link {% if active_page == url_for('profile', username=session['user']) %}active{% endif %}" href="{{ url_for('profile', username=session['user']) }}">View your submissions</a></div>
                                 <div class="col-12 col-md-4"><a class="nav-item nav-link {% if active_page == url_for('update_account', username=session['user']) %}active{% endif %}" href="{{ url_for('update_account', username=session['user']) }}">Update account information</a></div>
-                                <div class="col-12 col-md-4"><a class="nav-item nav-link {% if active_page == url_for('delete_account') %}active{% endif %}" href="{{ url_for('delete_account') }}">Delete account</a></div>
+                                <div class="col-12 col-md-4"><a class="nav-item nav-link {% if active_page == url_for('delete_account', username=session['user']) %}active{% endif %}" href="{{ url_for('delete_account', username=session['user']) }}">Delete account</a></div>
                             </nav>
                         </div>
                     </div>
                     <hr>
                     {% endif %}
-                    <h3 class="card-title text-center mb-4">Submissions</h3>
                     <div class="row">
                         <div class="col-12">
                             {% block profile_content %}
