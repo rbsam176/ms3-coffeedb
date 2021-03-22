@@ -137,9 +137,17 @@ def edit(beanId):
     print(beanId)
     matchedBean = mongo.db.beans.find_one(
             {"_id": ObjectId(beanId)})
-    editBean = [matchedBean]
+    submissionImg = matchedBean["img-url"]
+    full_name = matchedBean["full_name"]
+    brand_choice = matchedBean["brand"]
+    coffee_name = matchedBean["name"]
+    roast_choice = matchedBean["roast"]
+    origin_choice = matchedBean["origin"]
+    organic_choice = matchedBean["organic"]
+    url_input = matchedBean["url"]
+    notes_input = matchedBean["notes"]
     if session["user"] == matchedBean["username"]:
-        return render_template("edit.html", editBean=editBean)
+        return render_template("edit.html", notes_input=notes_input, url_input=url_input, organic_choice=organic_choice, origin_choice=origin_choice, roast_choice=roast_choice, coffee_name=coffee_name, brand_choice=brand_choice, submissionImg=submissionImg, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
 
 
 @app.route("/signup", methods=["GET", "POST"])

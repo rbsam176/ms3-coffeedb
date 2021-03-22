@@ -87,6 +87,16 @@ $("form").on('change', 'input:checkbox.note-checkbox', function() {
     }
 })
 
+// CHECKS IF NOTES CHECKBOXES ARE CHECKED ON LOAD AND APPENDS TO LIVE PREVIEW
+$(document).ready(function() {
+    for (x in $(".note-checkbox")) {
+        if ($(".note-checkbox").eq(x).is(':checked')){
+            console.log($(".note-checkbox").eq(x).parent().text())
+            appendToPreview($(".note-checkbox").eq(x).parent().text())
+        }
+    }
+})
+
 // ADDS CUSTOM INPUT NOTE TO INPUT CONTAINER AND LIVE PREVIEW CONTAINER
 $("#addNote").on('click', function(e) {
     e.preventDefault()
