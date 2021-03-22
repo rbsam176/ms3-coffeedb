@@ -104,8 +104,8 @@
                         <div class="form-group row">
                             <label for="organicToggle" class="col-md-12 col-lg-3 col-form-label text-center">Organic</label>
                             <div class="custom-control custom-switch col-md-12 col-lg-8 ml-3 text-center text-lg-left pt-1">
-                                <input id="organicToggle" name="organic" type="checkbox" class="custom-control-input" value="True" {% if organic_choice %}checked{% endif %}>
-                                <label id="organicLabel" class="custom-control-label" for="organicToggle">Off</label>
+                                <input id="organicToggle" name="organic" type="checkbox" class="custom-control-input" value="True" {% if organic_choice == True %}checked{% endif %}>
+                                <label id="organicLabel" class="custom-control-label" for="organicToggle">{% if organic_choice == True %}On{% else %}Off{% endif %}</label>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -150,9 +150,9 @@
                     <div class="card-body">
                         <h3 class="card-title text-center mb-4"><u><span class="px-1" id="brand-preview">{% if brand_choice %}{{ brand_choice }}{% else %}Brand{% endif %}</span></u><span class="px-1" id="name-preview">{% if coffee_name %}{{ coffee_name }}{% else %}Coffee{% endif %}</span></h3>
                         <ul class="bean-info">
-                            <li>Roast: {% if roast_choice %}{{ roast_choice }}{% endif %}<span id="roast-preview"></span></li>
-                            <li>Origin: {% if roast_choice %}{{ origin_choice }}{% endif %}<span id="origin-preview"></span></li>
-                            <li>Organic: {% if organic_choice %}{{ roast_choice }}{% endif %}<span id="organic-preview">False</span></li>
+                            <li>Roast: <span id="roast-preview">{% if roast_choice %}{{ roast_choice }}{% endif %}</span></li>
+                            <li>Origin: <span id="origin-preview">{% if origin_choice %}{{ origin_choice }}{% endif %}</span></li>
+                            <li>Organic: <span id="organic-preview">{% if organic_choice %}{{ organic_choice }}{% else %}False{% endif %}</span></li>
                             <li><a id="website-preview" href="{% if url_input %}{{ url_input }}{% endif %}">More Info</a></li>
                         </ul>
                         <h5 class="text-center my-3">Notes:</h5>
