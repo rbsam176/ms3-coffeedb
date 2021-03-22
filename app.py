@@ -51,23 +51,26 @@ def add():
     last_name = mongo.db.users.find_one(
         {"username": session["user"]})["last_name"]
     full_name = first_name + " " + last_name
+    form_type = "addCoffee"
     
     if request.method == "POST":
-        userInput = {
-            "brand": request.form["brand"],
-            "name": request.form["name"],
-            "roast": request.form["roast"],
-            "origin": request.form["origin"],
-            "notes": request.form.getlist('note'),
-            "organic": bool(request.form.get("organic")),
-            "url": request.form["website"],
-            "img-url": request.form['imgURL'],
-            "username": username,
-            "full_name": full_name
-        }
-        mongo.db.beans.insert_one(userInput)
+        if 'addCoffee' in request.form:
+            print('add submitted')
+            userInput = {
+                "brand": request.form["brand"],
+                "name": request.form["name"],
+                "roast": request.form["roast"],
+                "origin": request.form["origin"],
+                "notes": request.form.getlist('note'),
+                "organic": bool(request.form.get("organic")),
+                "url": request.form["website"],
+                "img-url": request.form['imgURL'],
+                "username": username,
+                "full_name": full_name
+            }
+            mongo.db.beans.insert_one(userInput)
 
-    return render_template("add.html", beans=beans, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
+    return render_template("add.html", form_type=form_type, beans=beans, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
 
 @app.route("/browse", methods=["GET"])
 def browse():
@@ -134,7 +137,6 @@ def browse():
 
 @app.route("/edit/<beanId>", methods=["GET", "POST"])
 def edit(beanId):
-    print(beanId)
     matchedBean = mongo.db.beans.find_one(
             {"_id": ObjectId(beanId)})
     submissionImg = matchedBean["img-url"]
@@ -146,8 +148,16 @@ def edit(beanId):
     organic_choice = matchedBean["organic"]
     url_input = matchedBean["url"]
     notes_input = matchedBean["notes"]
+    form_type = "editCoffee"
+
+    if request.method == "POST":
+        if 'editCoffee' in request.form:
+            print('edit submitted')
+            inputBrand = request.form.get("brand")
+            print(inputBrand)
+
     if session["user"] == matchedBean["username"]:
-        return render_template("edit.html", notes_input=notes_input, url_input=url_input, organic_choice=organic_choice, origin_choice=origin_choice, roast_choice=roast_choice, coffee_name=coffee_name, brand_choice=brand_choice, submissionImg=submissionImg, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
+        return render_template("edit.html", form_type=form_type, notes_input=notes_input, url_input=url_input, organic_choice=organic_choice, origin_choice=origin_choice, roast_choice=roast_choice, coffee_name=coffee_name, brand_choice=brand_choice, submissionImg=submissionImg, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
 
 
 @app.route("/signup", methods=["GET", "POST"])
