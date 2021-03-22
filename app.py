@@ -132,6 +132,15 @@ def browse():
     return render_template("browse.html", beans=beans, roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, notesChecked=notesChecked)
 
 
+@app.route("/edit/<beanId>", methods=["GET", "POST"])
+def edit(beanId):
+    print(beanId)
+    matchedBean = mongo.db.beans.find_one(
+            {"_id": ObjectId(beanId)})
+    editBean = [matchedBean]
+    return render_template("edit.html", editBean=editBean)
+
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -303,7 +312,6 @@ def delete_account(username):
                 flash(u"You did not enter the correct password. Try again.", "warning")
                 return redirect(url_for("delete_account", username=username))
                 
-
     return render_template("delete_account.html", username=username, first_name=first_name, deletion_types=deletion_types)
 
 @app.route("/logout")

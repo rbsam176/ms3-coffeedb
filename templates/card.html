@@ -3,7 +3,7 @@
         {% for bean in data %}
             <div class="col-12 col-md-6 col-lg-4 p-2">
                 <div class="card">
-                    {% if session["user"] == bean.username %}<button class="btn btn-warning edit-btn">EDIT</button>{% endif %}
+                    {% if session["user"] == bean.username %}<a href="{{ url_for('edit', beanId=bean['_id']) }}" class="btn btn-warning edit-btn">EDIT</a>{% endif %}
                     <a href="{{ bean.url }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
                     <div class="card-body">
                         <h3 class="card-title text-center mb-4">{{ bean.brand }}: {{ bean.name }}</h3>
