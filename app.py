@@ -286,7 +286,8 @@ def update_account(username):
                 "pref_brand": request.form.get("inputPrefBrand"),
                 "pref_organic": request.form.get("inputPrefOrganic"),
                 "pref_origin": request.form.get("inputPrefOrigin"),
-                "discovery": request.form.get("inputDiscovery")
+                "discovery": request.form.get("inputDiscovery"),
+                "username": request.form.get("inputUsername")
             }
             # FINDS THE USERS UNIQUE ID IDENTIFIER
             userId = mongo.db.users.find_one(
@@ -296,6 +297,7 @@ def update_account(username):
                 {"_id": userId},
                 {"$set": editedPreferences}
             )
+            session["user"] = editedPreferences["username"]
             # VALIDATES THE UPDATE HAS COMPLETED
             flash(u"Your changes have been saved", "success")
             return redirect(url_for("update_account", username=session["user"]))
