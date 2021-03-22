@@ -138,7 +138,8 @@ def edit(beanId):
     matchedBean = mongo.db.beans.find_one(
             {"_id": ObjectId(beanId)})
     editBean = [matchedBean]
-    return render_template("edit.html", editBean=editBean)
+    if session["user"] == matchedBean["username"]:
+        return render_template("edit.html", editBean=editBean)
 
 
 @app.route("/signup", methods=["GET", "POST"])
