@@ -273,6 +273,10 @@ def update_account(username):
             "discovery": mongo.db.users.find_one(
                 {"username": session["user"]})["discovery"]
         }
+
+        # CREATES FULL NAME FROM EXISTING VALUES
+        existing_full_name = existingPreferences["first_name"] + " " + existingPreferences["last_name"]
+
         # IF UPDATE REQUEST IS SENT
         if request.method == "POST":
             # RETRIEVES NEW PREFERENCES
@@ -289,12 +293,18 @@ def update_account(username):
                 "discovery": request.form.get("inputDiscovery"),
                 "username": request.form.get("inputUsername")
             }
+
+            # CREATES FULL NAME FROM EDITED VALUES
+            edited_full_name = editedPreferences["first_name"] + " " + editedPreferences["last_name"]
+
             # FINDS THE USERS UNIQUE ID IDENTIFIER
             userId = mongo.db.users.find_one(
             {"username": session["user"]})["_id"]
 
             # UPDATE ALL BEANS TO NEW USERNAME
             mongo.db.beans.update_many({"username": session["user"]}, {"$set": {"username": editedPreferences["username"]}})
+            # UPDATE ALL BEANS TO NEW FULL NAME
+            mongo.db.beans.update_many({"full_name": existing_full_name}, {"$set": {"full_name": edited_full_name}})
 
             # UPDATES THE DATABASE WITH NEW VALUES
             mongo.db.users.update_one(
@@ -304,7 +314,7 @@ def update_account(username):
 
             # UPDATE SESSION TOKEN TO NEW USERNAME VALUE
             session["user"] = editedPreferences["username"]
-            
+
             # VALIDATES THE UPDATE HAS COMPLETED
             flash(u"Your changes have been saved", "success")
             return redirect(url_for("update_account", username=session["user"]))
