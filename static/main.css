@@ -4,9 +4,12 @@ body {
     font-family: 'Hind Madurai', sans-serif;
 }
 
-select, option, input:not([type="email"]):not([type="password"]):not([type="date"]) {
+/* select, option, input:not([type="email"]):not([type="password"]):not([type="date"]) {
     text-transform: capitalize;
-    /* need to include username */
+} */
+
+.custom-capitalize {
+    text-transform: capitalize;
 }
 
 h2, h3 {
@@ -82,6 +85,10 @@ h2, h3 {
 
 .card-title, .card-text {
     text-transform: capitalize;
+}
+
+#brand-preview, #name-preview {
+
 }
 
 .card-title{

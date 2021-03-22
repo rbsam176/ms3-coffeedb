@@ -7,11 +7,11 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputFirstName">First name*</label>
-                    <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" value="{{ first_name }}" required>
+                    <input type="text" class="form-control custom-capitalize" name="inputFirstName" id="inputFirstName" value="{{ first_name }}" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputLastName">Last name*</label>
-                    <input type="text" class="form-control" name="inputLastName" id="inputLastName" value="{{ last_name }}" required>
+                    <input type="text" class="form-control custom-capitalize" name="inputLastName" id="inputLastName" value="{{ last_name }}" required>
                 </div>
             </div>
             <div class="form-row">
@@ -54,7 +54,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputPrefRoast">Preferred roast</label>
-                    <select class="form-control" name="inputPrefRoast" id="inputPrefRoast">
+                    <select class="form-control custom-capitalize" name="inputPrefRoast" id="inputPrefRoast">
                         {% if pref_roast is not in roast_types %}
                             <option selected disabled>Select roast</option>
                         {% endif %}
@@ -69,7 +69,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputPrefBrand">Preferred brand</label>
-                    <select class="form-control" name="inputPrefBrand" id="inputPrefBrand">
+                    <select class="form-control custom-capitalize" name="inputPrefBrand" id="inputPrefBrand">
                         {% if pref_brand is not in brand_names %}
                             <option selected disabled>Select brand</option>
                         {% endif %}
@@ -84,7 +84,7 @@
                 </div> 
                 <div class="form-group col-md-6">
                     <label for="inputPrefOrganic">Do you prefer organic coffee?</label>
-                    <select class="form-control" name="inputPrefOrganic" id="inputPrefOrganic">
+                    <select class="form-control custom-capitalize" name="inputPrefOrganic" id="inputPrefOrganic">
                         {% if pref_organic is not in organic_preferences %}
                             <option selected disabled>Select preference</option>
                         {% endif %}
@@ -99,7 +99,7 @@
                 </div> 
                 <div class="form-group col-md-6">
                     <label for="inputPrefOrigin">Preferred coffee origin</label>
-                    <select class="form-control" name="inputPrefOrigin" id="inputPrefOrigin">
+                    <select class="form-control custom-capitalize" name="inputPrefOrigin" id="inputPrefOrigin">
                         {% if pref_origin is not in origin_types %}
                             <option selected disabled>Select origin</option>
                         {% endif %}
@@ -114,7 +114,7 @@
                 </div> 
                 <div class="form-group col-12">
                     <label for="inputDiscovery">How did you find out about us?</label>
-                    <select class="form-control" name="inputDiscovery" id="inputDiscovery">
+                    <select class="form-control custom-capitalize" name="inputDiscovery" id="inputDiscovery">
                         {% if discovery is not in discovery_options %}
                             <option selected disabled>Select option</option>
                         {% endif %}

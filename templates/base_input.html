@@ -37,7 +37,7 @@
                         <div class="form-group row">
                             <label for="brandInput" class="col-md-12 col-lg-3 col-form-label text-center">Brand*</label>
                             <div class="col-md-12 col-lg-9">
-                                <select id="brandInput" name="brand" class="dynamicSelection form-control form-control-lg" required>
+                                <select id="brandInput" name="brand" class="dynamicSelection form-control form-control-lg custom-capitalize" required>
                                     {% if brand_choice is not defined %}
                                         <option selected disabled value="">Select brand</option>
                                     {% endif %}
@@ -59,13 +59,13 @@
                         <div class="form-group row">
                             <label for="nameInput" class="col-md-12 col-lg-3 col-form-label text-center">Name*</label>
                             <div class="col-md-12 col-lg-9">
-                                <input id="nameInput" name="name" type="text" {% if coffee_name %}value="{{ coffee_name }}"{% else %}placeholder="Enter coffee name"{% endif %} class="form-control form-control-lg" required>
+                                <input id="nameInput" name="name" type="text" {% if coffee_name %}value="{{ coffee_name }}"{% else %}placeholder="Enter coffee name"{% endif %} class="form-control form-control-lg custom-capitalize" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="roastInput" class="col-md-12 col-lg-3 col-form-label text-center">Roast*</label>
                             <div class="col-md-12 col-lg-9">
-                                <select id="roastInput" name="roast" class="form-control form-control-lg" required>
+                                <select id="roastInput" name="roast" class="form-control form-control-lg custom-capitalize" required>
                                     {% if roast_choice is not defined %}
                                         <option value="" disabled selected>Select roast</option>
                                     {% endif %}
@@ -82,7 +82,7 @@
                         <div class="form-group row">
                             <label for="originInput" class="col-md-12 col-lg-3 col-form-label text-center">Origin*</label>
                             <div class="col-md-12 col-lg-9">
-                                <select id="originInput" name="origin" class="dynamicSelection form-control form-control-lg" required>
+                                <select id="originInput" name="origin" class="dynamicSelection form-control form-control-lg custom-capitalize" required>
                                     {% if origin_choice is not defined %}
                                         <option selected disabled value="">Select origin</option>
                                     {% endif %}
@@ -148,7 +148,10 @@
                 <div class="card">
                     <a href="#"><img id="imgPreview" src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}" class="card-img-top hover-shadow" alt="..."></a>
                     <div class="card-body">
-                        <h3 class="card-title text-center mb-4"><u><span class="px-1" id="brand-preview">{% if brand_choice %}{{ brand_choice }}{% else %}Brand{% endif %}</span></u><span class="px-1" id="name-preview">{% if coffee_name %}{{ coffee_name }}{% else %}Coffee{% endif %}</span></h3>
+                        <h3 class="text-center mb-4 custom-capitalize">
+                            <u><div class="mb-2" id="brand-preview">{% if brand_choice %}{{ brand_choice }}{% else %}Brand{% endif %}</div></u>
+                            <div id="name-preview">{% if coffee_name %}{{ coffee_name }}{% else %}Coffee{% endif %}</div>
+                        </h3>
                         <ul class="bean-info">
                             <li>Roast: <span id="roast-preview">{% if roast_choice %}{{ roast_choice }}{% endif %}</span></li>
                             <li>Origin: <span id="origin-preview">{% if origin_choice %}{{ origin_choice }}{% endif %}</span></li>
@@ -158,7 +161,7 @@
                         <h5 class="text-center my-3">Notes:</h5>
                         <div class="preview-notes-container"></div>
                         <div class="row mt-4 custom-card-footer justify-content-center">
-                            <div class="user-submitted text-muted mt-3">Submitted by <a href="#">{{ full_name }}</a></div>
+                            <div class="user-submitted text-muted mt-3 custom-capitalize ">Submitted by <a href="#">{{ full_name }}</a></div>
                         </div>
                     </div>
                 </div>
