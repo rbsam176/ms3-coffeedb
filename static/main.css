@@ -42,6 +42,13 @@ h2, h3 {
     height: 100%;
 }
 
+.edit-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
 .featured-box {
     background-color: #F8F8F8;
     border-radius: 10px;

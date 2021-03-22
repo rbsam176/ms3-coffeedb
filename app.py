@@ -286,14 +286,17 @@ def delete_account(username):
         else:
             # USERNAME AND PASSWORD MATCHED
             if check_password_hash(loggedInAccount["password"], request.form.get("confirmPassword")):
+                # DELETE USER AND THEIR SUBMISSIONS
                 if deletionType == deletion_types["delete_everything"]:
                     submissionsQuery = {"username": loggedInAccount["username"]}
                     mongo.db.beans.delete_many(submissionsQuery)
                     mongo.db.users.delete_one(loggedInAccount)
+                # DELETE ONLY USER, KEEP SUBMISSIONS
                 if deletionType == deletion_types["keep_submissions"]:
                     mongo.db.users.delete_one(loggedInAccount)
+                # DELETION VALIDATION
                 flash(u"Your account has been permanently deleted", "success")
-                session.pop("user")
+                session.pop("user") # LOG USER OUT
                 return redirect(url_for("index"))
             else:
                 # USERNAME IS CORRECT BUT PASSWORD INPUT DID NOT MATCH
