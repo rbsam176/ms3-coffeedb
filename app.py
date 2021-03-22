@@ -292,12 +292,19 @@ def update_account(username):
             # FINDS THE USERS UNIQUE ID IDENTIFIER
             userId = mongo.db.users.find_one(
             {"username": session["user"]})["_id"]
+
+            # UPDATE ALL BEANS TO NEW USERNAME
+            mongo.db.beans.update_many({"username": session["user"]}, {"$set": {"username": editedPreferences["username"]}})
+
             # UPDATES THE DATABASE WITH NEW VALUES
             mongo.db.users.update_one(
                 {"_id": userId},
                 {"$set": editedPreferences}
             )
+
+            # UPDATE SESSION TOKEN TO NEW USERNAME VALUE
             session["user"] = editedPreferences["username"]
+            
             # VALIDATES THE UPDATE HAS COMPLETED
             flash(u"Your changes have been saved", "success")
             return redirect(url_for("update_account", username=session["user"]))
