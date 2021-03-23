@@ -105,6 +105,28 @@ def edit(beanId):
         return render_template("edit.html", form_type=form_type, notes_input=notes_input, url_input=url_input, organic_choice=organic_choice, origin_choice=origin_choice, roast_choice=roast_choice, coffee_name=coffee_name, brand_choice=brand_choice, submissionImg=submissionImg, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
 
 
+# CREATES DICTIONARY OF UNIQUE ITEMS AND THEIR OCCURANCE PERCENTAGE
+def wordCloud(list, uniqueList):
+    itemCount = {item:list.count(item) for item in uniqueList} # CONTAINS UNIQUE NOTES WITH ITS COUNT OF OCCURANCE
+
+    itemPercentage = {}
+    for item in itemCount:
+        length = len(uniqueList) # RETURNS NUMBER OF NOTES
+        occurance = itemCount.get(item) # RETURNS HOW MANY TIMES NOTES OCCUR
+        percentage = occurance / length * 100 # DIVIDES TOTAL NUMBER OF NOTES BY OCCURANCE 
+        itemPercentage[item] = percentage # ADDS TO DICTIONARY
+    
+    most_common_item = max(itemPercentage, key=itemPercentage.get) # SOURCE: https://stackoverflow.com/a/14091645
+    most_common_percentage = itemPercentage.get(most_common_item) # HIGHEST PERCENTAGE
+    
+    itemPercentageDict = {}
+    for num in itemPercentage:
+        percentage = itemPercentage.get(num) / most_common_percentage * 100 # DIVIDES PERCENTAGE BY THE HIGHEST PERCENTAGE
+        itemPercentageDict[num] = round(percentage, 1) # ROUNDS IT DOWN
+    
+    return itemPercentageDict
+
+
 
 @app.route("/browse", methods=["GET"])
 def browse():
@@ -115,24 +137,11 @@ def browse():
     originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
     organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
     notesChecked = [] # RETURNS LIST OF ALL NOTES THAT WERE CHECKED
+    
+    # CREATE DICTIONARY FOR WORD CLOUD
     notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
     notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
-    notesCount = {note:notesList.count(note) for note in uniqueNotes} # CONTAINS UNIQUE NOTES WITH ITS COUNT OF OCCURANCE
-
-    notesPercentage = {}
-    for x in notesCount:
-        length = len(uniqueNotes) # RETURNS NUMBER OF NOTES
-        occurance = notesCount.get(x) # RETURNS HOW MANY TIMES NOTES OCCUR
-        percentage = occurance / length * 100 # DIVIDES TOTAL NUMBER OF NOTES BY OCCURANCE 
-        notesPercentage[x] = percentage # ADDS TO DICTIONARY
-
-    highestNoteDict = max(notesPercentage, key=notesPercentage.get) # SOURCE: https://stackoverflow.com/a/14091645
-    highestPercent = notesPercentage.get(highestNoteDict) # HIGHEST PERCENTAGE
-    
-    notesRelativePercentage = {}
-    for x in notesPercentage:
-        relativePercentage = notesPercentage.get(x) / highestPercent * 100 # DIVIDES PERCENTAGE BY THE HIGHEST PERCENTAGE
-        notesRelativePercentage[x] = round(relativePercentage, 1) # ROUNDS IT DOWN
+    notesRelativePercentage = wordCloud(notesList, uniqueNotes)
 
     # DYNAMICALLY CREATES A FIND QUERY
     # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
