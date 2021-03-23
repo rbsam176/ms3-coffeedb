@@ -1,6 +1,8 @@
 {% extends "base_profile.html" %}
 {% import 'card.html' as card %}
 
+{% block title %}CoffeeDB: {{ first_name|title }}'s Profile{% endblock %}
+
 {% block profile_content %}
 <h3 class="card-title text-center mb-4">Submissions</h3>
     {{ card.input(user_submissions) }}
