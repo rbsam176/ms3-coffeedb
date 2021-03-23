@@ -180,6 +180,8 @@ def browse():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    list_of_usernames = mongo.db.users.distinct('username') # RETURNS LIST OF USERS IN DATABASE
+    print(list_of_usernames)
     if request.method == "POST":
         existing_user_email = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
         existing_user_username = mongo.db.users.find_one({"username": request.form.get("inputUsername").lower()})
@@ -208,7 +210,7 @@ def signup():
         flash(u"Registration Successful!", "success")
         return redirect(url_for("profile", username=session["user"]))
 
-    return render_template("signup.html", roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], origin_types=coffeeBeans["origin_types"], organic_preferences=accountPreferences["organic_preferred"], site_discovery=accountPreferences["site_discovery"])
+    return render_template("signup.html", roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], origin_types=coffeeBeans["origin_types"], organic_preferences=accountPreferences["organic_preferred"], site_discovery=accountPreferences["site_discovery"], list_of_username=list_of_usernames)
 
 
 @app.route("/login", methods=["GET", "POST"])
