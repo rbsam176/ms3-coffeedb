@@ -20,7 +20,7 @@
                             {% endfor %}
                         </div>
                         <div class="row mt-4 custom-card-footer justify-content-center">
-                            <div class="user-submitted text-muted mt-3 custom-capitalize">Submitted by <a href="#">{{ bean.full_name }}</a></div>
+                            <div class="user-submitted text-muted mt-3 custom-capitalize">Submitted by <a href="{{ url_for('profile', username=bean.username) }}">{{ bean.full_name }}</a></div>
                         </div>
                     </div>
                 </div>

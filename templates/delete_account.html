@@ -15,14 +15,6 @@
         <div class="row my-4 justify-content-center">
             <form id="deleteAccount" method="POST">
                 <div class="form-group text-center justify-content-center">
-                    <label for="confirmDeletionType">Would you like to keep your submissions on CoffeeDB?</label>
-                    <select class="form-control" name="confirmDeletionType" id="confirmDeletionType" autofocus required>
-                        <option selected disabled value="">Select preference</option>
-                        <option>{{ deletion_types["delete_everything"] }}</option>
-                        <option>{{ deletion_types["keep_submissions"] }}</option>
-                    </select>
-                </div>
-                <div class="form-group text-center justify-content-center">
                     <label for="confirmUsername">Confirm if you wish to delete your account by typing <strong>{{ username }}</strong> below:</label>
                     <input type="text" class="form-control text-center" name="confirmUsername" id="confirmUsername" placeholder="Type username here" required>
                 </div>
