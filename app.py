@@ -69,6 +69,19 @@ def add():
         print('add submitted')
         inputDictionary = gatherInputs()
         inputDictionary["full_name"] = full_name
+        if mongo.db.beans.find_one(
+            {"name": inputDictionary["name"]}):
+            submissionImg = gatherInputs()["img-url"]
+            brand_choice = gatherInputs()["brand"]
+            coffee_name = gatherInputs()["name"]
+            roast_choice = gatherInputs()["roast"]
+            origin_choice = gatherInputs()["origin"]
+            organic_choice = gatherInputs()["organic"]
+            url_input = gatherInputs()["url"]
+            notes_input = gatherInputs()["notes"]
+            flash(u"A coffee with this name already exists.", "warning")
+            return render_template("add.html", notes_input=notes_input, url_input=url_input, organic_choice=organic_choice, origin_choice=origin_choice, roast_choice=roast_choice, coffee_name=coffee_name, brand_choice=brand_choice, submissionImg=submissionImg, form_type=form_type, beans=beans, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"])
+
         mongo.db.beans.insert_one(inputDictionary)
         flash(u"Your submission has been added.", "success")
         return redirect(url_for("add"))
@@ -129,6 +142,7 @@ def wordCloud(list, uniqueList):
 
 
 @app.route("/browse", methods=["GET"])
+@app.route("/browse/", methods=["GET"])
 def browse():
     beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
