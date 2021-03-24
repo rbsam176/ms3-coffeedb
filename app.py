@@ -255,10 +255,12 @@ def profile(username):
     users = mongo.db.users.distinct('username') # RETURNS LIST OF USERS IN DATABASE
     if username in users: # IF URL CONTAINS REAL USERNAME
         user_submissions = mongo.db.beans.find({"username": username}) # GETS THEIR SUBMISSIONS
+        user_submissions = list(user_submissions)
+        submission_count = len(list(user_submissions))
         first_name = mongo.db.users.find_one(
             {"username": username})["first_name"] # GETS THEIR FIRST NAME
         # RENDERS PROFILE PAGE VISISBLE TO ALL
-        return render_template("profile.html", username=username, first_name=first_name, user_submissions=user_submissions)
+        return render_template("profile.html", username=username, first_name=first_name, user_submissions=user_submissions, submission_count=submission_count)
     else:
         print('username not match')
         # REDIRECTS TO HOMEPAGE IS URL USERNAME DOESN'T EXIST IN DATABASE

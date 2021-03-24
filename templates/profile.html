@@ -4,6 +4,12 @@
 {% block title %}CoffeeDB: {{ first_name|title }}'s Profile{% endblock %}
 
 {% block profile_content %}
-<h3 class="card-title text-center mb-4">Submissions</h3>
+    <h3 class="card-title text-center mb-4">Submissions</h3>
     {{ card.input(user_submissions) }}
+    {% if submission_count %}
+        {{ card.input(user_submissions) }}
+    {% else %}
+        <h4 class="text-center">You haven't submitted any coffee beans yet!</h4>
+        <h5 class="text-center"><a href="{{ url_for('add') }}">Click here to add some!</a></h5>
+    {% endif %}
 {% endblock %}
