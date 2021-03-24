@@ -8,8 +8,11 @@
     {{ card.input(user_submissions) }}
     {% if submission_count %}
         {{ card.input(user_submissions) }}
-    {% else %}
+    {% elif session["user"] == username %}
         <h4 class="text-center">You haven't submitted any coffee beans yet!</h4>
         <h5 class="text-center"><a href="{{ url_for('add') }}">Click here to add some!</a></h5>
+    {% else %}
+        <h4 class="text-center">No beans have been added by {{ first_name|title }} yet!</h4>
+        <h5 class="text-center"><a href="{{ url_for('index') }}">Click here to go back to the homepage.</a></h5>
     {% endif %}
 {% endblock %}
