@@ -1,5 +1,5 @@
 // REMOVE MINIMUM CHARACTER COUNT TIP WHEN CRITERIA MET, REINTRODUCE IF NOT MET
-$("#inputUsername").keydown(function() {
+$("#inputUsername").on('input', function() {
     if ($("#inputUsername").val().length > 3){
         $("#usernameTag").html('<i class="bi bi-check-circle-fill"></i>')
     } else if ($("#inputUsername").val().length < 4){
@@ -8,11 +8,12 @@ $("#inputUsername").keydown(function() {
 })
 
 // WHEN FIRST & LAST NAME ENTERED, GENERATE SUGGESTED USERNAME
-$("#inputFirstName, #inputLastName").focusout(function() {
+$("#inputFirstName, #inputLastName").on('focusout', function() {
     if ($("#inputUsername").val().length < 1){
         if ($("#inputFirstName").val().length > 2 && $("#inputLastName").val().length > 2){
             fullname = $("#inputFirstName").val().toLowerCase() + $("#inputLastName").val().toLowerCase()
             $("#inputUsername").val(fullname)
+            $("#usernameTag").html('<i class="bi bi-check-circle-fill"></i>')
         }
     }
 })
