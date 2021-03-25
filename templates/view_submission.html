@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% import 'individual_card.html' as individual_card %}
+
+{% block title %}CoffeeDB: View submission{% endblock %}
+
+{% block content %}
+    {{ individual_card.input(submission_data) }}
+{% endblock %}
