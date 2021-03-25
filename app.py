@@ -88,12 +88,40 @@ def add():
             url_input = gatherInputs()["url"]
             notes_input = gatherInputs()["notes"]
             flash(u"A coffee with this name already exists.", "warning")
-            return render_template("add.html", notes_input=notes_input, url_input=url_input, organic_choice=organic_choice, origin_choice=origin_choice, roast_choice=roast_choice, coffee_name=coffee_name, brand_choice=brand_choice, submissionImg=submissionImg, form_type=form_type, beans=beans, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"])
+            context = {
+                'form_type' : form_type,
+                'notes_input' : notes_input,
+                'url_input' : url_input,
+                'organic_choice' : organic_choice,
+                'origin_choice' : origin_choice,
+                'roast_choice' : roast_choice,
+                'coffee_name' : coffee_name,
+                'brand_choice' : brand_choice,
+                'submissionImg' : submissionImg,
+                'coffeeImg' : coffeeBeans["coffeeImg"],
+                'roast_types' : coffeeBeans["roast_types"],
+                'origin_types' : coffeeBeans["origin_types"],
+                'uniqueNotes' : coffeeBeans["unique_notes"],
+                'brand_names' : coffeeBeans["brand_names"],
+                'beans' : beans
+            }
+            return render_template("add.html", **context)
 
         mongo.db.beans.insert_one(inputDictionary)
         flash(u"Your submission has been added.", "success")
         return redirect(url_for("add"))
-    return render_template("add.html", form_type=form_type, beans=beans, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
+
+    context = {
+            'form_type' : form_type,
+            'beans' : beans,
+            'coffeeImg' : coffeeBeans["coffeeImg"],
+            'roast_types' : coffeeBeans["roast_types"],
+            'origin_types' : coffeeBeans["origin_types"],
+            'uniqueNotes' : coffeeBeans["unique_notes"],
+            'brand_names' : coffeeBeans["brand_names"],
+            'full_name' : full_name
+        }
+    return render_template("add.html", **context)
 
 
 @app.route("/edit/<beanId>", methods=["GET", "POST"])
@@ -123,7 +151,24 @@ def edit(beanId):
         
 
     if session["user"] == matchedBean["username"]:
-        return render_template("edit.html", form_type=form_type, notes_input=notes_input, url_input=url_input, organic_choice=organic_choice, origin_choice=origin_choice, roast_choice=roast_choice, coffee_name=coffee_name, brand_choice=brand_choice, submissionImg=submissionImg, coffeeImg=coffeeBeans["coffeeImg"], roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], uniqueNotes=coffeeBeans["unique_notes"], brand_names=coffeeBeans["brand_names"], full_name=full_name)
+        context = {
+            'form_type' : form_type,
+            'notes_input' : notes_input,
+            'url_input' : url_input,
+            'organic_choice' : organic_choice,
+            'origin_choice' : origin_choice,
+            'roast_choice' : roast_choice,
+            'coffee_name' : coffee_name,
+            'brand_choice' : brand_choice,
+            'submissionImg' : submissionImg,
+            'coffeeImg' : coffeeBeans["coffeeImg"],
+            'roast_types' : coffeeBeans["roast_types"],
+            'origin_types' : coffeeBeans["origin_types"],
+            'uniqueNotes' : coffeeBeans["unique_notes"],
+            'brand_names' : coffeeBeans["brand_names"],
+            'full_name' : full_name
+        }
+        return render_template("edit.html", **context)
 
 
 # CREATES DICTIONARY OF UNIQUE ITEMS AND THEIR OCCURANCE PERCENTAGE
@@ -197,13 +242,22 @@ def browse():
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
 
-    return render_template("browse.html", beans=beans, roast_types=coffeeBeans["roast_types"], origin_types=coffeeBeans["origin_types"], roastChecked=roastChecked, originChecked=originChecked, organicChecked=organicChecked, notesRelativePercentage=notesRelativePercentage, notesChecked=notesChecked)
+    context = {
+        'beans' : beans,
+        'roast_types' : coffeeBeans["roast_types"],
+        'origin_types' : coffeeBeans["origin_types"],
+        'roastChecked' : roastChecked,
+        'originChecked' : originChecked,
+        'organicChecked' : organicChecked,
+        'notesRelativePercentage' : notesRelativePercentage,
+        'notesChecked' : notesChecked
+    }
+
+    return render_template("browse.html", **context)
 
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    list_of_usernames = mongo.db.users.distinct('username') # RETURNS LIST OF USERS IN DATABASE
-    print(list_of_usernames)
     if request.method == "POST":
         existing_user_email = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
         existing_user_username = mongo.db.users.find_one({"username": request.form.get("inputUsername").lower()})
@@ -232,7 +286,15 @@ def signup():
         flash(u"Registration Successful!", "success")
         return redirect(url_for("profile", username=session["user"]))
 
-    return render_template("signup.html", roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], origin_types=coffeeBeans["origin_types"], organic_preferences=accountPreferences["organic_preferred"], site_discovery=accountPreferences["site_discovery"], list_of_username=list_of_usernames)
+    context = {
+        'roast_types' : coffeeBeans["roast_types"],
+        'brand_names' : coffeeBeans["brand_names"],
+        'origin_types' : coffeeBeans["origin_types"],
+        'organic_preferences' : accountPreferences["organic_preferred"],
+        'site_discovery' : accountPreferences["site_discovery"]
+    }
+
+    return render_template("signup.html", **context)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -268,7 +330,13 @@ def profile(username):
         first_name = mongo.db.users.find_one(
             {"username": username})["first_name"] # GETS THEIR FIRST NAME
         # RENDERS PROFILE PAGE VISISBLE TO ALL
-        return render_template("profile.html", username=username, first_name=first_name, user_submissions=user_submissions, submission_count=submission_count)
+        context = {
+            'username' : username,
+            'first_name' : first_name,
+            'user_submissions' : user_submissions,
+            'submission_count' : submission_count
+        }
+        return render_template("profile.html", **context)
     else:
         print('username not match')
         # REDIRECTS TO HOMEPAGE IS URL USERNAME DOESN'T EXIST IN DATABASE
@@ -354,7 +422,26 @@ def update_account(username):
             flash(u"Your changes have been saved", "success")
             return redirect(url_for("update_account", username=session["user"]))
 
-        return render_template("update_account.html", username=existingPreferences["username"], first_name=existingPreferences["first_name"], last_name=existingPreferences["last_name"], email=existingPreferences["email"], birthdate=existingPreferences["birthdate"], country=existingPreferences["country"], pref_roast=existingPreferences["pref_roast"], pref_organic=existingPreferences["pref_organic"], pref_origin=existingPreferences["pref_origin"], discovery_options=accountPreferences["site_discovery"], discovery=existingPreferences["discovery"], roast_types=coffeeBeans["roast_types"], brand_names=coffeeBeans["brand_names"], pref_brand=existingPreferences["pref_brand"], organic_preferences=accountPreferences["organic_preferred"], origin_types=coffeeBeans["origin_types"])
+        context = {
+            'username' : existingPreferences["username"],
+            'first_name' : existingPreferences["first_name"],
+            'last_name' : existingPreferences["last_name"],
+            'email' : existingPreferences["email"],
+            'birthdate' : existingPreferences["birthdate"],
+            'country' : existingPreferences["country"],
+            'pref_roast' : existingPreferences["pref_roast"],
+            'pref_organic' : existingPreferences["pref_organic"],
+            'pref_origin' : existingPreferences["pref_origin"],
+            'discovery_options' : accountPreferences["site_discovery"],
+            'discovery' : existingPreferences["discovery"],
+            'roast_types' : coffeeBeans["roast_types"],
+            'brand_names' : coffeeBeans["brand_names"],
+            'pref_brand' : existingPreferences["pref_brand"],
+            'organic_preferences' : accountPreferences["organic_preferred"],
+            'origin_types' : coffeeBeans["origin_types"]
+        }
+
+        return render_template("update_account.html", **context)
 
 @app.route("/profile/<username>/delete_account", methods=["GET", "POST"])
 def delete_account(username):
