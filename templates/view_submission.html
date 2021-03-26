@@ -4,5 +4,19 @@
 {% block title %}CoffeeDB: View submission{% endblock %}
 
 {% block content %}
-    {{ individual_card.input(submission_data) }}
+    <div class="container">
+        <div class="row justify-content-center">
+            <h2 class="my-4">View submission</h2>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                {{ individual_card.input(submission_data) }}
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    comment and rating
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

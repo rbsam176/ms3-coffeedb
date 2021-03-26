@@ -341,6 +341,7 @@ def profile(username):
             'user_submissions' : user_submissions,
             'submission_count' : submission_count
         }
+        print(user_submissions)
         return render_template("profile.html", **context)
     else:
         print('username not match')

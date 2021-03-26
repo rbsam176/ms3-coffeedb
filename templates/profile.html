@@ -5,7 +5,6 @@
 
 {% block profile_content %}
     <h3 class="card-title text-center mb-4">Submissions</h3>
-    {{ card.input(user_submissions) }}
     {% if submission_count %}
         {{ card.input(user_submissions) }}
     {% elif session["user"] == username %}
