@@ -130,7 +130,9 @@ $("#submitCoffee").on('click', function(){
 
 // LINKS TO FILESTACK IMAGE UPLOAD API
 $("#uploadTrigger").on('click', function(e){
-    const client = filestack.init("AvaoIzsbLTTG0R1N7vg2Uz");
+    // const client = filestack.init("AvaoIzsbLTTG0R1N7vg2Uz"); ORIGINAL
+    const client = filestack.init("AX7dD5B3WTAzYpPXMkcSBz"); // NEW
+
     const options = {
         // WRITES URL TO TEXT INPUT
         // IF ON MOBILE VIEW, HIDE UPLOADER UI AND INSERT RESET UI
