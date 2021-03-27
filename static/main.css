@@ -245,6 +245,14 @@ input[type=checkbox]:checked + label.cloud-note {
     height: 15px;
 }
 
+#searchSubmit {
+    height: 100%;
+}
+
+#searchDropdown {
+    height: 48px;
+}
+
 .user-submitted {
     position: absolute;
     bottom: 10px;
