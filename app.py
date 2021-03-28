@@ -214,20 +214,24 @@ def browse():
     # GETS USER INPUT DATA AND APPENDS IT TO LISTS
     if request.method == "GET":
         print('get')
+
         searchInput = request.args.get("searchCriteria")
-        
         searchType = request.args.get("searchType")
 
-        if searchType == 'Brand':
-            dynamicQuery["$and"].append({ "brand": searchInput.lower() })
-        elif searchType == 'Tasting note':
-            dynamicQuery["$and"].append({ "notes": searchInput.lower() })
-        elif searchType == 'Coffee name':
-            dynamicQuery["$and"].append({ "name": searchInput.lower() })
-        else:
-            dynamicQuery["$and"].append({ "name": searchInput })
-            dynamicQuery["$and"].append({ "notes": searchInput })
-            dynamicQuery["$and"].append({ "brand": searchInput })
+        if searchInput:
+            if searchType == 'Brand':
+                dynamicQuery["$and"].append({ "brand": searchInput.lower() })
+            elif searchType == 'Tasting note':
+                dynamicQuery["$and"].append({ "notes": searchInput.lower() })
+            elif searchType == 'Coffee name':
+                dynamicQuery["$and"].append({ "name": searchInput.lower() })
+            else:
+                if mongo.db.beans.count_documents({ "name": searchInput.lower() }): 
+                    dynamicQuery["$and"].append({ "name": searchInput.lower() })
+                elif mongo.db.beans.count_documents({ "brand": searchInput.lower() }): 
+                    dynamicQuery["$and"].append({ "brand": searchInput.lower() })
+                elif mongo.db.beans.count_documents({ "notes": searchInput.lower() }):
+                    dynamicQuery["$and"].append({ "notes": searchInput.lower() })
 
         for roast in request.args.getlist("roast"):
             roastChecked.append(roast)
@@ -249,12 +253,10 @@ def browse():
             dynamicQuery["$and"].append({ "notes": { "$in": notesChecked }})
         
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
-        print(dynamicQuery)
         if dynamicQuery["$and"]:
             beans = mongo.db.beans.find(dynamicQuery)
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
-
     context = {
         'beans' : beans,
         'roast_types' : coffeeBeans["roast_types"],
