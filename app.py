@@ -192,8 +192,6 @@ def wordCloud(list, uniqueList):
     
     return itemPercentageDict
 
-
-
 @app.route("/browse", methods=["GET"])
 @app.route("/browse/", methods=["GET"])
 def browse():
@@ -214,9 +212,24 @@ def browse():
     # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
     dynamicQuery = {}
     dynamicQuery["$and"]=[]
-
     # GETS USER INPUT DATA AND APPENDS IT TO LISTS
     if request.method == "GET":
+        print('get')
+        searchInput = request.args.get("searchCriteria")
+        
+        searchType = request.args.get("searchType")
+
+        if searchType == 'Brand':
+            dynamicQuery["$and"].append({ "brand": searchInput.lower() })
+        elif searchType == 'Tasting note':
+            dynamicQuery["$and"].append({ "notes": searchInput.lower() })
+        elif searchType == 'Coffee name':
+            dynamicQuery["$and"].append({ "name": searchInput.lower() })
+        else:
+            dynamicQuery["$and"].append({ "name": searchInput })
+            dynamicQuery["$and"].append({ "notes": searchInput })
+            dynamicQuery["$and"].append({ "brand": searchInput })
+
         for roast in request.args.getlist("roast"):
             roastChecked.append(roast)
         for origin in request.args.getlist("origin"):
@@ -237,6 +250,7 @@ def browse():
             dynamicQuery["$and"].append({ "notes": { "$in": notesChecked }})
         
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
+        print(dynamicQuery)
         if dynamicQuery["$and"]:
             beans = mongo.db.beans.find(dynamicQuery)
 

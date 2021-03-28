@@ -12,15 +12,15 @@
         <div class="row justify-content-center">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <button id="searchDropdown" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Any criteria</button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Coffee name</a>
-                    <a class="dropdown-item" href="#">Tasting note</a>
-                    <a class="dropdown-item" href="#">Brand</a>
-                  </div>
+                    <select id="searchDropdown" name="searchType" form="filterCriteria" class="btn btn-outline-secondary">
+                        <option>Any criteria</option>
+                        <option>Coffee name</option>
+                        <option>Tasting note</option>
+                        <option>Brand</option>
+                    </select>
                 </div>
-                <input type="text" class="form-control form-control-lg" aria-label="Text input with dropdown button">
-                <button id="searchSubmit" type="submit" class="btn btn-primary mb-2">Search</button>
+                <input type="text" name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" aria-label="Text input with dropdown button">
+                <button id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2">Search</button>
               </div>
         </div>
         <div class="row justify-content-center">
