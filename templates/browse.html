@@ -6,90 +6,105 @@
 {% block content %}
     
     <div class="container">
-        <div class="row justify-content-center">
-            <h2 class="my-4">Search</h2>
+        <div class="row mt-4 justify-content-center">
+            <button type="button" class="btn btn-outline-secondary btn-lg btn-block" data-toggle="collapse" data-target="#browseCriteria">Open filter controls</button>
         </div>
-        <div class="row justify-content-center">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <select id="searchDropdown" name="searchType" form="filterCriteria" class="btn btn-outline-secondary">
-                        <option>Any criteria</option>
-                        <option>Coffee name</option>
-                        <option>Tasting note</option>
-                        <option>Brand</option>
-                    </select>
+        <hr>
+        <div id="browseCriteria" class="collapse">
+            <div class="row mt-4 justify-content-center">
+                <input type="radio" form="filterCriteria" id="allConditions" value="">
+                <label for="allConditions">Match <strong><u>all</u></strong> of the following conditions</label>
+            </div>
+            <div class="row mt-2 justify-content-center">
+                <input type="radio" form="filterCriteria" id="anyConditions" value="" checked>
+                <label for="anyConditions">Match <strong><u>any</u></strong> of the following conditions</label>
+            </div>
+            <div class="row justify-content-center">
+                <h2 class="my-4">Search</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <select id="searchDropdown" name="searchType" form="filterCriteria" class="btn btn-outline-secondary">
+                            <option>Any criteria</option>
+                            <option>Coffee name</option>
+                            <option>Tasting note</option>
+                            <option>Brand</option>
+                        </select>
+                    </div>
+                    <input type="text" name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" aria-label="Text input with dropdown button">
+                    <button id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2">Search</button>
                 </div>
-                <input type="text" name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" aria-label="Text input with dropdown button">
-                <button id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2">Search</button>
-              </div>
-        </div>
-        <div class="row justify-content-center">
-            <h2 class="my-4">Popular tasting notes</h2>
-        </div>
-        <div class="row justify-content-center">
-            {% for key, value in notesRelativePercentage.items() %}
-                {% if value > 75 %}
-                    <span class="checkbox-container">
-                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                        <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
-                    </span>
-                {% elif value > 50 %}
-                    <span class="checkbox-container">
-                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                        <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
-                    </span>
-                {% elif value > 25 %}
-                    <span class="checkbox-container">
-                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                        <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
-                    </span>
-                {% else %}
-                    <span class="checkbox-container">
-                        <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                        <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
-                    </span>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
+            </div>
+            <div class="row justify-content-center">
+                <h2 class="my-4">Popular tasting notes</h2>
+            </div>
+            <div class="row justify-content-center">
+                {% for key, value in notesRelativePercentage.items() %}
+                    {% if value > 75 %}
+                        <span class="checkbox-container">
+                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                            <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
+                        </span>
+                    {% elif value > 50 %}
+                        <span class="checkbox-container">
+                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                            <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
+                        </span>
+                    {% elif value > 25 %}
+                        <span class="checkbox-container">
+                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                            <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
+                        </span>
+                    {% else %}
+                        <span class="checkbox-container">
+                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                            <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
+                        </span>
+                    {% endif %}
+                {% endfor %}
+            </div>
 
-    <div class="container-fluid">
-        <h2 class="text-center my-4">Filter criteria</h2>
-        <form class="row" method="GET" name="sentCriteria" id="filterCriteria">
-            <div class="col-12 col-lg-4">
-                <h4 class="text-center">Roast</h4>
-                <div class="filter-checks form-group">
-                    {% for roast in roast_types %}
-                        <input type="checkbox" id="{{ roast }}" value="{{ roast }}" name="roast" {% if roastChecked|length != 0 %} {% if roast in roastChecked %} checked  {% endif %} {% endif %}>
-                        <label for="{{ roast }}">{{ roast }}</label><br>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-12 col-lg-4">
-                <h4 class="text-center">Origin</h4>
-                <div class="filter-checks form-group">
-                    {% for origin in origin_types %}
-                        <input type="checkbox" id="{{ origin }}" value="{{ origin }}" name="origin" {% if originChecked|length != 0 %} {% if origin in originChecked %} checked  {% endif %} {% endif %}>
-                        <label for="{{ origin }}">{{ origin }}</label><br>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-12 col-lg-4">
-                <div class="row">
-                    <div class="col-12 col-lg-6 text-center form-group">
-                        <h4>Organic</h4>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" value="True" id="organicRequired" name="organicRequired" {% if organicChecked %} checked {% endif %}>
-                            <label class="custom-control-label organicLabel" id="organicLabel" for="organicRequired">{% if organicChecked %}Is required{% else %}Not required{% endif %}</label>
+
+            <div class="container-fluid">
+                <h2 class="text-center my-4">Filter criteria</h2>
+                <form class="row" method="GET" name="sentCriteria" id="filterCriteria">
+                    <div class="col-12 col-lg-4">
+                        <h4 class="text-center">Roast</h4>
+                        <div class="filter-checks form-group">
+                            {% for roast in roast_types %}
+                                <input type="checkbox" id="{{ roast }}" value="{{ roast }}" name="roast" {% if roastChecked|length != 0 %} {% if roast in roastChecked %} checked  {% endif %} {% endif %}>
+                                <label for="{{ roast }}">{{ roast }}</label><br>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6 text-center form-group">
-                        <a href="{{ url_for('browse') }}" class="btn btn-secondary">Reset</a><br>
-                        <input id="submitCriteria" type="submit" name="submit" value="Search" class="btn btn-primary">
+                    <div class="col-12 col-lg-4">
+                        <h4 class="text-center">Origin</h4>
+                        <div class="filter-checks form-group">
+                            {% for origin in origin_types %}
+                                <input type="checkbox" id="{{ origin }}" value="{{ origin }}" name="origin" {% if originChecked|length != 0 %} {% if origin in originChecked %} checked  {% endif %} {% endif %}>
+                                <label for="{{ origin }}">{{ origin }}</label><br>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 text-center form-group">
+                                <h4>Organic</h4>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" value="True" id="organicRequired" name="organicRequired" {% if organicChecked %} checked {% endif %}>
+                                    <label class="custom-control-label organicLabel" id="organicLabel" for="organicRequired">{% if organicChecked %}Is required{% else %}Not required{% endif %}</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 text-center form-group">
+                                <a href="{{ url_for('browse') }}" class="btn btn-secondary">Reset</a><br>
+                                <input id="submitCriteria" type="submit" name="submit" value="Search" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 
     <div class="container-fluid">
