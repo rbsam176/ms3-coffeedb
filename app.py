@@ -213,25 +213,13 @@ def browse():
     dynamicQuery["$and"]=[]
     # GETS USER INPUT DATA AND APPENDS IT TO LISTS
     if request.method == "GET":
-        print('get')
 
+        # GETS SEARCH TEXT INPUT
         searchInput = request.args.get("searchCriteria")
+        # GETS SEARCH TYPE (BRAND/NAME)
         searchType = request.args.get("searchType")
-
-        if searchInput:
-            if searchType == 'Brand':
-                dynamicQuery["$and"].append({ "brand": searchInput.lower() })
-            elif searchType == 'Tasting note':
-                dynamicQuery["$and"].append({ "notes": searchInput.lower() })
-            elif searchType == 'Coffee name':
-                dynamicQuery["$and"].append({ "name": searchInput.lower() })
-            else:
-                if mongo.db.beans.count_documents({ "name": searchInput.lower() }): 
-                    dynamicQuery["$and"].append({ "name": searchInput.lower() })
-                elif mongo.db.beans.count_documents({ "brand": searchInput.lower() }): 
-                    dynamicQuery["$and"].append({ "brand": searchInput.lower() })
-                elif mongo.db.beans.count_documents({ "notes": searchInput.lower() }):
-                    dynamicQuery["$and"].append({ "notes": searchInput.lower() })
+        # MATCHING ALL OR ANY CONDITIONS
+        conditionType = request.args.get('conditionType')
 
         for roast in request.args.getlist("roast"):
             roastChecked.append(roast)
@@ -250,7 +238,15 @@ def browse():
         if organicChecked:
             dynamicQuery["$and"].append({ "organic": True })
         if notesChecked:
-            dynamicQuery["$and"].append({ "notes": { "$in": notesChecked }})
+            if conditionType == "all":
+                dynamicQuery["$and"].append({ "notes": { "$all": notesChecked }})
+            if conditionType == "any":
+                dynamicQuery["$and"].append({ "notes": { "$in": notesChecked }})
+        if searchInput:
+            if searchType == 'brand':
+                dynamicQuery["$and"].append({ "brand": searchInput.lower() })
+            elif searchType == 'name':
+                dynamicQuery["$and"].append({ "name": searchInput.lower() })
         
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
@@ -265,7 +261,8 @@ def browse():
         'originChecked' : originChecked,
         'organicChecked' : organicChecked,
         'notesRelativePercentage' : notesRelativePercentage,
-        'notesChecked' : notesChecked
+        'notesChecked' : notesChecked,
+        'conditionType' : conditionType
     }
 
     return render_template("browse.html", **context)

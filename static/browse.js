@@ -16,4 +16,14 @@ $( "input[name='tag']" ).on("change", function(){
         // CLICKING ON NOTES TAG WILL SUBMIT FORM
         $( "#submitCriteria" ).click()
     }
-  });
+});
+
+
+// var availableTags = [
+//     "ActionScript",
+//     "Nothing"
+// ]
+
+// $( "#searchCriteria" ).autocomplete({
+//     source: availableTags
+// });

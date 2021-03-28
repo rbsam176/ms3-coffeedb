@@ -11,14 +11,6 @@
         </div>
         <hr>
         <div id="browseCriteria" class="collapse">
-            <div class="row mt-4 justify-content-center">
-                <input type="radio" form="filterCriteria" id="allConditions" value="">
-                <label for="allConditions">Match <strong><u>all</u></strong> of the following conditions</label>
-            </div>
-            <div class="row mt-2 justify-content-center">
-                <input type="radio" form="filterCriteria" id="anyConditions" value="" checked>
-                <label for="anyConditions">Match <strong><u>any</u></strong> of the following conditions</label>
-            </div>
             <div class="row justify-content-center">
                 <h2 class="my-4">Search</h2>
             </div>
@@ -26,18 +18,24 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <select id="searchDropdown" name="searchType" form="filterCriteria" class="btn btn-outline-secondary">
-                            <option>Any criteria</option>
-                            <option>Coffee name</option>
-                            <option>Tasting note</option>
-                            <option>Brand</option>
+                            <option value="brand">Brand</option>
+                            <option value="name">Coffee name</option>
                         </select>
                     </div>
-                    <input type="text" name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" aria-label="Text input with dropdown button">
-                    <button id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2">Search</button>
+                    <input type="text" id="searchCriteria" name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" {% if request.args.get('searchCriteria') %}value="{{ request.args.get('searchCriteria') }}"{% endif %} aria-label="Text input with dropdown button">
+                    <input id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2"></input>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <h2 class="my-4">Popular tasting notes</h2>
+            </div>
+            <div class="row mt-4 justify-content-center">
+                <label for="allConditions">Show submissions containing</label>
+                <select form="filterCriteria" class="mx-2" name="conditionType">
+                    <option value="all" {% if conditionType == "all" %}selected{% endif %}>all</option>
+                    <option value="any" {% if conditionType == "any" %}selected{% endif %}>any</option>
+                </select>
+                <label for="allConditions">of the following notes</label>
             </div>
             <div class="row justify-content-center">
                 {% for key, value in notesRelativePercentage.items() %}
@@ -64,7 +62,6 @@
                     {% endif %}
                 {% endfor %}
             </div>
-
 
             <div class="container-fluid">
                 <h2 class="text-center my-4">Filter criteria</h2>
@@ -106,6 +103,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="container-fluid">
         <h5 class="text-center">{{ beans|length }} 
