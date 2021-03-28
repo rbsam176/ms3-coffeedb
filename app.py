@@ -193,7 +193,6 @@ def wordCloud(list, uniqueList):
     return itemPercentageDict
 
 @app.route("/browse", methods=["GET"])
-@app.route("/browse/", methods=["GET"])
 def browse():
     beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
