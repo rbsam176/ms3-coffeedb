@@ -51,26 +51,23 @@
                     </div>
                     <div class="col-12 col-lg-4">
                         <div class="row">
-                            <div class="col-12 col-lg-6 text-center form-group">
+                            <div class="col-12 text-center form-group">
                                 <h4>Organic</h4>
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" value="True" id="organicRequired" name="organicRequired" {% if organicChecked %} checked {% endif %}>
                                     <label class="custom-control-label organicLabel" id="organicLabel" for="organicRequired">{% if organicChecked %}Is required{% else %}Not required{% endif %}</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6 text-center form-group">
-                                <a href="{{ url_for('browse') }}" class="btn btn-secondary">Reset</a><br>
-                                <input id="submitCriteria" type="submit" name="submit" value="Search" class="btn btn-primary">
-                            </div>
                         </div>
                     </div>
                 </form>
             </div>
+            <hr>
             <!-- NOTES -->
             <div class="row justify-content-center">
-                <h2 class="my-4">Popular tasting notes</h2>
+                <h2 class="mt-4">Popular tasting notes</h2>
             </div>
-            <div class="row mt-4 justify-content-center">
+            <div class="row my-4 justify-content-center">
                 <label for="allConditions">Show submissions containing</label>
                 <select form="filterCriteria" class="mx-2" name="conditionType">
                     <option value="all" {% if conditionType == "all" %}selected{% endif %}>all</option>
@@ -102,6 +99,14 @@
                         </span>
                     {% endif %}
                 {% endfor %}
+            </div>
+            <hr>
+            <!-- SUBMIT/RESET -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 form-group text-center">
+                    <a href="{{ url_for('browse') }}" class="btn btn-secondary btn-lg">Reset</a>
+                    <input id="submitCriteria" form="filterCriteria" type="submit" name="submit" value="Search" class="btn btn-primary btn-lg">
+                </div>
             </div>
         </div>
     </div>
