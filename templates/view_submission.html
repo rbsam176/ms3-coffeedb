@@ -9,14 +9,67 @@
             <h2 class="my-4">View submission</h2>
         </div>
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-lg-6">
                 {{ individual_card.input(submission_data) }}
             </div>
-            <div class="col-6">
-                <div class="card">
-                    comment and rating
-                </div>
+            <div class="col-12 col-lg-6">
+                <form method="POST" class="card container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row justify-content-center">
+                                <h3 class="my-4">Your rating</h3>
+                            </div>
+                            <div class="row justify-content-center">
+                                <button class="star-rating rating-1" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-2" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-3" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-4" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-5" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row justify-content-center">
+                                <h3 class="my-4">Average rating</h3>
+                            </div>
+                            <div class="row justify-content-center">
+                                <button class="star-rating rating-1" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-2" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-3" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-4" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                                <button class="star-rating rating-5" type="submit"><i class="bi bi-star mx-1 h4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row my-3 justify-content-center">
+                        <h3>Latest user reviews</h3>
+                    </div>
+                    <div class="row px-4 justify-content-center">
+                        <blockquote class="blockquote">
+                            <p class="mb-0">I love this coffee, get it all the time! It's very smooth and slightly sweet.</p>
+                            <footer class="blockquote-footer">rbsam <i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i> on <cite>28 March 2021</cite></footer>
+                        </blockquote>
+                    </div>
+                    <hr>
+                    <div class="row px-4 justify-content-center">
+                        <label for="reviewContent"><h3>Your review</h3></label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <textarea class="form-control" id="reviewContent" rows="3" placeholder="Type your review here"></textarea>
+                            <small class="float-right">150 characters left</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input id="submitReview" type="submit" class="btn btn-primary float-right">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/view_submission.js"></script>
 {% endblock %}

@@ -163,6 +163,22 @@ ul.add-notes-container li label {
     display: none;
 }
 
+#reviewContent {
+    width: 100%;
+}
+
+.star-rating {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: orange;
+}
+
+.star-rating:hover {
+    color: orange;
+}
+
 .addBeanInput {
     display: inline;
     white-space: nowrap;
