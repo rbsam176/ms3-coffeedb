@@ -272,7 +272,13 @@ def viewSubmission(submissionId):
     submission_data = mongo.db.beans.find_one(
             {"_id": ObjectId(submissionId)})
     if request.method == "POST":
-        pass
+        rating = data = request.form['rating']
+        currentUserId = mongo.db.users.find_one(
+            {"username": session["user"]})["_id"]
+        mongo.db.beans.update_one(
+                {"_id": ObjectId(submissionId)},
+                { "$push": {"rating": [currentUserId, rating]}}
+            )
     return render_template("view_submission.html", submission_data=submission_data)
 
 @app.route("/signup", methods=["GET", "POST"])

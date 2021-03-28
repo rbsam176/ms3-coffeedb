@@ -175,10 +175,6 @@ ul.add-notes-container li label {
     color: orange;
 }
 
-.star-rating:hover {
-    color: orange;
-}
-
 .addBeanInput {
     display: inline;
     white-space: nowrap;
