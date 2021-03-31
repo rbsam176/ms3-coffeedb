@@ -280,8 +280,6 @@ def viewSubmission(submissionId):
     else:
         ratings.append(0)
 
-
-
     # CALCULATE AVERAGE OF CURRENT SUBMISSIONS RATINGS
     if len(ratings) >= 2:
         averageRating = sum(ratings) / len(ratings)
@@ -334,10 +332,7 @@ def viewSubmission(submissionId):
                 )
                 return redirect(url_for("viewSubmission", submissionId=submissionId))
 
-
-
-
-        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating)
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=len(ratings))
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
