@@ -271,15 +271,73 @@ def browse():
 def viewSubmission(submissionId):
     submission_data = mongo.db.beans.find_one(
             {"_id": ObjectId(submissionId)})
-    if request.method == "POST":
-        rating = data = request.form['rating']
+    
+    # LIST CONTAINING ALL RATING NUMBERS OF DISPLAYED SUBMISSION
+    ratings = []
+    if 'rating' in submission_data:
+        for item in submission_data["rating"]:
+            ratings.append(int(item["score"]))
+    else:
+        ratings.append(0)
+
+
+
+    # CALCULATE AVERAGE OF CURRENT SUBMISSIONS RATINGS
+    if len(ratings) >= 2:
+        averageRating = sum(ratings) / len(ratings)
+    elif len(ratings) == 1:
+        averageRating = ratings[0]
+    else:
+        averageRating = 0
+
+    # ASK USER TO LOGIN TO RATE
+    if 'user' not in session:
+        if request.method == "POST":
+            flash(u"You need to login to rate", "warning")
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating)
+    # USER LOGGED IN
+    elif 'user' in session:
         currentUserId = mongo.db.users.find_one(
             {"username": session["user"]})["_id"]
-        mongo.db.beans.update_one(
-                {"_id": ObjectId(submissionId)},
-                { "$push": {"rating": [currentUserId, rating]}}
-            )
-    return render_template("view_submission.html", submission_data=submission_data)
+        
+        # SET DEFAULT USER RATING
+        existing_user_rating = 0
+
+        # IF SUBMISSION HAS RATINGS
+        if 'rating' in submission_data:
+            for item in submission_data["rating"]:
+                # IF USER HAS MADE A RATING BEFORE
+                if item["user"] == currentUserId:
+                    existing_user_rating = int(item["score"])
+
+        # ON USER RATING SUBMIT
+        if request.method == "POST":
+            # GET USER CLICKED RATING
+            rating = request.form['rating']
+
+            # IF USER HASN'T ALREADY SUBMITTED, PUSH
+            if not existing_user_rating > 0:
+                mongo.db.beans.update_one(
+                        {"_id": ObjectId(submissionId)},
+                        { "$push": {"rating": {"user": currentUserId, "score": int(rating)}}}
+                )
+                return redirect(url_for("viewSubmission", submissionId=submissionId))
+            else:
+                # IF USER HAS ALREADY SUBMITTED, UPDATE
+                mongo.db.beans.update_one(
+                    {"_id" : ObjectId(submissionId), "rating.user" : ObjectId(currentUserId)},
+                    {
+                        "$set" : {
+                            "rating.$.score" : int(rating)
+                        }
+                    }
+                )
+                return redirect(url_for("viewSubmission", submissionId=submissionId))
+
+
+
+
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating)
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
