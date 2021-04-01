@@ -288,6 +288,8 @@ def viewSubmission(submissionId):
     else:
         averageRating = 0
 
+    averageRating = round(averageRating, 2)
+
     # ASK USER TO LOGIN TO RATE
     if 'user' not in session:
         if request.method == "POST":

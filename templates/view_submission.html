@@ -26,13 +26,13 @@
                                 <button class="star-rating star-rating-btn" form="submitReview" value="4" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 4) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
                                 <button class="star-rating star-rating-btn" form="submitReview" value="5" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 5) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
                             </div>
-                            {% if (session["user"]) and not (existing_user_rating) %}
-                                <div class="row justify-content-center">
-                                    <small class="mt-2">Currently not rated</small>
-                                </div>
-                            {% elif (session["user"]) and (existing_user_rating) %}
+                            {% if (session["user"]) and (existing_user_rating) %}
                                 <div class="row justify-content-center">
                                     <small class="mt-2">You rated this {{ existing_user_rating }}/5</small>
+                                </div>
+                            {% else %}
+                                <div class="row justify-content-center">
+                                    <small class="mt-2">Currently not rated</small>
                                 </div>
                             {% endif %}
                             {% with messages = get_flashed_messages(with_categories=true) %}
