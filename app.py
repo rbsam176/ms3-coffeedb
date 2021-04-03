@@ -265,10 +265,15 @@ def browse():
         'conditionType' : conditionType
     }
 
-    return render_template("browse.html", **context)
+    return render_template("browse.html", **context, getAverageRating=getAverageRating)
 
-@app.route("/view/<submissionId>", methods=["GET", "POST"])
-def viewSubmission(submissionId):
+@app.context_processor
+def utility_processor():
+    def format_price(amount, currency=u'€'):
+        return u'{0:.2f}{1}'.format(amount, currency)
+    return dict(format_price=format_price)
+
+def gatherRatings(submissionId):
     submission_data = mongo.db.beans.find_one(
             {"_id": ObjectId(submissionId)})
     
@@ -279,6 +284,11 @@ def viewSubmission(submissionId):
             ratings.append(int(item["score"]))
     else:
         ratings.append(0)
+    
+    return ratings
+
+def getAverageRating(submissionId):
+    ratings = gatherRatings(submissionId)
 
     # CALCULATE AVERAGE OF CURRENT SUBMISSIONS RATINGS
     if len(ratings) >= 2:
@@ -288,7 +298,23 @@ def viewSubmission(submissionId):
     else:
         averageRating = 0
 
-    averageRating = round(averageRating, 2)
+    averageRating = round(averageRating)
+    return averageRating
+
+def getTotalRatings(submissionId):
+    total_ratings = len(gatherRatings(submissionId))
+    return total_ratings
+
+
+@app.route("/view/<submissionId>", methods=["GET", "POST"])
+def viewSubmission(submissionId):
+    submission_data = mongo.db.beans.find_one(
+            {"_id": ObjectId(submissionId)})
+    
+    averageRating = getAverageRating(submissionId)
+    mongo.db.beans.find_one(
+            {"_id": ObjectId(submissionId)})
+
 
     # ASK USER TO LOGIN TO RATE
     if 'user' not in session:
@@ -334,7 +360,7 @@ def viewSubmission(submissionId):
                 )
                 return redirect(url_for("viewSubmission", submissionId=submissionId))
 
-        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=len(ratings))
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId))
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():

@@ -1,9 +1,23 @@
 {% macro input(data) -%}
     <div class="row gy-4">
         {% for bean in data %}
+                {% if bean['rating'] %}
+                    {% set ratingsLength = bean['rating']|list|length %}
+                    {% set totalRatings = [] %}
+                    {% for score in range(ratingsLength) %}
+                        {% set score = bean['rating'][score].score | int %}
+                        {{ totalRatings.append(score) or "" }}
+                    {% endfor %}
+                    {% set averageRating = totalRatings | sum / ratingsLength %}
+                    {% set averageRating = averageRating|round %}
+                   
+                    <!-- NEED TO ADD UP ITEMS IN ARRAY THEN DIVIDE BY RATINGSLENGTH TO GET AVERAGE, THEN REMOVE FROM VIEW_SUBMISSION FUNCTION AS IT WILL BE INSIDE OF CARD MACRO (ADD TO INDIVIDUAL CARD TOO) -->
+                {% endif %}
+           
             <div class="col-12 col-md-6 col-lg-4 p-2">
                 <div class="card">
                     {% if (session["user"] == bean.username) and (bean['_id'] is defined) %}<a href="{{ url_for('edit', beanId=bean['_id']) }}" class="btn btn-warning edit-btn">EDIT</a>{% endif %}
+                    {% if bean['rating'] %}<span class="rating-btn"><i class="bi bi-star-fill pr-1"></i>{{ averageRating }}</span>{% endif %}
                     <a href="{{ bean.url }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
                     <div class="card-body">
                         <h3 class="card-title text-center mb-4"><a href="{{ url_for('viewSubmission', submissionId=bean['_id']) }}">{{ bean.brand }}: {{ bean.name }}</a></h3>

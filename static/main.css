@@ -52,6 +52,19 @@ h2, h3 {
     z-index: 10;
 }
 
+.rating-btn {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: white;
+    border-radius: 5px;
+    padding-left: 5px;
+    width: 50px;
+    height: 25px;
+    z-index: 10;
+    color: orange;
+}
+
 .featured-box {
     background-color: #F8F8F8;
     border-radius: 10px;
@@ -174,6 +187,8 @@ ul.add-notes-container li label {
     margin: 0;
     color: orange;
 }
+
+
 
 .addBeanInput {
     display: inline;
