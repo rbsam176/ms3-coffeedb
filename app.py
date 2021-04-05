@@ -1,6 +1,7 @@
 import os
 import sys
 import random
+import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import (
     Flask, flash, render_template, 
@@ -302,17 +303,19 @@ def getTotalRatings(submissionId):
 @app.route("/view/<submissionId>", methods=["GET", "POST"])
 def viewSubmission(submissionId):
     submission_data = mongo.db.beans.find_one(
-            {"_id": ObjectId(submissionId)})
-    
+            {"_id": ObjectId(submissionId)})    
     averageRating = getAverageRating(submissionId)
-    mongo.db.beans.find_one(
-            {"_id": ObjectId(submissionId)})
+
+    if 'review' in submission_data:
+        existing_reviews = submission_data["review"]
+    else:
+        existing_reviews = None
 
     # ASK USER TO LOGIN IN ORDER TO RATE
     if 'user' not in session:
         if request.method == "POST":
             flash(u"You need to login to rate", "warning")
-        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, total_ratings=getTotalRatings(submissionId))
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, total_ratings=getTotalRatings(submissionId), existing_reviews=existing_reviews)
     
     # IF USER LOGGED IN
     elif 'user' in session:
@@ -358,10 +361,53 @@ def viewSubmission(submissionId):
 
             if "review" in request.form:
                 print('submit review')
+                # GETS USER REVIEW INPUT
                 reviewText = request.form['reviewContent']
+
+                # DEFAULT USER REVIEW SET TO NONE
+                existing_user_review = None
+
+                # IF SUBMISSION HAS REVIEWS
+                if 'review' in submission_data:
+                    for item in submission_data["review"]:
+                        # IF USER HAS MADE A RATING ALREADY
+                        if item["user"] == currentUserId:
+                            # REASSIGN VARIABLE TO CONTAIN REVIEW
+                            existing_user_review = str(item["text"])
+                
+                # IF USER HAS ALREADY REVIEWED
+                if existing_user_review:
+                    print('already reviewed')
+                    # UPDATE EXISTING REVIEW FIELD
+                    mongo.db.beans.update_one(
+                        {"_id" : ObjectId(submissionId), "review.user" : ObjectId(currentUserId)},
+                        {
+                            "$set" : {
+                                "review.$.text" : str(reviewText),
+                                "review.$.reviewTimestamp": datetime.datetime.utcnow()
+                            }
+                        }
+                    )
+                else:
+                    # ADD REVIEW TO MONGODB DOCUMENT
+                    print('never reviewed')
+                    mongo.db.beans.update_one(
+                        {"_id": ObjectId(submissionId)},
+                        { "$push": 
+                            {"review": 
+                                {
+                                    "user": currentUserId,
+                                    "username": session["user"],
+                                    "text": str(reviewText),
+                                    "reviewTimestamp": datetime.datetime.utcnow()
+                                }
+                            }
+                        }
+                    )
+
                 return redirect(url_for("viewSubmission", submissionId=submissionId))
 
-        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId))
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId), existing_reviews=existing_reviews)
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():

@@ -65,30 +65,36 @@
                             </div>
                         </div>
                     </form>
+                    <hr>
+                    <div class="row my-3 justify-content-center">
+                        <h3>Latest user reviews</h3>
+                    </div>
+                    <div class="row px-4">
+                        <blockquote class="blockquote">
+                            {% if existing_reviews %}
+                                {% for review in existing_reviews %}
+                                    <p class="mb-0">{{ review['text'] }}</p>
+                                    <footer class="blockquote-footer">{{ review['username'] }} <i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i> on <cite>{{ review['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite></footer>
+                                {% endfor %}
+                            {% else %}
+                            <p class="mb-0">No reviews yet! Be the first and add yours below.</p>
+                            {% endif %}
+                        </blockquote>
+                    </div>
+                    <hr>
+                    <div class="row px-4 justify-content-center">
+                        <label for="reviewContent"><h3>Your review</h3></label>
+                    </div>
                     <form method="POST" id="submitReview">
-                        <hr>
-                        <div class="row my-3 justify-content-center">
-                            <h3>Latest user reviews</h3>
-                        </div>
-                        <div class="row px-4 justify-content-center">
-                            <blockquote class="blockquote">
-                                <p class="mb-0">I love this coffee, get it all the time! It's very smooth and slightly sweet.</p>
-                                <footer class="blockquote-footer">rbsam <i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i> on <cite>28 March 2021</cite></footer>
-                            </blockquote>
-                        </div>
-                        <hr>
-                        <div class="row px-4 justify-content-center">
-                            <label for="reviewContent"><h3>Your review</h3></label>
-                        </div>
                         <div class="row">
                             <div class="form-group col-12">
-                                <textarea class="form-control" id="reviewContent" name="reviewContent" rows="3" placeholder="Type your review here"></textarea>
+                                <textarea class="form-control" id="reviewContent" name="reviewContent" rows="3" placeholder="Type your review here" {% if not session['user'] %}disabled{% endif %}></textarea>
                                 <small class="float-right">150 characters left</small>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input id="submitReview" form="submitReview" name="review" type="submit" class="btn btn-primary float-right">
+                                <input id="submitReview" form="submitReview" name="review" type="submit" class="btn btn-primary float-right" {% if not session['user'] %}disabled{% endif %}>
                             </div>
                         </div>
                     </form>
