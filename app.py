@@ -265,13 +265,7 @@ def browse():
         'conditionType' : conditionType
     }
 
-    return render_template("browse.html", **context, getAverageRating=getAverageRating)
-
-@app.context_processor
-def utility_processor():
-    def format_price(amount, currency=u'€'):
-        return u'{0:.2f}{1}'.format(amount, currency)
-    return dict(format_price=format_price)
+    return render_template("browse.html", **context)
 
 def gatherRatings(submissionId):
     submission_data = mongo.db.beans.find_one(
@@ -289,7 +283,6 @@ def gatherRatings(submissionId):
 
 def getAverageRating(submissionId):
     ratings = gatherRatings(submissionId)
-
     # CALCULATE AVERAGE OF CURRENT SUBMISSIONS RATINGS
     if len(ratings) >= 2:
         averageRating = sum(ratings) / len(ratings)
@@ -297,9 +290,9 @@ def getAverageRating(submissionId):
         averageRating = ratings[0]
     else:
         averageRating = 0
-
     averageRating = round(averageRating)
     return averageRating
+
 
 def getTotalRatings(submissionId):
     total_ratings = len(gatherRatings(submissionId))
@@ -315,14 +308,15 @@ def viewSubmission(submissionId):
     mongo.db.beans.find_one(
             {"_id": ObjectId(submissionId)})
 
-
-    # ASK USER TO LOGIN TO RATE
+    # ASK USER TO LOGIN IN ORDER TO RATE
     if 'user' not in session:
         if request.method == "POST":
             flash(u"You need to login to rate", "warning")
-        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating)
-    # USER LOGGED IN
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, total_ratings=getTotalRatings(submissionId))
+    
+    # IF USER LOGGED IN
     elif 'user' in session:
+        # GET USERID
         currentUserId = mongo.db.users.find_one(
             {"username": session["user"]})["_id"]
         
@@ -336,28 +330,35 @@ def viewSubmission(submissionId):
                 if item["user"] == currentUserId:
                     existing_user_rating = int(item["score"])
 
-        # ON USER RATING SUBMIT
         if request.method == "POST":
-            # GET USER CLICKED RATING
-            rating = request.form['rating']
+            # IF USER CLICKS ON RATING BUTTON
+            if "rating" in request.form:
 
-            # IF USER HASN'T ALREADY SUBMITTED, PUSH
-            if not existing_user_rating > 0:
-                mongo.db.beans.update_one(
-                        {"_id": ObjectId(submissionId)},
-                        { "$push": {"rating": {"user": currentUserId, "score": int(rating)}}}
-                )
-                return redirect(url_for("viewSubmission", submissionId=submissionId))
-            else:
-                # IF USER HAS ALREADY SUBMITTED, UPDATE
-                mongo.db.beans.update_one(
-                    {"_id" : ObjectId(submissionId), "rating.user" : ObjectId(currentUserId)},
-                    {
-                        "$set" : {
-                            "rating.$.score" : int(rating)
+                # GET USER CLICKED RATING
+                rating = request.form['rating']
+
+                if not existing_user_rating > 0:
+                    # IF USER HASN'T ALREADY SUBMITTED, PUSH
+                    mongo.db.beans.update_one(
+                            {"_id": ObjectId(submissionId)},
+                            { "$push": {"rating": {"user": currentUserId, "score": int(rating)}}}
+                    )
+                    return redirect(url_for("viewSubmission", submissionId=submissionId))
+                else:
+                    # IF USER HAS ALREADY SUBMITTED, UPDATE
+                    mongo.db.beans.update_one(
+                        {"_id" : ObjectId(submissionId), "rating.user" : ObjectId(currentUserId)},
+                        {
+                            "$set" : {
+                                "rating.$.score" : int(rating)
+                            }
                         }
-                    }
-                )
+                    )
+                    return redirect(url_for("viewSubmission", submissionId=submissionId))
+
+            if "review" in request.form:
+                print('submit review')
+                reviewText = request.form['reviewContent']
                 return redirect(url_for("viewSubmission", submissionId=submissionId))
 
         return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId))
