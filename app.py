@@ -453,23 +453,22 @@ def signup():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        existing_user_email = mongo.db.users.find_one(
+        userEmailMatch = mongo.db.users.find_one(
             {"email": request.form.get("loginEmail").lower()})
-        existing_user_username = mongo.db.users.find_one(
-            {"username": request.form.get("loginUsername").lower()})
-        if existing_user_email or existing_user_username:
+        if userEmailMatch:
+            matchedUsername = userEmailMatch["username"]
             # CHECKS IF HASHED PASSWORD MATCHES USER INPUT
-            if check_password_hash(existing_user_username["password"], request.form.get("loginPassword")):
-                session["user"] = request.form.get("loginUsername").lower()
-                flash(u"Welcome {}".format(existing_user_username["first_name"].capitalize()), "success")
+            if check_password_hash(userEmailMatch["password"], request.form.get("loginPassword")):
+                session["user"] = matchedUsername
+                flash(u"Welcome {}".format(userEmailMatch["first_name"].capitalize()), "success")
                 return redirect(url_for("profile", username=session["user"]))
             else:
                 # INVALID PASSWORD MATCH
-                flash(u"Could not find a matching user", "warning")
+                flash(u"Incorrect login details. Please try again.", "warning")
                 return redirect(url_for("login"))
         else:
             # INCORRECT EMAIL
-            flash(u"Could not find a matching user", "warning")
+            flash(u"Incorrect login details. Please try again.", "warning")
             return redirect(url_for("login"))
     return render_template("login.html")
 
