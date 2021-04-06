@@ -32,11 +32,6 @@ coffeeBeans = {
     "coffeeImg": "https://images.photowall.com/products/49771/coffee-beans.jpg"
 }
 
-accountPreferences = {
-    "organic_preferred": ["yes", "can't tell the difference", "never think about it"],
-    "site_discovery": ["search engine", "from a friend", "online advertising", "offline advertising"]
-}
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -425,29 +420,14 @@ def signup():
             "last_name": request.form.get("inputLastName").lower(),
             "email": request.form.get("inputEmail").lower(),
             "username": request.form.get("inputUsername").lower(),
-            "password": generate_password_hash(request.form.get("inputPassword")),
-            "birthdate": request.form.get("inputBirthdate"),
-            "country": request.form.get("inputCountry").lower(),
-            "pref_roast": request.form.get("inputPrefRoast"),
-            "pref_brand": request.form.get("inputPrefBrand"),
-            "pref_organic": request.form.get("inputPrefOrganic"),
-            "pref_origin": request.form.get("inputPrefOrigin"),
-            "discovery": request.form.get("inputDiscovery")
+            "password": generate_password_hash(request.form.get("inputPassword"))
         }
         mongo.db.users.insert_one(newUser)
         session["user"] = request.form.get("inputUsername").lower()
         flash(u"Registration Successful!", "success")
         return redirect(url_for("profile", username=session["user"]))
 
-    context = {
-        'roast_types' : coffeeBeans["roast_types"],
-        'brand_names' : coffeeBeans["brand_names"],
-        'origin_types' : coffeeBeans["origin_types"],
-        'organic_preferences' : accountPreferences["organic_preferred"],
-        'site_discovery' : accountPreferences["site_discovery"]
-    }
-
-    return render_template("signup.html", **context)
+    return render_template("signup.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -513,21 +493,7 @@ def update_account(username):
             "email": mongo.db.users.find_one(
                 {"username": session["user"]})["email"],
             "username": mongo.db.users.find_one(
-                {"username": session["user"]})["username"],
-            "birthdate": mongo.db.users.find_one(
-                {"username": session["user"]})["birthdate"],
-            "country": mongo.db.users.find_one(
-                {"username": session["user"]})["country"],
-            "pref_roast": mongo.db.users.find_one(
-                {"username": session["user"]})["pref_roast"],
-            "pref_brand": mongo.db.users.find_one(
-                {"username": session["user"]})["pref_brand"],
-            "pref_organic": mongo.db.users.find_one(
-                {"username": session["user"]})["pref_organic"],
-            "pref_origin": mongo.db.users.find_one(
-                {"username": session["user"]})["pref_origin"],
-            "discovery": mongo.db.users.find_one(
-                {"username": session["user"]})["discovery"]
+                {"username": session["user"]})["username"]
         }
 
         # CREATES FULL NAME FROM EXISTING VALUES
@@ -540,13 +506,6 @@ def update_account(username):
                 "first_name": request.form.get("inputFirstName").lower(),
                 "last_name": request.form.get("inputLastName").lower(),
                 "email": request.form.get("inputEmail").lower(),
-                "birthdate": request.form.get("inputBirthdate"),
-                "country": request.form.get("inputCountry").lower(),
-                "pref_roast": request.form.get("inputPrefRoast"),
-                "pref_brand": request.form.get("inputPrefBrand"),
-                "pref_organic": request.form.get("inputPrefOrganic"),
-                "pref_origin": request.form.get("inputPrefOrigin"),
-                "discovery": request.form.get("inputDiscovery"),
                 "username": request.form.get("inputUsername")
             }
 
@@ -599,19 +558,7 @@ def update_account(username):
             'username' : existingPreferences["username"],
             'first_name' : existingPreferences["first_name"],
             'last_name' : existingPreferences["last_name"],
-            'email' : existingPreferences["email"],
-            'birthdate' : existingPreferences["birthdate"],
-            'country' : existingPreferences["country"],
-            'pref_roast' : existingPreferences["pref_roast"],
-            'pref_organic' : existingPreferences["pref_organic"],
-            'pref_origin' : existingPreferences["pref_origin"],
-            'discovery_options' : accountPreferences["site_discovery"],
-            'discovery' : existingPreferences["discovery"],
-            'roast_types' : coffeeBeans["roast_types"],
-            'brand_names' : coffeeBeans["brand_names"],
-            'pref_brand' : existingPreferences["pref_brand"],
-            'organic_preferences' : accountPreferences["organic_preferred"],
-            'origin_types' : coffeeBeans["origin_types"]
+            'email' : existingPreferences["email"]
         }
 
         return render_template("update_account.html", **context)
