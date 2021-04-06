@@ -562,7 +562,27 @@ def update_account(username):
             # UPDATE ALL BEANS TO NEW FULL NAME
             mongo.db.beans.update_many({"full_name": existing_full_name}, {"$set": {"full_name": edited_full_name}})
 
-            # UPDATES THE DATABASE WITH NEW VALUES
+            # UPDATE ALL RATINGS TO NEW USERNAME
+            mongo.db.beans.update_many(
+                {"rating.username" : session["user"]},
+                {
+                    "$set" : {
+                        "rating.$.username" : editedPreferences["username"]
+                    }
+                }
+            )
+
+            # UPDATE ALL REVIEWS TO NEW USERNAME
+            mongo.db.beans.update_many(
+                {"review.username" : session["user"]},
+                {
+                    "$set" : {
+                        "review.$.username" : editedPreferences["username"]
+                    }
+                }
+            )
+
+            # UPDATES THE USERS COLLECTION WITH NEW VALUES
             mongo.db.users.update_one(
                 {"_id": userId},
                 {"$set": editedPreferences}
