@@ -344,7 +344,7 @@ def viewSubmission(submissionId):
                     # IF USER HASN'T ALREADY SUBMITTED, PUSH
                     mongo.db.beans.update_one(
                             {"_id": ObjectId(submissionId)},
-                            { "$push": {"rating": {"user": currentUserId, "score": int(rating)}}}
+                            { "$push": {"rating": {"user": currentUserId, "score": int(rating), "username": session["user"]}}}
                     )
                     return redirect(url_for("viewSubmission", submissionId=submissionId))
                 else:

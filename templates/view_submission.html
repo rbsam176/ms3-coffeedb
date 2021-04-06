@@ -74,7 +74,17 @@
                             {% if existing_reviews %}
                                 {% for review in existing_reviews %}
                                     <p class="mb-0">{{ review['text'] }}</p>
-                                    <footer class="blockquote-footer">{{ review['username'] }} <i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i><i class="bi bi-star-fill mx-1"></i> on <cite>{{ review['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite></footer>
+                                    <footer class="blockquote-footer">
+                                        <a href="{{ url_for('profile', username=review['username']) }}">{{ review['username'] }}</a> 
+                                        {% for item in submission_data['rating'] %}
+                                            {% if item.username == review['username'] %}
+                                                {% for score in range(item.score) %}
+                                                    <i class="bi bi-star-fill star-rating"></i>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        on <cite>{{ review['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite>
+                                    </footer>
                                 {% endfor %}
                             {% else %}
                             <p class="mb-0">No reviews yet! Be the first and add yours below.</p>
