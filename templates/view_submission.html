@@ -70,9 +70,9 @@
                         <h3>Latest user reviews</h3>
                     </div>
                     <div class="row px-4">
-                        <blockquote class="blockquote">
-                            {% if existing_reviews %}
-                                {% for review in existing_reviews %}
+                        {% if existing_reviews %}
+                            {% for review in existing_reviews %}
+                                <blockquote class="blockquote mb-4">
                                     <p class="mb-0">{{ review['text'] }}</p>
                                     <footer class="blockquote-footer">
                                         <a href="{{ url_for('profile', username=review['username']) }}">{{ review['username'] }}</a> 
@@ -85,11 +85,11 @@
                                         {% endfor %}
                                         on <cite>{{ review['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite>
                                     </footer>
-                                {% endfor %}
-                            {% else %}
-                            <p class="mb-0">No reviews yet! Be the first and add yours below.</p>
-                            {% endif %}
-                        </blockquote>
+                                </blockquote>
+                            {% endfor %}
+                        {% else %}
+                        <p class="mb-0">No reviews yet! Be the first and add yours below.</p>
+                        {% endif %}
                     </div>
                     <hr>
                     <div class="row px-4 justify-content-center">
@@ -99,7 +99,7 @@
                         <div class="row">
                             <div class="form-group col-12">
                                 <textarea class="form-control" id="reviewContent" name="reviewContent" rows="3" placeholder="Type your review here" {% if not session['user'] %}disabled{% endif %}></textarea>
-                                <small class="float-right">150 characters left</small>
+                                <small class="float-right"><span id="characterCounter">150</span> characters left</small>
                             </div>
                         </div>
                         <div class="row">

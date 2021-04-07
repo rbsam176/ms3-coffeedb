@@ -7,6 +7,13 @@ $("button.star-rating-btn").children('i').each(function(index) {
     }
 })
 
+$("#reviewContent").keyup(function() {
+    var counter = parseInt($("#characterCounter").text())
+    var currentCount = $("#reviewContent").val().length
+    console.log(currentCount)
+    $("#characterCounter").text(counter - currentCount)
+})
+
 $( document ).ready(function() {
     // GETS INDEX VALUE OF FIRST UNFILLED STAR
     var firstEmptyStar = indexFill.length
@@ -28,3 +35,4 @@ $( document ).ready(function() {
         }
     })
 })
+
