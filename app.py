@@ -190,18 +190,24 @@ def wordCloud(list, uniqueList):
 
 @app.route("/browse", methods=["GET"])
 def browse():
-    beans = mongo.db.beans.find() # DEFAULT VIEW SHOWS ALL RESULTS
+    page = 1
+    offset = 0
+    perPage = 6
+    beans = mongo.db.beans.find().sort("_id", -1).skip(offset).limit(perPage)
+    beansCount = beans.count()
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
     uniqueNotes = coffeeBeans["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
     roastChecked = [] # RETURNS LIST OF ALL ROAST TYPES THAT WERE CHECKED
     originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
     organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
     notesChecked = [] # RETURNS LIST OF ALL NOTES THAT WERE CHECKED
+
     
     # CREATE DICTIONARY FOR WORD CLOUD
     notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
     notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
     notesRelativePercentage = wordCloud(notesList, uniqueNotes)
+
 
     # DYNAMICALLY CREATES A FIND QUERY
     # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
@@ -209,6 +215,7 @@ def browse():
     dynamicQuery["$and"]=[]
     # GETS USER INPUT DATA AND APPENDS IT TO LISTS
     if request.method == "GET":
+        
 
         # GETS SEARCH TEXT INPUT
         searchInput = request.args.get("searchCriteria")
@@ -216,6 +223,7 @@ def browse():
         searchType = request.args.get("searchType")
         # MATCHING ALL OR ANY CONDITIONS
         conditionType = request.args.get('conditionType')
+
 
         for roast in request.args.getlist("roast"):
             roastChecked.append(roast)
@@ -246,7 +254,18 @@ def browse():
         
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
-            beans = mongo.db.beans.find(dynamicQuery)
+            beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
+            beansCount = beans.count()
+
+
+        if 'page' in request.args:
+            print(request.referrer)
+            page = int(request.args.get("page"))
+            multiply = page - 1
+            offset = multiply * perPage
+            beans = beans.sort("_id", -1).skip(offset).limit(perPage)
+
+
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
     context = {
@@ -261,7 +280,7 @@ def browse():
         'conditionType' : conditionType
     }
 
-    return render_template("browse.html", **context)
+    return render_template("browse.html", **context, page_variable=page, beansCount=beansCount)
 
 def gatherRatings(submissionId):
     submission_data = mongo.db.beans.find_one(

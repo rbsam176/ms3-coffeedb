@@ -114,11 +114,19 @@
         </div>
     </div>
 
-    <div class="row justify-content-center">
-        <h2 class="mb-4">Results</h2>
-    </div>
+    <form class="row justify-content-center" method="GET" name="pagination">
+        <div class="col-2 text-center">
+            <button type="submit" name="page" value="{{ page_variable - 1}}"><i class="h2 bi bi-arrow-left-short"></i></button>
+        </div>
+        <div class="col-8 text-center">
+            <h2 class="mb-4">Results</h2>
+        </div>
+        <div class="col-2 text-center">
+            <button type="submit" name="page" value="{{ page_variable + 1}}"><i class="h2 bi bi-arrow-right-short"></i></button>
+        </div>
+    </form>
     <div class="container-fluid">
-        <h5 class="text-center">{{ beans|length }} 
+        <h5 class="text-center">{{ beans|length }} out of {{ beansCount }} / page: {{ request.args.get('page') }} / 
             {% if beans|length == 1 %}
                 product
             {% else %}
