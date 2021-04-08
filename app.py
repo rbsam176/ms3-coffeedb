@@ -151,8 +151,8 @@ def edit(beanId):
                 {"_id": ObjectId(beanId)},
                 {"$set": gatherInputs()}
             )
-            flash(u"Your submission has been edited.", "success")
-            return redirect(url_for("edit", beanId=beanId))
+            flash(u"Your submission has been edited.", "added")
+            return redirect(url_for("viewSubmission", submissionId=beanId))
         
         if "deleteCoffee" in request.form:
             mongo.db.beans.delete_one(
