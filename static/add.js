@@ -115,12 +115,11 @@ $("#addNote").on('click', function(e) {
 // SOURCE https://stackoverflow.com/a/13388240
 $("#imgURL").focusout(function(){
     console.log('hi')
-    if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test($("#imgURL").val())){
-        $("#imgPreview").attr('src', $("#imgURL").val())
-    }
+    // if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test($("#imgURL").val())){
+    //     $("#imgPreview").attr('src', $("#imgURL").val())
+    // }
+    $("#imgPreview").attr('src', $("#imgURL").val())
 })
-
-console.log('op')
 
 // TOGGLES DISABLED STATE FOR 'ADD' NOTE BUTTON DEPENDING ON INPUT EXISTENCE
 $("#customNoteInput").on('input', function() {

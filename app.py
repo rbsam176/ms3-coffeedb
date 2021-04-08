@@ -33,6 +33,9 @@ coffeeBeans = {
     "coffeeImg": "https://images.photowall.com/products/49771/coffee-beans.jpg"
 }
 
+print(coffeeBeans["origin_types"])
+print(mongo.db.beans.distinct('origin'))
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
