@@ -138,13 +138,22 @@ def edit(beanId):
 
 
     if request.method == "POST":
-        print('edit submitted')
-        mongo.db.beans.update_one(
-            {"_id": ObjectId(beanId)},
-            {"$set": gatherInputs()}
-        )
-        flash(u"Your submission has been edited.", "success")
-        return redirect(url_for("edit", beanId=beanId))
+        if "editCoffee" in request.form:
+            print('edit submitted')
+            mongo.db.beans.update_one(
+                {"_id": ObjectId(beanId)},
+                {"$set": gatherInputs()}
+            )
+            flash(u"Your submission has been edited.", "success")
+            return redirect(url_for("edit", beanId=beanId))
+        
+        if "deleteCoffee" in request.form:
+            print('delete')
+            mongo.db.beans.delete_one(
+                {"_id": ObjectId(beanId)}
+            )
+            flash(u"Your submission has been deleted.", "success")
+            return redirect(url_for("profile", username=session["user"]))
         
 
     if session["user"] == matchedBean["username"]:

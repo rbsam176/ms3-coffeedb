@@ -67,6 +67,10 @@ h2, h3 {
     color: orange;
 }
 
+#confirmDelete, #confirmMessage {
+    display: none;
+}
+
 .featured-box {
     background-color: #F8F8F8;
     border-radius: 10px;
