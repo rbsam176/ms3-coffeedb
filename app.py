@@ -22,7 +22,6 @@ mongo = PyMongo(app)
 
 def dynamicValues(fixed, databaseKey):
     combinedList = [fixed] + [databaseKey]
-    print(combinedList)
     removeDuplicates = set().union(*combinedList)
     return removeDuplicates
 
@@ -51,12 +50,19 @@ def index():
 
 
 def gatherInputs():
+    # HOLDS LIST OF NOTES FROM DATABASE
+    captureNotes = []
+    # GRABS NOTES INPUT AND TRANSFORMS TO LOWERCASE
+    for note in request.form.getlist('note'):
+        # APPENDS TO NOTES LIST
+        captureNotes.append(note.lower())
+    # CAPTURES USER INPUT DATA
     userInput = {
-        "brand": request.form["brand"],
-        "name": request.form["name"],
+        "brand": request.form["brand"].lower(),
+        "name": request.form["name"].lower(),
         "roast": request.form["roast"],
-        "origin": request.form["origin"],
-        "notes": request.form.getlist('note'),
+        "origin": request.form["origin"].lower(),
+        "notes": captureNotes,
         "organic": bool(request.form.get("organic")),
         "url": request.form["website"],
         "img-url": request.form['imgURL'],
@@ -74,7 +80,6 @@ def add():
         {"username": session["user"]})["first_name"] + " " + mongo.db.users.find_one(
         {"username": session["user"]})["last_name"]
     if request.method == "POST":
-        print('add submitted')
         inputDictionary = gatherInputs()
         inputDictionary["full_name"] = full_name
         if mongo.db.beans.find_one(
@@ -142,7 +147,6 @@ def edit(beanId):
 
     if request.method == "POST":
         if "editCoffee" in request.form:
-            print('edit submitted')
             mongo.db.beans.update_one(
                 {"_id": ObjectId(beanId)},
                 {"$set": gatherInputs()}
@@ -151,7 +155,6 @@ def edit(beanId):
             return redirect(url_for("edit", beanId=beanId))
         
         if "deleteCoffee" in request.form:
-            print('delete')
             mongo.db.beans.delete_one(
                 {"_id": ObjectId(beanId)}
             )
@@ -235,6 +238,7 @@ def browse():
 
         # GETS SEARCH TEXT INPUT
         searchInput = request.args.get("searchCriteria")
+        print(searchInput)
         # GETS SEARCH TYPE (BRAND/NAME)
         searchType = request.args.get("searchType")
         # MATCHING ALL OR ANY CONDITIONS
@@ -265,9 +269,14 @@ def browse():
         if searchInput:
             if searchType == 'brand':
                 dynamicQuery["$and"].append({ "brand": searchInput.lower() })
+                print(dynamicQuery)
+                for doc in mongo.db.beans.find({"brand":searchInput.lower()}):
+                    print(doc)
             elif searchType == 'name':
                 dynamicQuery["$and"].append({ "name": searchInput.lower() })
         
+
+
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
@@ -393,7 +402,6 @@ def viewSubmission(submissionId):
                     return redirect(url_for("viewSubmission", submissionId=submissionId))
 
             if "review" in request.form:
-                print('submit review')
                 # GETS USER REVIEW INPUT
                 reviewText = request.form['reviewContent']
 
@@ -410,7 +418,6 @@ def viewSubmission(submissionId):
                 
                 # IF USER HAS ALREADY REVIEWED
                 if existing_user_review:
-                    print('already reviewed')
                     # UPDATE EXISTING REVIEW FIELD
                     mongo.db.beans.update_one(
                         {"_id" : ObjectId(submissionId), "review.user" : ObjectId(currentUserId)},
@@ -423,7 +430,6 @@ def viewSubmission(submissionId):
                     )
                 else:
                     # ADD REVIEW TO MONGODB DOCUMENT
-                    print('never reviewed')
                     mongo.db.beans.update_one(
                         {"_id": ObjectId(submissionId)},
                         { "$push": 
@@ -506,10 +512,8 @@ def profile(username):
             'user_submissions' : user_submissions,
             'submission_count' : submission_count
         }
-        print(user_submissions)
         return render_template("profile.html", **context)
     else:
-        print('username not match')
         # REDIRECTS TO HOMEPAGE IS URL USERNAME DOESN'T EXIST IN DATABASE
         return redirect(url_for("index"))
 
@@ -518,7 +522,6 @@ def profile(username):
 def update_account(username):
     # IF USER ISN'T LOGGED IN OR NOT LOGGED IN AS USER OF PROFILE BEING VIEWED
     if "user" not in session or session["user"] != username:
-        print('no user logged in')
         # REDIRECTS TO PROFILE PAGE
         return redirect(url_for("profile", username=username))
     if session["user"] == username: # IF LOGGED IN AS USER BEING VIEWED

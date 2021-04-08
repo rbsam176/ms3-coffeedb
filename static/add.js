@@ -118,7 +118,10 @@ $("#imgURL").focusout(function(){
     // if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/.test($("#imgURL").val())){
     //     $("#imgPreview").attr('src', $("#imgURL").val())
     // }
-    $("#imgPreview").attr('src', $("#imgURL").val())
+    if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/ in $("#imgURL").val())){
+        $("#imgPreview").attr('src', $("#imgURL").val())
+    }
+    // $("#imgPreview").attr('src', $("#imgURL").val())
 })
 
 // TOGGLES DISABLED STATE FOR 'ADD' NOTE BUTTON DEPENDING ON INPUT EXISTENCE
