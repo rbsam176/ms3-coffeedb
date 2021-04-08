@@ -22,19 +22,19 @@ mongo = PyMongo(app)
 
 def dynamicValues(fixed, databaseKey):
     combinedList = [fixed] + [databaseKey]
+    print(combinedList)
     removeDuplicates = set().union(*combinedList)
     return removeDuplicates
 
-coffeeBeans = {
-    "roast_types": ["dark", "medium", "light", "unknown"],
-    "origin_types": dynamicValues(["brazil", "england"], mongo.db.beans.distinct('origin')),
-    "brand_names": dynamicValues(["union", "monmouth", "starbucks"], mongo.db.beans.distinct('brand')),
-    "unique_notes": dynamicValues(["caramel", "prune", "cherry"], mongo.db.beans.distinct('notes')),
-    "coffeeImg": "https://images.photowall.com/products/49771/coffee-beans.jpg"
-}
-
-print(coffeeBeans["origin_types"])
-print(mongo.db.beans.distinct('origin'))
+def getCoffeeData():
+    coffeeData = {
+        "roast_types": ["dark", "medium", "light", "unknown"],
+        "origin_types": dynamicValues(["brazil", "england"], mongo.db.beans.distinct('origin')),
+        "brand_names": dynamicValues(["union", "monmouth", "starbucks"], mongo.db.beans.distinct('brand')),
+        "unique_notes": dynamicValues(["caramel", "prune", "cherry"], mongo.db.beans.distinct('notes')),
+        "coffeeImg": "https://images.photowall.com/products/49771/coffee-beans.jpg"
+    }
+    return coffeeData
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -98,11 +98,11 @@ def add():
                 'coffee_name' : coffee_name,
                 'brand_choice' : brand_choice,
                 'submissionImg' : submissionImg,
-                'coffeeImg' : coffeeBeans["coffeeImg"],
-                'roast_types' : coffeeBeans["roast_types"],
-                'origin_types' : coffeeBeans["origin_types"],
-                'uniqueNotes' : coffeeBeans["unique_notes"],
-                'brand_names' : coffeeBeans["brand_names"],
+                'coffeeImg' : getCoffeeData()["coffeeImg"],
+                'roast_types' : getCoffeeData()["roast_types"],
+                'origin_types' : getCoffeeData()["origin_types"],
+                'uniqueNotes' : getCoffeeData()["unique_notes"],
+                'brand_names' : getCoffeeData()["brand_names"],
                 'beans' : beans
             }
             return render_template("add.html", **context)
@@ -114,11 +114,11 @@ def add():
     context = {
             'form_type' : form_type,
             'beans' : beans,
-            'coffeeImg' : coffeeBeans["coffeeImg"],
-            'roast_types' : coffeeBeans["roast_types"],
-            'origin_types' : coffeeBeans["origin_types"],
-            'uniqueNotes' : coffeeBeans["unique_notes"],
-            'brand_names' : coffeeBeans["brand_names"],
+            'coffeeImg' : getCoffeeData()["coffeeImg"],
+            'roast_types' : getCoffeeData()["roast_types"],
+            'origin_types' : getCoffeeData()["origin_types"],
+            'uniqueNotes' : getCoffeeData()["unique_notes"],
+            'brand_names' : getCoffeeData()["brand_names"],
             'full_name' : full_name
         }
     return render_template("add.html", **context)
@@ -170,11 +170,11 @@ def edit(beanId):
             'coffee_name' : coffee_name,
             'brand_choice' : brand_choice,
             'submissionImg' : submissionImg,
-            'coffeeImg' : coffeeBeans["coffeeImg"],
-            'roast_types' : coffeeBeans["roast_types"],
-            'origin_types' : coffeeBeans["origin_types"],
-            'uniqueNotes' : coffeeBeans["unique_notes"],
-            'brand_names' : coffeeBeans["brand_names"],
+            'coffeeImg' : getCoffeeData()["coffeeImg"],
+            'roast_types' : getCoffeeData()["roast_types"],
+            'origin_types' : getCoffeeData()["origin_types"],
+            'uniqueNotes' : getCoffeeData()["unique_notes"],
+            'brand_names' : getCoffeeData()["brand_names"],
             'full_name' : full_name
         }
         return render_template("edit.html", **context)
@@ -209,7 +209,7 @@ def browse():
     beans = mongo.db.beans.find().sort("_id", -1).skip(offset).limit(perPage)
     beansCount = beans.count()
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
-    uniqueNotes = coffeeBeans["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
+    uniqueNotes = getCoffeeData()["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
     roastChecked = [] # RETURNS LIST OF ALL ROAST TYPES THAT WERE CHECKED
     originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
     organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
@@ -285,8 +285,8 @@ def browse():
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
     context = {
         'beans' : beans,
-        'roast_types' : coffeeBeans["roast_types"],
-        'origin_types' : coffeeBeans["origin_types"],
+        'roast_types' : getCoffeeData()["roast_types"],
+        'origin_types' : getCoffeeData()["origin_types"],
         'roastChecked' : roastChecked,
         'originChecked' : originChecked,
         'organicChecked' : organicChecked,
