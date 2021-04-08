@@ -92,7 +92,6 @@ def add():
             organic_choice = gatherInputs()["organic"]
             url_input = gatherInputs()["url"]
             notes_input = gatherInputs()["notes"]
-            flash(u"A coffee with this name already exists.", "warning")
             context = {
                 'form_type' : form_type,
                 'notes_input' : notes_input,
@@ -110,11 +109,12 @@ def add():
                 'brand_names' : getCoffeeData()["brand_names"],
                 'beans' : beans
             }
+            flash(u"A coffee with this name already exists.", "warning")
             return render_template("add.html", **context)
 
-        mongo.db.beans.insert_one(inputDictionary)
-        flash(u"Your submission has been added.", "success")
-        return redirect(url_for("add"))
+        insertSubmission = mongo.db.beans.insert_one(inputDictionary)
+        flash(u"Your submission has been added.", "added")
+        return redirect(url_for("viewSubmission", submissionId=insertSubmission.inserted_id))
 
     context = {
             'form_type' : form_type,
