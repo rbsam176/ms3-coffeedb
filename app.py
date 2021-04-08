@@ -500,7 +500,7 @@ def login():
 def profile(username):
     users = mongo.db.users.distinct('username') # RETURNS LIST OF USERS IN DATABASE
     if username in users: # IF URL CONTAINS REAL USERNAME
-        user_submissions = mongo.db.beans.find({"username": username}) # GETS THEIR SUBMISSIONS
+        user_submissions = mongo.db.beans.find({"username": username}).sort("_id", -1) # GETS THEIR SUBMISSIONS
         user_submissions = list(user_submissions)
         submission_count = len(list(user_submissions))
         first_name = mongo.db.users.find_one(
