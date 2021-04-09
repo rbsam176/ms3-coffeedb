@@ -205,28 +205,31 @@ def wordCloud(list, uniqueList):
     return itemPercentageDict
 
 # CREATES OFFSET AMOUNT BASED ON SPECIFIED QUANTITY SHOWN PER PAGE
-def pagination(perPage):
+def pagination(perPage, data):
     page = 1
     offset = 0
+    dataCount = data.count() # NUMBER OF BEANS BEING PASSED TO VIEW
+    pageQuantity = math.ceil(dataCount / perPage)
     if 'page' in request.args:
         page = int(request.args.get("page"))
         multiply = page - 1
         offset = multiply * perPage
-    return offset, perPage, page
+    return offset, perPage, page, dataCount, pageQuantity
 
 @app.route("/browse", methods=["GET"])
 def browse():
-    offset, perPage, page = pagination(6)
+    data = mongo.db.beans.find().sort("_id", -1)
 
-    beans = mongo.db.beans.find().sort("_id", -1).skip(offset).limit(perPage)
-    beansCount = beans.count()
+    offset, perPage, page, beansCount, pageQuantity = pagination(6, data)
+
+    beans = data.skip(offset).limit(perPage)
+
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
     uniqueNotes = getCoffeeData()["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
     roastChecked = [] # RETURNS LIST OF ALL ROAST TYPES THAT WERE CHECKED
     originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
     organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
     notesChecked = [] # RETURNS LIST OF ALL NOTES THAT WERE CHECKED
-
     
     # CREATE DICTIONARY FOR WORD CLOUD
     notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
@@ -283,14 +286,9 @@ def browse():
                 dynamicQuery["$and"].append({ "name": searchInput.lower() })
         
 
-
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
-
-
-    beansCount = beans.count() # NUMBER OF BEANS BEING PASSED TO VIEW
-    pageQuantity = math.ceil(beansCount / perPage)
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
     context = {
@@ -506,7 +504,11 @@ def login():
 def profile(username):
     users = mongo.db.users.distinct('username') # RETURNS LIST OF USERS IN DATABASE
     if username in users: # IF URL CONTAINS REAL USERNAME
-        user_submissions = mongo.db.beans.find({"username": username}).sort("_id", -1) # GETS THEIR SUBMISSIONS
+        # user_submissions = mongo.db.beans.find({"username": username}).sort("_id", -1) # GETS THEIR SUBMISSIONS
+        data = mongo.db.beans.find({"username": username}).sort("_id", -1)
+        offset, perPage, page, beansCount, pageQuantity = pagination(6, data)
+        user_submissions = data.skip(offset).limit(perPage)
+
         user_submissions = list(user_submissions)
         submission_count = len(list(user_submissions))
         first_name = mongo.db.users.find_one(
@@ -516,8 +518,14 @@ def profile(username):
             'username' : username,
             'first_name' : first_name,
             'user_submissions' : user_submissions,
-            'submission_count' : submission_count
+            'submission_count' : submission_count,
+            'offset' : offset,
+            'perPage' : perPage,
+            'page_variable' : page,
+            'beansCount' : beansCount,
+            'pageQuantity' : pageQuantity
         }
+
         return render_template("profile.html", **context)
     else:
         # REDIRECTS TO HOMEPAGE IS URL USERNAME DOESN'T EXIST IN DATABASE

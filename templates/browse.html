@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import 'card.html' as card %}
+{% import 'pagination.html' as pagination %}
 
 {% block title %}CoffeeDB: Browse{% endblock %}
 
@@ -113,24 +114,8 @@
             </div>
         </div>
     </div>
-
-    <div class="row justify-content-center">
-        {% if pageQuantity > 1 %}
-        <div class="col-2 text-center">
-            <button form="filterCriteria" type="submit" name="page" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}"><i class="h2 bi bi-arrow-left-short"></i></button>
-        </div>
-        {% endif %}
-        <div class="col-8 text-center">
-            <h2 class="mb-4">{{ browseHeader }} ({{ beansCount }})</h2>
-        </div>
-        {% if pageQuantity > 1 %}
-        <div class="col-2 text-center">
-            <button form="filterCriteria" type="submit" name="page" {% if page_variable == pageQuantity %}disabled{% endif %} value="{{ page_variable + 1}}"><i class="h2 bi bi-arrow-right-short"></i></button>
-        </div>
-        {% endif %}
-    </div>
+    {{ pagination.input(pageQuantity, browseHeader, beansCount, page_variable, offset, formName="filterCriteria") }}
     <div class="container-fluid">
-        <h5 class="text-center">Showing results {{ offset + 1 }} to {% if offset + 6 < beansCount %}{{ offset + 6 }}{% else %}{{ beansCount }}{% endif %} ({% if request.args.get('page') %}Page {{ request.args.get('page') }}{% else %}Page 1{% endif %} of {{ pageQuantity }})
         {% if beans|length == 0 %}
             <hr>
             <h5 class="text-center">Sorry!</h5>
@@ -148,6 +133,7 @@
         {% endif %}
         {{ card.input(beans) }}
     </div>
+    {{ pagination.input(pageQuantity, null, beansCount, page_variable, offset) }}
 
 
 {% endblock %}

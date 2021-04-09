@@ -1,0 +1,20 @@
+{% macro input(pageQuantity, headerText, totalCount, page_variable, offset, formName) -%}
+<div class="row justify-content-center mt-4">
+    {% if pageQuantity > 1 %}
+    <div class="col-2 text-center">
+        <button form="{{ formName }}" type="submit" name="page" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}"><i class="h2 bi bi-arrow-left-short"></i></button>
+    </div>
+    {% endif %}
+    <div class="col-8 text-center">
+        {% if headerText %}
+            <h2 class="mb-4">{{ headerText }} ({{ totalCount }})</h2>
+        {% endif %}
+        <h5 class="text-center">Showing results {{ offset + 1 }} to {% if offset + 6 < totalCount %}{{ offset + 6 }}{% else %}{{ totalCount }}{% endif %} ({% if page_variable %}Page {{ page_variable }}{% else %}Page 1{% endif %} of {{ pageQuantity }})</h5>
+    </div>
+    {% if pageQuantity > 1 %}
+    <div class="col-2 text-center">
+        <button form="{{ formName }}" type="submit" name="page" {% if page_variable == pageQuantity %}disabled{% endif %} value="{{ page_variable + 1}}"><i class="h2 bi bi-arrow-right-short"></i></button>
+    </div>
+    {% endif %}
+</div>
+{%- endmacro %}

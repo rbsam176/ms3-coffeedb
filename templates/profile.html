@@ -1,17 +1,23 @@
 {% extends "base_profile.html" %}
 {% import 'card.html' as card %}
+{% import 'pagination.html' as pagination %}
 
 {% block title %}CoffeeDB: {{ first_name|title }}'s Profile{% endblock %}
 
 {% block profile_content %}
-    <h3 class="card-title text-center mb-4">Submissions</h3>
     {% if submission_count %}
-        {{ card.input(user_submissions) }}
+        <form method="GET" id="profileSubmissions">
+            {{ pagination.input(pageQuantity, "Submissions", beansCount, page_variable, offset, formName="profileSubmissions") }}
+            {{ card.input(user_submissions) }}
+            {{ pagination.input(pageQuantity, null, beansCount, page_variable, offset, formName="profileSubmissions") }}
+        </form>
     {% elif session["user"] == username %}
-        <h4 class="text-center">You haven't submitted any coffee beans yet!</h4>
+        <h3 class="card-title text-center mb-4">Submissions</h3>
+        <h4 class="text-center mb-4">You haven't submitted any coffee beans yet!</h4>
         <h5 class="text-center"><a href="{{ url_for('add') }}">Click here to add some!</a></h5>
     {% else %}
-        <h4 class="text-center">No beans have been added by {{ first_name|title }} yet!</h4>
+        <h3 class="card-title text-center mb-4">Submissions</h3>
+        <h4 class="text-center mb-4">No beans have been added by {{ first_name|title }} yet!</h4>
         <h5 class="text-center"><a href="{{ url_for('index') }}">Click here to go back to the homepage.</a></h5>
     {% endif %}
 {% endblock %}
