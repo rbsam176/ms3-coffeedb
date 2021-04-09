@@ -452,6 +452,15 @@ def viewSubmission(submissionId):
 
         return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId), existing_reviews=existing_reviews)
 
+
+@app.route("/reviews/<submissionId>", methods=["GET", "POST"])
+def allReviews(submissionId):
+    submission_data = mongo.db.beans.find_one(
+            {"_id": ObjectId(submissionId)})  
+    return render_template("all_reviews.html", submission_data=submission_data)
+
+
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":

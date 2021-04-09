@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}CoffeeDB: Browse{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-1">
+                <h3 class="my-4">
+                    <a href="{{ url_for('viewSubmission', submissionId=submission_data['_id']) }}"><i class="bi bi-arrow-left-circle"></i></a>
+                </h3>
+            </div>
+            <div class="col-10 text-center">
+                <h2 class="my-4">All reviews</h2>
+            </div>
+            <div class="col-1">
+            </div>
+        </div>
+        <div class="col-lg-12 col-xl-10 mx-auto">
+            {% for review in submission_data.review %}
+                <div class="card p-4 my-3">
+                    <div class="row px-3">
+                        <blockquote class="blockquote my-auto">
+                            <p class="mb-0">{{ review['text'] }}</p>
+                            <footer class="blockquote-footer">
+                                <a href="{{ url_for('profile', username=review['username']) }}">{{ review['username'] }}</a> 
+                                {% for item in submission_data['rating'] %}
+                                    {% if item.username == review['username'] %}
+                                        {% for score in range(item.score) %}
+                                            <i class="bi bi-star-fill star-rating"></i>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                                on <cite>{{ review['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite>
+                            </footer>
+                        </blockquote>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
