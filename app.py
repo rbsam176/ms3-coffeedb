@@ -204,11 +204,20 @@ def wordCloud(list, uniqueList):
     
     return itemPercentageDict
 
-@app.route("/browse", methods=["GET"])
-def browse():
+# CREATES OFFSET AMOUNT BASED ON SPECIFIED QUANTITY SHOWN PER PAGE
+def pagination(perPage):
     page = 1
     offset = 0
-    perPage = 6
+    if 'page' in request.args:
+        page = int(request.args.get("page"))
+        multiply = page - 1
+        offset = multiply * perPage
+    return offset, perPage, page
+
+@app.route("/browse", methods=["GET"])
+def browse():
+    offset, perPage, page = pagination(6)
+
     beans = mongo.db.beans.find().sort("_id", -1).skip(offset).limit(perPage)
     beansCount = beans.count()
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
@@ -234,11 +243,9 @@ def browse():
     dynamicQuery["$and"]=[]
     # GETS USER INPUT DATA AND APPENDS IT TO LISTS
     if request.method == "GET":
-        
 
         # GETS SEARCH TEXT INPUT
         searchInput = request.args.get("searchCriteria")
-        print(searchInput)
         # GETS SEARCH TYPE (BRAND/NAME)
         searchType = request.args.get("searchType")
         # MATCHING ALL OR ANY CONDITIONS
@@ -282,12 +289,6 @@ def browse():
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
 
 
-    if 'page' in request.args:
-        page = int(request.args.get("page"))
-        multiply = page - 1
-        offset = multiply * perPage
-        beans = beans.skip(offset).limit(perPage)
-
     beansCount = beans.count() # NUMBER OF BEANS BEING PASSED TO VIEW
     pageQuantity = math.ceil(beansCount / perPage)
 
@@ -301,14 +302,19 @@ def browse():
         'organicChecked' : organicChecked,
         'notesRelativePercentage' : notesRelativePercentage,
         'notesChecked' : notesChecked,
-        'conditionType' : conditionType
+        'conditionType' : conditionType,
+        'page_variable' : page,
+        'beansCount' : beansCount,
+        'pageQuantity' : pageQuantity,
+        'browseHeader' : browseHeader,
+        'offset' : offset
     }
 
     # IF CUSTOM FILTER QUERY, CHANGE HEADER
     if dynamicQuery["$and"]:
             browseHeader = "Filtered results"
 
-    return render_template("browse.html", **context, page_variable=page, beansCount=beansCount, pageQuantity=pageQuantity, browseHeader=browseHeader, offset=offset)
+    return render_template("browse.html", **context)
 
 def gatherRatings(submissionId):
     submission_data = mongo.db.beans.find_one(
