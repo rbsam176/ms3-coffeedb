@@ -17,3 +17,4 @@ $("#inputFirstName, #inputLastName").on('focusout', function() {
         }
     }
 })
+

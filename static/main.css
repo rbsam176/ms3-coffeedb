@@ -205,6 +205,56 @@ ul.add-notes-container li label {
     filter: grayscale(100%);
 }
 
+.avatar-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.swatch-btn {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+}
+
+.swatch-btn:hover {
+    border: 4px double white;
+}
+
+.swatch-red {
+    background-color: #FE4A49;
+}
+
+.swatch-orange {
+    background-color: orange;
+}
+
+.swatch-blue {
+    background-color: #009FB7;
+}
+
+.swatch-white {
+    background-color: white;
+    border: solid 1px #E6E8E6;
+}
+
+.orange-bg {
+    background-color: orange;
+}
+
+.avatar-icon-container {
+    text-align: center;
+}
+
+.avatar-icon-container i {
+    font-size: 2.5em;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+}
+
 ul.bean-info {
     columns: 2;
     -webkit-columns: 2;

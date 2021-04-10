@@ -21,10 +21,10 @@
             <form method="GET" class="form-inline justify-content-end">
                 <label class="mx-2 pb-2" for="sortSelect">Sort by</label>
                 <select id="sortSelect" name="sort" class="custom-select mb-2 mr-2">
-                    <option {% if (request.args.get('sort') == 'ratingDesc') or not (request.args.get('sort')) %}selected{% endif %} value="ratingDesc">Rating (High > Low)</option>
-                    <option {% if request.args.get('sort') == 'ratingAsc' %}selected{% endif %} value="ratingAsc">Rating (Low > High)</option>
-                    <option {% if request.args.get('sort') == 'dateDesc' %}selected{% endif %} value="dateDesc">Date (Most Recent)</option>
+                    <option {% if (request.args.get('sort') == 'dateDesc') or not (request.args.get('sort')) %}selected{% endif %} value="dateDesc">Date (Most Recent)</option>
                     <option {% if request.args.get('sort') == 'dateAsc' %}selected{% endif %} value="dateAsc">Date (Oldest)</option>
+                    <option {% if request.args.get('sort') == 'ratingDesc' %}selected{% endif %} value="ratingDesc">Rating (High > Low)</option>
+                    <option {% if request.args.get('sort') == 'ratingAsc' %}selected{% endif %} value="ratingAsc">Rating (Low > High)</option>
                 </select>
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
             </form>

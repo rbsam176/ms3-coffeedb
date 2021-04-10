@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import 'avatar.html' as avatar %}
 
 {% block title %}CoffeeDB: Sign Up{% endblock %}
 
@@ -23,7 +24,55 @@
                     {% endwith %}
                     <div class="row mt-4 justify-content-center">
                         <form id="signup" method="POST">
-                            <div class="form-row">
+                            <div class="form-row bg-light p-4">
+                                <div class="col-md-12 col-lg-4 mb-2">
+                                    <div class="row mb-2 justify-content-center">
+                                        Profile Picture
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        {{ avatar.input("fas fa-mug-hot", "orange-bg") }}
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="row mb-2 justify-content-center">
+                                        Background
+                                    </div>
+                                    <div class="row px-4 w-75 mx-auto justify-content-center">
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-red"></button>
+                                        </div>
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-white"></button>
+                                        </div>
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-orange"></button>
+                                        </div>
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-blue"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="row mb-2 justify-content-center">
+                                        Icon
+                                    </div>
+                                    <div class="row px-4 w-75 mx-auto justify-content-center">
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-red"></button>
+                                        </div>
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-white"></button>
+                                        </div>
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-orange"></button>
+                                        </div>
+                                        <div class="col-3 col-lg-6 text-center">
+                                            <button class="swatch-btn m-1 swatch-blue"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
                                 <div class="form-group col-md-6">
                                     <label for="inputFirstName">First name*</label>
                                     <input type="text" class="form-control" name="inputFirstName" id="inputFirstName" placeholder="John/Jane" required>
@@ -62,66 +111,6 @@
                                     <i class="bi bi-check-circle"></i> Mininum 1 number<br>
                                 </div>
                             </div>
-                            <p class="lead text-center mt-3">Optional information</p>
-                            <p class="text-muted text-center"><a href="#">What do we use this information for?</a></p>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputBirthdate">Date of Birth</label>
-                                    <input type="date" class="form-control" name="inputBirthdate" id="inputBirthdate">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputCountry">Country</label>
-                                    <input type="text" class="form-control" name="inputCountry" id="inputCountry" placeholder="Country">
-                                </div> 
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputPrefRoast">Preferred roast</label>
-                                    <select class="form-control" name="inputPrefRoast" id="inputPrefRoast">
-                                        <option selected disabled>Select roast</option>
-                                        {% for roast in roast_types %}
-                                            <option>{{ roast }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputPrefBrand">Preferred brand</label>
-                                    <select class="form-control" name="inputPrefBrand" id="inputPrefBrand">
-                                        <option selected disabled>Select brand</option>
-                                        {% for brand in brand_names %}
-                                            <option>{{ brand }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div> 
-                                <div class="form-group col-md-6">
-                                    <label for="inputPrefOrganic">Do you prefer organic coffee?</label>
-                                    <select class="form-control" name="inputPrefOrganic" id="inputPrefOrganic">
-                                        <option selected disabled>Select preference</option>
-                                        {% for preference in organic_preferences %}
-                                            <option>{{ preference }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div> 
-                                <div class="form-group col-md-6">
-                                    <label for="inputPrefOrigin">Preferred coffee origin</label>
-                                    <select class="form-control" name="inputPrefOrigin" id="inputPrefOrigin">
-                                        <option selected disabled>Select region</option>
-                                        {% for origin in origin_types %}
-                                            <option>{{ origin }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div> 
-                                <div class="form-group col-12">
-                                    <label for="inputDiscovery">How did you find out about us?</label>
-                                    <select class="form-control" name="inputDiscovery" id="inputDiscovery">
-                                        <option selected disabled>Select option</option>
-                                        {% for option in site_discovery %}
-                                            <option>{{ option }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div> 
-                            </div>
-                            <small class="text-muted">This information can be adjusted from your profile later</small><br>
                             <small>Already have an account? <a href="{{ url_for('login') }}">Sign in to your account here.</a></small><br>
                             <button type="submit" class="btn btn-primary mt-3">Sign up</button>
                           </form>
