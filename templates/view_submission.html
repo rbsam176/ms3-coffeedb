@@ -106,7 +106,7 @@
                         <p class="mb-0">No reviews yet! Be the first and add yours below.</p>
                         {% endif %}
                     </div>
-                    {% if existing_reviews|count > 1 %}
+                    {% if (existing_reviews) and (existing_reviews|count > 1) %}
                         <a href="{{ url_for('allReviews', submissionId=submission_data['_id']) }}">See all reviews</a>
                     {% endif %}
                     <hr>

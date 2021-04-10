@@ -1,7 +1,7 @@
 import os
 import sys
 import random
-import datetime
+from datetime import datetime, timezone
 import math
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import (
@@ -350,6 +350,11 @@ def getTotalRatings(submissionId):
 def viewSubmission(submissionId):
     submission_data = mongo.db.beans.find_one(
             {"_id": ObjectId(submissionId)})    
+
+    # CONVERTS TIMESTAMP TO USER TIMEZONE
+    for doc in submission_data['review']:
+        doc['reviewTimestamp'] = utcToLocal(doc['reviewTimestamp'])
+
     averageRating = getAverageRating(submissionId)
 
     if 'review' in submission_data:
@@ -452,11 +457,13 @@ def viewSubmission(submissionId):
 
         return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId), existing_reviews=existing_reviews)
 
+# SOURCE: https://stackoverflow.com/questions/4563272/convert-a-python-utc-datetime-to-a-local-datetime-using-only-python-standard-lib
+def utcToLocal(utc):
+    return utc.replace(tzinfo=timezone.utc).astimezone(tz=None)
 
 @app.route("/reviews/<submissionId>", methods=["GET"])
 def allReviews(submissionId):
     data = mongo.db.beans.find_one({"_id": ObjectId(submissionId)})
-
 
     feedback = []
     for item in data['review']:
@@ -466,6 +473,8 @@ def allReviews(submissionId):
                 index = feedback.index(item)
                 feedback[index]['rating'] = rating
 
+    for x in feedback:
+        x['reviewTimestamp'] = utcToLocal(x['reviewTimestamp'])
     
     # LAMBDA SOURCE: https://docs.python.org/3/howto/sorting.html
     submission_data = sorted(feedback, key=lambda timestamp: timestamp['reviewTimestamp'], reverse=True)
