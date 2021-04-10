@@ -453,10 +453,33 @@ def viewSubmission(submissionId):
         return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId), existing_reviews=existing_reviews)
 
 
-@app.route("/reviews/<submissionId>", methods=["GET", "POST"])
+@app.route("/reviews/<submissionId>", methods=["GET"])
 def allReviews(submissionId):
-    submission_data = mongo.db.beans.find_one(
-            {"_id": ObjectId(submissionId)})  
+    data = mongo.db.beans.find_one({"_id": ObjectId(submissionId)})
+
+
+    feedback = []
+    for item in data['review']:
+        feedback.append(item)
+        for rating in data['rating']:
+            if rating['user'] == item['user']:
+                index = feedback.index(item)
+                feedback[index]['rating'] = rating
+
+    
+    # LAMBDA SOURCE: https://docs.python.org/3/howto/sorting.html
+    submission_data = sorted(feedback, key=lambda timestamp: timestamp['reviewTimestamp'], reverse=True)
+
+    if request.method == "GET":
+        if request.args.get("sort") == 'dateAsc': # Oldest
+            submission_data = sorted(feedback, key=lambda timestamp: timestamp['reviewTimestamp'], reverse=False) # works
+        elif request.args.get("sort") == 'dateDesc': # Recent
+            submission_data = sorted(feedback, key=lambda timestamp: timestamp['reviewTimestamp'], reverse=True)
+        elif request.args.get("sort") == 'ratingAsc': # Low > High
+            submission_data = sorted(feedback, key=lambda score: score['rating']['score'], reverse=False) # works
+        elif request.args.get("sort") == 'ratingDesc': # High > Low
+            submission_data = sorted(feedback, key=lambda score: score['rating']['score'], reverse=True) # works
+
     return render_template("all_reviews.html", submission_data=submission_data)
 
 
