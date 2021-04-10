@@ -464,7 +464,6 @@ def utcToLocal(utc):
 @app.route("/reviews/<submissionId>", methods=["GET"])
 def allReviews(submissionId):
     data = mongo.db.beans.find_one({"_id": ObjectId(submissionId)})
-
     feedback = []
     for item in data['review']:
         feedback.append(item)
@@ -489,7 +488,7 @@ def allReviews(submissionId):
         elif request.args.get("sort") == 'ratingDesc': # High > Low
             submission_data = sorted(feedback, key=lambda score: score['rating']['score'], reverse=True) # works
 
-    return render_template("all_reviews.html", submission_data=submission_data)
+    return render_template("all_reviews.html", submission_data=submission_data, submissionId=submissionId)
 
 
 
