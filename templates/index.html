@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% import 'individual_card.html' as single_card %}
 {% block title %}CoffeeDB{% endblock %}
 
 {% block content %}
@@ -39,10 +39,19 @@
                 </div>
             </nav>
             <img class="bean-icon bean1" src="https://i.imgur.com/mPg151F.png" />
-            <div class="col-12 text-center mb-4">
+            <div class="col-12 text-center my-4">
                 <button class="down-btn">
                     <i class="bi bi-chevron-compact-down"></i>
                 </button>
+            </div>
+        </div>
+    </div>
+    <div id="curvedDivider" class="container-fluid m-0"></div>
+    <div class="container-fluid">
+        <div class="row mt-2">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="my-2 mx-2 sub-title text-center">Recently added</div>
+                {{ single_card.input(recentSubmission) }}
             </div>
         </div>
     </div>

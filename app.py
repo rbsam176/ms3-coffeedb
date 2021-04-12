@@ -45,8 +45,11 @@ def page_not_found(e):
 
 @app.route("/")
 def index():
-    beans = mongo.db.beans.find()
-    return render_template("index.html", beans=beans)
+    recentSubmission = mongo.db.beans.find_one(
+        {}, sort=[( '_id', -1 )]
+        )
+    print(recentSubmission)
+    return render_template("index.html", recentSubmission=recentSubmission)
 
 
 def gatherInputs():

@@ -51,6 +51,20 @@ h2, h3 {
     height: 100vh;
 }
 
+#curvedDivider {
+    height: 100px;
+    background-color: #F8A825;
+    border-radius: 0px 0px 120% 120%;
+}
+
+.recently-added-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid black;
+    box-shadow: 4px 4px black;
+}
+
 #logo {
     position: relative;
 }
@@ -63,21 +77,24 @@ h2, h3 {
 }
 
 .home-btn {
-    background-color: RGBA(255,255,255,0.52);
+    background-color: #FCD69F;
     width: 100%;
     height: 50px;
     border: 3px solid #643F00;
     vertical-align: middle;
-}
-
-.home-btn a {
-    color: black;
-    text-decoration: none;
+    box-shadow: 4px 4px #643F00;
 }
 
 .home-btn:hover {
     background-color: white;
     border: 3px solid black;
+    box-shadow: 4px 4px black;
+    
+}
+
+.home-btn a {
+    color: black;
+    text-decoration: none;
 }
 
 .down-btn {
@@ -103,7 +120,6 @@ h2, h3 {
 }
 
 #homeNav {
-    /* position: relative; */
     min-width: 70vw;
 }
 
