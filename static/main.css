@@ -55,6 +55,13 @@ h2, h3 {
     position: relative;
 }
 
+.sub-title {
+    font-family: 'Montserrat', sans-serif;
+    /* SOURCE: https://stackoverflow.com/a/37836926 */
+    font-size:calc(12px + 1.7vw);
+    color: #643F00;
+}
+
 .home-btn {
     background-color: RGBA(255,255,255,0.52);
     width: 100%;
@@ -96,12 +103,13 @@ h2, h3 {
 }
 
 #homeNav {
-    position: relative;
+    /* position: relative; */
+    min-width: 70vw;
 }
 
 .bean1 {
     top: 70vh;
-    left: 10%;
+    left: 5%;
     position: absolute;
 }
 
