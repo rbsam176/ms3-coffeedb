@@ -18,3 +18,13 @@ $("#inputFirstName, #inputLastName").on('focusout', function() {
     }
 })
 
+$(".swatch-btn").on('click', function(){
+    var clickedSwatchName = $(this).attr('name')
+    if ($(this).parent().parent().attr('id') == 'bgSwatches'){
+        $("#avatar").children('div').removeClass()
+        $("#avatar").children('div').addClass(`avatar-circle ${clickedSwatchName}`)
+    } else if ($(this).parent().parent().attr('id') == 'iconSwatches'){
+        $(".avatar-icon-container").children('i').css('color', `${clickedSwatchName}`)
+        // need to change this because clickedSwatchName is a background-color and it needs to be a color
+    }
+})
