@@ -46,14 +46,13 @@
             </div>
         </div>
     </div>
-    <!-- <div id="curvedDivider" class="container-fluid m-0"></div> -->
     <div class="container-fluid">
         <div class="row mt-2">
-            <div class="col-12 col-md-6 col-lg-4 order-12 order-md-1 px-2">
-                <div class="my-2 mx-2 sub-title text-center">Latest addition</div>
+            <div class="col-12 col-md-12 col-lg-4 order-12 order-md-12 order-lg-11 px-2">
+                <h4 class="text-center mt-4">Latest addition</h4>
                 {{ single_card.input(recentSubmission) }}
             </div>
-            <div class="col-12 col-md-6 col-lg-8 order-1 order-md-12">
+            <div class="col-12 col-md-12 col-lg-8 order-1 order-md-1 order-lg-12">
                 <div id="videoContainer" class="bg-dark d-flex row mx-1">
                     <div id="overlayText" class="align-self-center ml-4">
                         <span class="hero-text mb-2">
@@ -68,22 +67,71 @@
                     </video>
                 </div>
                 <div class="d-flex row mt-4">
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                        <h4 class="text-center">Highest rated submissions</h4>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <h4 class="text-center mt-4">Top rated submissions</h4>
                         <div class="chart-container py-2">
-                            <div class="mx-3 my-2 row"><span class="high-rated-entry p-2">1.</span><span class="ml-4 my-auto">Starbucks: Anniversary blend</span></div>
+                            <div class="rating-row mx-3 my-2 row">
+                                <div class="col-2 high-rated-entry p-2">1.</div>
+                                <div class="col-9 my-auto">Starbucks: Anniversary blend</div>
+                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
                             <hr>
-                            <div class="mx-3 my-2 row"><span class="high-rated-entry p-2">2.</span><span class="ml-4 my-auto">Pact Coffee: Villa Del Sol</span></div>
+                            <div class="rating-row mx-3 my-2 row">
+                                <div class="col-2 high-rated-entry p-2">2.</div>
+                                <div class="col-9 my-auto">Pact Coffee: Villa Del Sol</div>
+                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
                             <hr>
-                            <div class="mx-3 my-2 row"><span class="high-rated-entry p-2">3.</span><span class="ml-4 my-auto">Rave: Bosques De San Francisco No. 52</span></div>
+                            <div class="rating-row mx-3 my-2 row">
+                                <div class="col-2 high-rated-entry p-2">3.</div>
+                                <div class="col-9 my-auto">Rave: Bosques De San Francisco No. 52</div>
+                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
                             <hr>
-                            <div class="mx-3 my-2 row"><span class="high-rated-entry p-2">4.</span><span class="ml-4 my-auto">Equal Exchange: D.R. Congo Coffee</span></div>
+                            <div class="rating-row mx-3 my-2 row">
+                                <div class="col-2 high-rated-entry p-2">4.</div>
+                                <div class="col-9 my-auto">Equal Exchange: D.R. Congo Coffee</div>
+                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
                             <hr>
-                            <div class="mx-3 my-2 row"><span class="high-rated-entry p-2">5.</span><span class="ml-4 my-auto">Illy: Arabica Selection India</span></div>
+                            <div class="rating-row mx-3 my-2 row">
+                                <div class="col-2 high-rated-entry p-2">5.</div>
+                                <div class="col-9 my-auto">Illy: Arabica Selection India</div>
+                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-12 col-lg-6 chart-container">
-                        Most active user
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <h4 class="text-center mt-4">Recent reviews</h4>
+                        <div class="chart-container py-2">
+                            <div class="rating-row mx-3 d-flex my-2 row">
+                                <div class="col-11 my-auto">
+                                    <div class="row lead"><span class="dark-roast my-auto mr-2"></span>Monmouth: Fazenda IP</div>
+                                    <div class="row">This one is really smooth. I buy it on a regular basis</div>
+                                    <div class="row text-muted">rbsam on 06-04-2021 14:39</div>
+                                </div>
+                                <div class="col-1 go-btn align-self-center"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
+                            <hr>
+                            <div class="rating-row mx-3 d-flex my-2 row">
+                                <div class="col-11 my-auto">
+                                    <div class="row lead"><span class="dark-roast my-auto mr-2"></span>Monmouth: Fazenda IP</div>
+                                    <div class="row">This one is really smooth. I buy it on a regular basis</div>
+                                    <div class="row text-muted">rbsam on 06-04-2021 14:39</div>
+                                </div>
+                                <div class="col-1 go-btn align-self-center"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
+                            <hr>
+                            <div class="rating-row mx-3 d-flex my-2 row">
+                                <div class="col-11 my-auto">
+                                    <div class="row lead"><span class="dark-roast my-auto mr-2"></span>Monmouth: Fazenda IP</div>
+                                    <div class="row">This one is really smooth. I buy it on a regular basis</div>
+                                    <div class="row text-muted">rbsam on 06-04-2021 14:39</div>
+                                </div>
+                                <div class="col-1 go-btn align-self-center"><i class="bi bi-arrow-right-short"></i></div>
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
