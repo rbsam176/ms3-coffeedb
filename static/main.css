@@ -52,6 +52,28 @@ h2, h3 {
     border-bottom: 4px solid black;
 }
 
+.chart-container {
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: 4px 4px black;
+    /* height: 100%; */
+}
+
+.high-rated-entry {
+    width: 35px;
+    height: 45px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2em;
+    background-color: #FCD69F;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+}
+
+.high-rated-entry:hover {
+    background-color: white;
+}
+
 #curvedDivider {
     height: 100px;
     background-color: #F8A825;
@@ -186,11 +208,13 @@ h2, h3 {
     font-weight: 400;
     width: 200px;
     padding: 15px 50px;
-    /* border: 2px solid black; */
     box-shadow: 4px 4px black;
     background-color: #FFC008;
 }
 
+#heroBrowse:hover {
+    background-color: white;
+}
 
 .edit-btn {
     position: absolute;
