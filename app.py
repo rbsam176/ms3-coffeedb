@@ -48,8 +48,25 @@ def index():
     recentSubmission = mongo.db.beans.find_one(
         {}, sort=[( '_id', -1 )]
         )
-    print(recentSubmission)
-    return render_template("index.html", recentSubmission=recentSubmission)
+    
+
+
+    averages = []
+    ratingsTrue = mongo.db.beans.find( { "rating": { "$exists": True } } )
+
+    for doc in list(ratingsTrue):
+        averages.append((doc['_id'], getAverageRating(doc['_id'])))
+    
+    sortedAverages = sorted(averages, key=lambda average: average[1], reverse=True)
+    top5tuples = sortedAverages[:5]
+    top5docs = []
+    for submission in top5tuples:
+        top5docs.append(mongo.db.beans.find_one(
+            {"_id": ObjectId(submission[0])}) )
+
+    print(mongo.db.beans.find().sort("_id", -1).limit(3)) # get the reviews
+
+    return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs)
 
 
 def gatherInputs():

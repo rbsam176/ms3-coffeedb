@@ -70,35 +70,14 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                         <h4 class="text-center mt-4">Top rated submissions</h4>
                         <div class="chart-container py-2">
-                            <div class="rating-row mx-3 my-2 row">
-                                <div class="col-2 high-rated-entry p-2">1.</div>
-                                <div class="col-9 my-auto">Starbucks: Anniversary blend</div>
-                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
-                            <hr>
-                            <div class="rating-row mx-3 my-2 row">
-                                <div class="col-2 high-rated-entry p-2">2.</div>
-                                <div class="col-9 my-auto">Pact Coffee: Villa Del Sol</div>
-                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
-                            <hr>
-                            <div class="rating-row mx-3 my-2 row">
-                                <div class="col-2 high-rated-entry p-2">3.</div>
-                                <div class="col-9 my-auto">Rave: Bosques De San Francisco No. 52</div>
-                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
-                            <hr>
-                            <div class="rating-row mx-3 my-2 row">
-                                <div class="col-2 high-rated-entry p-2">4.</div>
-                                <div class="col-9 my-auto">Equal Exchange: D.R. Congo Coffee</div>
-                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
-                            <hr>
-                            <div class="rating-row mx-3 my-2 row">
-                                <div class="col-2 high-rated-entry p-2">5.</div>
-                                <div class="col-9 my-auto">Illy: Arabica Selection India</div>
-                                <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
+                            {% for item in top5docs %}
+                                <div class="rating-row mx-3 my-2 row">
+                                    <div class="col-2 high-rated-entry p-2">{{ loop.index }}.</div>
+                                    <div class="col-9 my-auto">{{ item['brand']|title }}: {{ item['name']|title }}</div>
+                                    <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
+                                </div>
+                                {% if loop.index != top5docs|count %}<hr>{% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
