@@ -49,17 +49,13 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('signup') %}active{% endif %}" href="{{ url_for('signup') }}">Sign Up</a>
+                        <a class="nav-link {% if active_page == url_for('login') %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('login') %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+                        <a class="nav-link {% if active_page == url_for('signup') %}active{% endif %}" href="{{ url_for('signup') }}">Sign Up</a>
                     </li>
                     {% endif %}
                 </ul>
-                <!-- <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form> -->
             </div>
         </div>
     </nav>
@@ -67,7 +63,7 @@
     {% block content %}
     {% endblock %}
 
-    <footer class="container-fluid">
+    <footer id="baseFooter" class="container-fluid">
         <div class="row h-100">
             <div class="col-12 col-md-4 text-center order-10 order-md-2 align-self-center my-2">Copyright CoffeeDB 2021</div>
             <div class="col-12 col-md-4 text-center order-2 order-md-10 align-self-center my-3"><a class="go-to-top" href="#">Go to top</a></div>

@@ -52,7 +52,7 @@ h2, h3 {
     border-bottom: 4px solid black;
 }
 
-footer {
+#baseFooter {
     background-color: #F8A825;
     height: 100%;
     margin-top: 20px;
