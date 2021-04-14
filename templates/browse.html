@@ -12,14 +12,8 @@
             <h2 class="my-4">Search</h2>
         </div>
         <div class="row justify-content-center mx-2">
-            <div class="col-12 col-md-2 m-0 p-0">
-                <select id="searchDropdown" name="searchType" form="filterCriteria" class="w-100 btn btn-outline-secondary">
-                    <option value="brand">Brand</option>
-                    <option value="name">Coffee name</option>
-                </select>
-            </div>
             <div class="col-12 col-md-8 col-lg-9 m-0 p-0">
-                <input type="text" id="searchCriteria" autofocus name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" {% if request.args.get('searchCriteria') %}value="{{ request.args.get('searchCriteria') }}"{% endif %} aria-label="Text input with dropdown button">
+                <input type="text" id="searchCriteria" autofocus name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" {% if request.args.get('searchCriteria') %}value="{{ request.args.get('searchCriteria') }}"{% endif %}>
             </div>
             <div class="col-12 col-md-2 col-lg-1 m-0 p-0">
                 <input id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2 w-100"></input>

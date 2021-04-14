@@ -58,8 +58,8 @@
     <div class="container-fluid">
         <div class="row mt-2">
             <div class="col-12 col-md-12 col-lg-4 order-12 order-md-12 order-lg-11 px-2">
-                <div class="row mx-2 d-none d-lg-block">
-                    <form name="quickSearch" class="text-center" method="POST">
+                <div class="row mx-2">
+                    <form id="quickSearch" name="quickSearch" class="text-center w-100" method="POST">
                         {{ quickSearch.input("quickSearch") }}
                     </form>
                 </div>
@@ -68,11 +68,6 @@
                 {{ single_card.input(recentSubmission) }}
             </div>
             <div class="col-12 col-md-12 col-lg-8 order-1 order-md-1 order-lg-12">
-                <div class="row mx-1 mb-4 d-block d-lg-none">
-                    <form name="quickSearch" class="text-center" method="POST">
-                        {{ quickSearch.input("quickSearch") }}
-                    </form>
-                </div>
                 <div id="videoContainer" class="bg-dark d-flex row mx-1">
                     <div id="overlayText" class="align-self-center ml-4">
                         <span class="hero-text mb-2">
@@ -86,7 +81,7 @@
                         <source src="https://i.imgur.com/moPo5ps.mp4" type="video/mp4">
                     </video>
                 </div>
-                <div class="d-flex row mt-2">
+                <div class="d-flex row mt-2 mb-4">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                         <h4 class="text-center mt-2">Top rated submissions</h4>
                         <div class="chart-container py-2">

@@ -43,7 +43,7 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('403.html'), 403
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     # GETS MOST RECENT SUBMISSION 
     recentSubmission = mongo.db.beans.find_one(
@@ -90,6 +90,10 @@ def index():
     for x in sortedTimestamps:
         x[4]['reviewTimestamp'] = utcToLocal(x[4]['reviewTimestamp'])
     recentReviews = sortedTimestamps[:3]
+
+    if request.method == "POST":
+        searchCriteria = request.form["quickSearchInput"]
+        return redirect(url_for('browse', searchCriteria=searchCriteria))
 
     return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs, recentReviews=recentReviews)
 
@@ -264,7 +268,6 @@ def pagination(perPage, data):
 @app.route("/browse", methods=["GET"])
 def browse():
     data = mongo.db.beans.find().sort("_id", -1)
-
     offset, perPage, page, beansCount, pageQuantity = pagination(6, data)
 
     beans = data.skip(offset).limit(perPage)
@@ -292,11 +295,16 @@ def browse():
     # GETS USER INPUT DATA AND APPENDS IT TO LISTS
     if request.method == "GET":
 
-        # GETS SEARCH TEXT INPUT
-        searchInput = request.args.get("searchCriteria")
-        # GETS SEARCH TYPE (BRAND/NAME)
-        searchType = request.args.get("searchType")
-        # MATCHING ALL OR ANY CONDITIONS
+        # SETS DEFAULT SEARCH VALUE AS NONE
+        searchInput = None
+        # GETS SEARCH INPUT VALUE FROM INDEX REDIRECT IF EXISTS
+        if request.args.get('indexSearchQuery'):
+            searchInput = request.args.get('indexSearchQuery')
+        # GETS SEARCH INPUT VALUE FROM BROWSE PAGE FORM IF EXISTS
+        elif request.args.get("searchCriteria"):
+            searchInput = request.args.get("searchCriteria")
+
+        # MATCHING ALL OR ANY CONDITIONS FOR NOTES SELECTION
         conditionType = request.args.get('conditionType')
 
 
@@ -321,15 +329,10 @@ def browse():
                 dynamicQuery["$and"].append({ "notes": { "$all": notesChecked }})
             if conditionType == "any":
                 dynamicQuery["$and"].append({ "notes": { "$in": notesChecked }})
+        # IF SEARCH INPUT HAS VALUE
         if searchInput:
-            if searchType == 'brand':
-                dynamicQuery["$and"].append({ "brand": searchInput.lower() })
-                print(dynamicQuery)
-                for doc in mongo.db.beans.find({"brand":searchInput.lower()}):
-                    print(doc)
-            elif searchType == 'name':
-                dynamicQuery["$and"].append({ "name": searchInput.lower() })
-        
+            # SEARCH DATABASE FOR VALUE IN 'BRAND' OR 'NAME' KEYS
+            dynamicQuery["$and"].append({"$or":[{"brand": searchInput.lower() }, {"name": searchInput.lower()}]})
 
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
@@ -356,6 +359,7 @@ def browse():
     # IF CUSTOM FILTER QUERY, CHANGE HEADER
     if dynamicQuery["$and"]:
             browseHeader = "Filtered results"
+
 
     return render_template("browse.html", **context)
 
