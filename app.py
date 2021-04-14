@@ -45,42 +45,48 @@ def page_not_found(e):
 
 @app.route("/")
 def index():
+    # GETS MOST RECENT SUBMISSION 
     recentSubmission = mongo.db.beans.find_one(
         {}, sort=[( '_id', -1 )]
         )
     
+    # CONTAINS DOC ID, AVERAGE RATING AND NUMBER OF RATINGS
     averages = []
+    # COLLECTION CONTAINING ALL DOCUMENTS WITH RATINGS
     ratingsTrue = mongo.db.beans.find( { "rating": { "$exists": True } } )
 
+    # LOOPS THROUGH COLLECTION AND APPENDS TO AVERAGES LIST
     for doc in list(ratingsTrue):
         averages.append((doc['_id'], getAverageRating(doc['_id']), len(gatherRatings(doc['_id']))))
-    
+
+    # SORTS BY AVERAGE RATING THEN BY QUANTITY OF RATINGS
     sortedAverages = sorted(averages, key=lambda average: (average[1], average[2]), reverse=True)
+    # GETS TOP 5
     top5tuples = sortedAverages[:5]
+    # CONTAINS FULL DOC DATA AND AVERAGE DATA
     top5docs = []
     for submission in top5tuples:
         top5docs.append((submission, mongo.db.beans.find_one(
             {"_id": ObjectId(submission[0])}) ))
 
-
-
+    # COLLECTION CONTAINING ALL DOCUMENTS WITH REVIEWS
     reviewsTrue = mongo.db.beans.find( { "review": { "$exists": True } } )
-
+    # CONTAINS DOC DATA AND REVIEWS
     reviewsCollection = []
-
     for doc in list(reviewsTrue):
         reviews = []
         for review in doc['review']:
             reviews.append(review)
         reviewsCollection.append((doc['_id'], doc['brand'], doc['name'], doc['roast'], reviews))
 
+    # CONTAINS INDIVIDUAL TIMESTAMPS WITH DOC DATA
     reviewTimestamps = []
-
     for item in reviewsCollection:
         for timestamp in item[4]:
             reviewTimestamps.append((item[0], item[1], item[2], item[3], timestamp))
-
+    # SORTS BY TIMESTAMP DATE
     sortedTimestamps = sorted(reviewTimestamps, key=lambda timestamp: timestamp[4]['reviewTimestamp'], reverse=True)
+    # CONVERTS UTC TIME TO USER LOCAL TIMEZONE
     for x in sortedTimestamps:
         x[4]['reviewTimestamp'] = utcToLocal(x[4]['reviewTimestamp'])
     recentReviews = sortedTimestamps[:3]

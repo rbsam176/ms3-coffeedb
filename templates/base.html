@@ -22,43 +22,41 @@
 
 </head>
 <body>
-    <nav id="main" class="navbar navbar-light navbar-expand-lg navbar-custom">
-        <div class="container-fluid">
-            <a id="logo-text" class="navbar-brand" href="#">CoffeeDB</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon custom-toggler"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    {% set active_page = request.path %}
-                    <li class="nav-item">
-                        <a class="nav-item nav-link {% if active_page == url_for('index') %}active{% endif %}" aria-current="page" href="{{ url_for('index') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('browse') %}active{% endif %}" href="{{ url_for('browse') }}">Browse</a>
-                    </li>
-                    {% if session.user %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('add') %}active{% endif %}" href="{{ url_for('add') }}">Add</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('profile', username=session['user']) %}active{% endif %}" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('logout') %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('login') %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_page == url_for('signup') %}active{% endif %}" href="{{ url_for('signup') }}">Sign Up</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+    <nav id="main" class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <a id="logo-text" class="navbar-brand" href="{{ url_for('index') }}"><span class="coffee-title">Coffee</span><span class="db-title">DB</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            {% set active_page = request.path %}
+            <li class="nav-item">
+                <a class="nav-item nav-link {% if active_page == url_for('index') %}active{% endif %}" aria-current="page" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_page == url_for('browse') %}active{% endif %}" href="{{ url_for('browse') }}">Browse</a>
+            </li>
+            {% if session.user %}
+            <li class="nav-item">
+                <a class="nav-link {% if active_page == url_for('add') %}active{% endif %}" href="{{ url_for('add') }}">Add</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_page == url_for('profile', username=session['user']) %}active{% endif %}" href="{{ url_for('profile', username=session['user']) }}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_page == url_for('logout') %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% if active_page == url_for('login') %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_page == url_for('signup') %}active{% endif %}" href="{{ url_for('signup') }}">Sign Up</a>
+            </li>
+            {% endif %}
+          </ul>
         </div>
-    </nav>
+      </nav>
 
     {% block content %}
     {% endblock %}

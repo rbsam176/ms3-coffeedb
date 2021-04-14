@@ -17,7 +17,7 @@
     {% endwith %}
     <div id="index-bg" class="container-fluid d-flex mb-4">
         <div id="logoNav" class="row justify-content-center align-self-center">
-            <div id="logo" class="text-center mt-2"><span class="h1 coffee-title">Coffee</span><span class="ml-2 h1 db-title">DB</span>
+            <div id="logo" class="text-center mt-2"><a href="{{ url_for('index') }}"><span class="h1 coffee-title home-title">Coffee</span><span class="ml-2 h1 db-title home-title">DB</span></a>
                 <img class="bean-icon bean2" src="https://i.imgur.com/2U8YAEk.png" />
                 <img class="bean-icon bean3" src="https://i.imgur.com/2xnpHKq.png" />
             </div>
@@ -58,15 +58,20 @@
     <div class="container-fluid">
         <div class="row mt-2">
             <div class="col-12 col-md-12 col-lg-4 order-12 order-md-12 order-lg-11 px-2">
-                <div class="row m-2 d-none d-lg-block">
-                    {{ quickSearch.input() }}
+                <div class="row mx-2 d-none d-lg-block">
+                    <form name="quickSearch" class="text-center" method="POST">
+                        {{ quickSearch.input("quickSearch") }}
+                    </form>
                 </div>
+                <hr class="my-4">
                 <h4 class="text-center mt-4">Latest addition</h4>
                 {{ single_card.input(recentSubmission) }}
             </div>
             <div class="col-12 col-md-12 col-lg-8 order-1 order-md-1 order-lg-12">
                 <div class="row mx-1 mb-4 d-block d-lg-none">
-                    {{ quickSearch.input() }}
+                    <form name="quickSearch" class="text-center" method="POST">
+                        {{ quickSearch.input("quickSearch") }}
+                    </form>
                 </div>
                 <div id="videoContainer" class="bg-dark d-flex row mx-1">
                     <div id="overlayText" class="align-self-center ml-4">
@@ -81,9 +86,9 @@
                         <source src="https://i.imgur.com/moPo5ps.mp4" type="video/mp4">
                     </video>
                 </div>
-                <div class="d-flex row mt-4">
+                <div class="d-flex row mt-2">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-                        <h4 class="text-center mt-4">Top rated submissions</h4>
+                        <h4 class="text-center mt-2">Top rated submissions</h4>
                         <div class="chart-container py-2">
                             {% for item in top5docs %}
                                 <div class="rating-row mx-3 my-2 row">
@@ -99,7 +104,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-                        <h4 class="text-center mt-4">Recent reviews</h4>
+                        <h4 class="text-center mt-2">Recent reviews</h4>
                         <div class="chart-container py-2">
                             {% for review in recentReviews %}
                                 <blockquote class="rating-row mx-3 d-flex my-2 row">

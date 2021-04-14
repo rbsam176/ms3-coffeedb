@@ -8,6 +8,10 @@ body {
     text-transform: capitalize;
 } */
 
+a:hover {
+    text-decoration: none;
+}
+
 .custom-capitalize {
     text-transform: capitalize;
 }
@@ -16,24 +20,25 @@ h2, h3 {
     font-family: 'Lora', serif;
 }
 
-.navbar-custom {
-    background-color: #F8A825;
-}
-
 #logo-text {
-    color: #3E3C57;
-    font-family: 'Montserrat', sans-serif;
+    color: white;
+    text-shadow: 1px 1px #000000;
     font-size: 36px;
 }
 
-.nav-item .nav-link {
-    /* color: #3E3C57; */
-    font-size: 18px;
-    margin: 0px 5px;
+.navbar-custom {
+    background-color: #F8A825;
+    border-bottom: 2px solid black;
 }
 
-#navbarContent > ul > li > a {
-    color: #3E3C57;
+.nav-item .nav-link {
+    font-size: 18px;
+    margin: 0px 10px;
+    color: white;
+}
+
+#navbarNav > ul > li > a.active {
+    color: white;
 }
 
 #hero-banner {
@@ -190,11 +195,20 @@ h2, h3 {
     color: black;
 }
 
+.home-title {
+    font-size: 15vw;
+}
+
 .coffee-title {
     font-family: 'Pacifico', cursive;
-    font-size: 15vw;
     color: white;
     text-shadow: 2px 2px #000000;
+}
+
+.db-title {
+    font-family: 'Codystar', cursive;
+    color: white;
+    text-shadow: 2px 2px black;
 }
 
 .bean-icon {
@@ -221,13 +235,6 @@ h2, h3 {
     top: 60vh;
     left: 85%;
     position: absolute;
-}
-
-.db-title {
-    font-family: 'Codystar', cursive;
-    font-size: 15vw;
-    color: white;
-    text-shadow: 2px 2px black;
 }
 
 #videoContainer {
@@ -404,13 +411,6 @@ ul.add-notes-container li label {
 #livePreview {
     position: sticky;
     top: 0px;
-}
-
-#navbarContent > ul > li > a.active {
-    color: white;
-    background-color: #F8B03C;
-    border-radius: 15px;
-    padding: 10px;
 }
 
 #resetUpload {
