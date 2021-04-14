@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import 'card.html' as card %}
 {% import 'pagination.html' as pagination %}
+{% import 'quick_search.html' as quickSearch %}
 
 {% block title %}CoffeeDB: Browse{% endblock %}
 
@@ -9,16 +10,11 @@
     <div class="container">
         <!-- SEARCH -->
         <div class="row justify-content-center">
-            <h2 class="my-4">Search</h2>
+            <h4 class="text-center my-4">Browse</h4>
         </div>
-        <div class="row justify-content-center mx-2">
-            <div class="col-12 col-md-8 col-lg-9 m-0 p-0">
-                <input type="text" id="searchCriteria" placeholder="Enter brand or coffee name" autofocus name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" {% if request.args.get('searchCriteria') %}value="{{ request.args.get('searchCriteria') }}"{% endif %}>
-            </div>
-            <div class="col-12 col-md-2 col-lg-1 m-0 p-0">
-                <input id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2 w-100"></input>
-            </div>
-        </div>
+        <form id="quickSearch" name="quickSearch" class="text-center w-100" method="POST">
+            {{ quickSearch.input("filterCriteria", "autofocus") }}
+        </form>
         <!-- COLLAPSE BUTTON -->
         <div class="row my-4 mx-2 justify-content-center">
             <button type="button" class="btn btn-outline-secondary btn-lg btn-block" data-toggle="collapse" data-target="#browseCriteria">Open filter controls</button>
@@ -62,41 +58,43 @@
             </div>
             <hr>
             <!-- NOTES -->
-            <div class="row justify-content-center">
-                <h2 class="mt-4">Popular tasting notes</h2>
-            </div>
-            <div class="row my-4 justify-content-center">
-                <label for="allConditions">Show submissions containing</label>
-                <select form="filterCriteria" class="mx-2" name="conditionType">
-                    <option value="all" {% if conditionType == "all" %}selected{% endif %}>all</option>
-                    <option value="any" {% if conditionType == "any" %}selected{% endif %}>any</option>
-                </select>
-                <label for="allConditions">of the following notes</label>
-            </div>
-            <div class="row justify-content-center mx-2">
-                {% for key, value in notesRelativePercentage.items() %}
-                    {% if value > 75 %}
-                        <span class="checkbox-container">
-                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                            <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
-                        </span>
-                    {% elif value > 50 %}
-                        <span class="checkbox-container">
-                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                            <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
-                        </span>
-                    {% elif value > 25 %}
-                        <span class="checkbox-container">
-                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                            <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
-                        </span>
-                    {% else %}
-                        <span class="checkbox-container">
-                            <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
-                            <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
-                        </span>
-                    {% endif %}
-                {% endfor %}
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <h2 class="mt-4">Popular tasting notes</h2>
+                </div>
+                <div class="row my-4 justify-content-center">
+                    <label for="allConditions">Show submissions containing</label>
+                    <select form="filterCriteria" class="mx-2" name="conditionType">
+                        <option value="all" {% if conditionType == "all" %}selected{% endif %}>all</option>
+                        <option value="any" {% if conditionType == "any" %}selected{% endif %}>any</option>
+                    </select>
+                    <label for="allConditions">of the following notes</label>
+                </div>
+                <div class="row justify-content-center">
+                    {% for key, value in notesRelativePercentage.items() %}
+                        {% if value > 75 %}
+                            <span class="checkbox-container">
+                                <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
+                            </span>
+                        {% elif value > 50 %}
+                            <span class="checkbox-container">
+                                <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
+                            </span>
+                        {% elif value > 25 %}
+                            <span class="checkbox-container">
+                                <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
+                            </span>
+                        {% else %}
+                            <span class="checkbox-container">
+                                <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             <hr>
             <!-- SUBMIT/RESET -->

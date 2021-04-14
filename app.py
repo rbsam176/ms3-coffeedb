@@ -92,7 +92,7 @@ def index():
     recentReviews = sortedTimestamps[:3]
 
     if request.method == "POST":
-        searchCriteria = request.form["quickSearchInput"]
+        searchCriteria = request.form["searchCriteria"]
         return redirect(url_for('browse', searchCriteria=searchCriteria))
 
     return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs, recentReviews=recentReviews)

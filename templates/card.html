@@ -12,7 +12,7 @@
                 {% set averageRating = averageRating|round %}                   
             {% endif %}
            
-            <div class="col-12 col-md-6 col-lg-4 p-2">
+            <div class="col-12 col-md-6 col-xl-4 p-3">
                 <div class="card">
                     {% if (session["user"] == bean.username) and (bean['_id'] is defined) %}<a href="{{ url_for('edit', beanId=bean['_id']) }}" class="btn btn-warning edit-btn">EDIT</a>{% endif %}
                     {% if bean['rating'] %}<span class="rating-btn"><i class="bi bi-star-fill pr-1"></i>{{ averageRating }}</span>{% endif %}
@@ -23,7 +23,7 @@
                             <li>Roast: {{ bean.roast }}</li>
                             <li>Origin: {{ bean.origin }}</li>
                             <li>Organic: {{ bean.organic }}</li>
-                            <li><a href="{{ bean.url }}">More Info</a></li>
+                            <li><u><a href="{{ bean.url }}">More Info</a></u></li>
                         </ul>
                         <h5 class="text-center my-3">Notes:</h5>
                         <div class="notes-container">

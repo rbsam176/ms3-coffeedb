@@ -4,12 +4,23 @@ body {
     font-family: 'Hind Madurai', sans-serif;
 }
 
+input {
+    outline-color: black;
+    outline-style: solid;
+    outline-width: thin;
+}
+
+a {
+    color: #643F00;
+}
+
 /* select, option, input:not([type="email"]):not([type="password"]):not([type="date"]) {
     text-transform: capitalize;
 } */
 
 a:hover {
     text-decoration: none;
+    color: #F8A825;
 }
 
 .custom-capitalize {
@@ -17,7 +28,7 @@ a:hover {
 }
 
 h2, h3 {
-    font-family: 'Lora', serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 #logo-text {
@@ -286,21 +297,24 @@ h2, h3 {
     top: 5px;
     right: 5px;
     z-index: 10;
+    border-radius: 0;
+    border: 2px solid black;
 }
 
 .rating-btn {
     position: absolute;
     top: 5px;
     left: 5px;
-    background-color: white;
-    border-radius: 5px;
+    background-color: #FFC008;
+    border: 2px solid black;
+    box-shadow: 2px 2px black;
     padding-top: 3px;
     padding-left: 3px;
     width: 55px;
     font-size: 16px;
-    height: 25px;
+    height: 32px;
     z-index: 10;
-    color: orange;
+    color: black;
 }
 
 #confirmDelete, #confirmMessage {
@@ -315,27 +329,6 @@ h2, h3 {
 
 .featured-img {
     object-fit: cover;
-}
-
-.search-inputs {
-    height: 60px;
-    border-radius: 25px;
-}
-
-.search-criteria {
-    width: 100px;
-    padding-left: 20px;
-}
-
-.search-text {
-    width: 70%;
-    text-align: center;
-}
-
-.search-submit {
-    width: 10%;
-    border: none;
-    background-color: lightgreen;
 }
 
 .card-title, .card-text {
@@ -355,12 +348,16 @@ h2, h3 {
 
 .card {
     height: 100%;
+    border: 2px solid black;
+    border-radius: 0;
 }
 
 .card-img-top {
     width: 100%;
     height: 300px;
     object-fit: cover;
+    border-bottom: 2px solid black;
+    border-radius: 0;
 }
 
 .img-upload {
@@ -542,7 +539,8 @@ input[type=checkbox]:checked + label.cloud-note {
 
 .note-bubble {
     padding: 10px;
-    border-radius: 10px;
+    border: 2px solid black;
+    box-shadow: 2px 2px black;
     white-space: nowrap;
     line-height: 50px;
     margin: 5px;
@@ -556,6 +554,7 @@ input[type=checkbox]:checked + label.cloud-note {
 
 .notes-container {
     text-align: center;
+    text-transform: capitalize;
 }
 
 .custom-card-footer {
