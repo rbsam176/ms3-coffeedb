@@ -3,7 +3,9 @@
         <div class="row justify-content-center mt-4">
             {% if pageQuantity > 1 %}
             <div class="col-2 text-center">
-                <button form="{{ formName }}" type="submit" name="page" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}"><i class="h2 bi bi-arrow-left-short"></i></button>
+                <button form="{{ formName }}" type="submit" name="page" class="pagination-btn h-50" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}">
+                    <i class="bi bi-arrow-left-short align-self-center"></i>
+                </button>
             </div>
             {% endif %}
             <div class="col-8 text-center">
@@ -14,7 +16,9 @@
             </div>
             {% if pageQuantity > 1 %}
             <div class="col-2 text-center">
-                <button form="{{ formName }}" type="submit" name="page" {% if page_variable == pageQuantity %}disabled{% endif %} value="{{ page_variable + 1}}"><i class="h2 bi bi-arrow-right-short"></i></button>
+                <button form="{{ formName }}" type="submit" name="page" class="pagination-btn h-50" {% if page_variable == pageQuantity %}disabled{% endif %} value="{{ page_variable + 1}}">
+                    <i class="bi bi-arrow-right-short align-self-center"></i>
+                </button>
             </div>
             {% endif %}
         </div>
