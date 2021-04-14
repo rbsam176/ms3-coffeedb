@@ -13,7 +13,7 @@
         </div>
         <div class="row justify-content-center mx-2">
             <div class="col-12 col-md-8 col-lg-9 m-0 p-0">
-                <input type="text" id="searchCriteria" autofocus name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" {% if request.args.get('searchCriteria') %}value="{{ request.args.get('searchCriteria') }}"{% endif %}>
+                <input type="text" id="searchCriteria" placeholder="Enter brand or coffee name" autofocus name="searchCriteria" form="filterCriteria" class="form-control form-control-lg" {% if request.args.get('searchCriteria') %}value="{{ request.args.get('searchCriteria') }}"{% endif %}>
             </div>
             <div class="col-12 col-md-2 col-lg-1 m-0 p-0">
                 <input id="searchSubmit" type="submit" form="filterCriteria" class="btn btn-primary mb-2 w-100"></input>

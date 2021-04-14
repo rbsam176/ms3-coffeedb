@@ -336,7 +336,12 @@ def browse():
 
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
+            findQuery = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
+            # REASSIGNS VALUES TO PAGINATION VARIABLES
+            offset, perPage, page, beansCount, pageQuantity = pagination(6, findQuery)
+            # REASSIGNS BEANS VARIABLE TO INCLUDE QUERY AND PAGINATION OFFSET/LIMIT
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
+
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
     context = {
