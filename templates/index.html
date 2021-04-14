@@ -78,7 +78,6 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                         <h4 class="text-center mt-4">Top rated submissions</h4>
                         <div class="chart-container py-2">
-
                             {% for item in top5docs %}
                                 <div class="rating-row mx-3 my-2 row">
                                     <div class="col-2 high-rated-entry p-2">{{ loop.index }}.</div>
@@ -95,10 +94,10 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                         <h4 class="text-center mt-4">Recent reviews</h4>
                         <div class="chart-container py-2">
-                            {% for review in recent5reviews %}
+                            {% for review in recentReviews %}
                                 <blockquote class="rating-row mx-3 d-flex my-2 row">
                                     <div class="col-11 my-auto">
-                                        <div class="row mb-1 lead"><span class="dark-roast my-auto mr-2"></span><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}">{{ review[1]|title }}: {{ review[2]|title }}</a></div>
+                                        <div class="row mb-1 lead"><span class="roast {% if review[3] == 'dark' %}dark-roast{% elif review[3] == 'medium' %}medium-roast{% elif review[3] == 'light' %}light-roast{% endif %} my-auto mr-2"></span><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}">{{ review[1]|title }}: {{ review[2]|title }}</a></div>
                                         <div class="row mb-1">{{ review[4].text }}</div>
                                         <div class="row text-muted">
                                             <span>
@@ -110,7 +109,7 @@
                                     </div>
                                     <div class="col-1 go-btn align-self-center"><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}"><i class="bi bi-arrow-right-short"></a></i></div>
                                 </blockquote>
-                                {% if loop.index != recent5reviews|count %}<hr>{% endif %}
+                                {% if loop.index != recentReviews|count %}<hr>{% endif %}
                             {% endfor %}
                         </div>
                     </div>

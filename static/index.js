@@ -1,2 +1,1 @@
 $("#main").css('display', 'none')
-

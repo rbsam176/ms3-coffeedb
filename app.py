@@ -80,15 +80,12 @@ def index():
         for timestamp in item[4]:
             reviewTimestamps.append((item[0], item[1], item[2], item[3], timestamp))
 
-    # convert timezone
-    # for ratings and reviews make them a dictionary inside a tuple, easier to refer in jinja
-
     sortedTimestamps = sorted(reviewTimestamps, key=lambda timestamp: timestamp[4]['reviewTimestamp'], reverse=True)
     for x in sortedTimestamps:
         x[4]['reviewTimestamp'] = utcToLocal(x[4]['reviewTimestamp'])
-    recent5reviews = sortedTimestamps[:5]
+    recentReviews = sortedTimestamps[:3]
 
-    return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs, recent5reviews=recent5reviews)
+    return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs, recentReviews=recentReviews)
 
 
 def gatherInputs():

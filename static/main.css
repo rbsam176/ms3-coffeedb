@@ -79,10 +79,21 @@ h2, h3 {
 }
 
 .dark-roast {
+    background-color: SaddleBrown;
+}
+
+.medium-roast {
+    background-color: Peru;
+}
+
+.light-roast {
+    background-color: AntiqueWhite;
+}
+
+.roast {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: brown;
 }
 
 .high-rated-entry {
