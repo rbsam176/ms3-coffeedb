@@ -70,11 +70,15 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                         <h4 class="text-center mt-4">Top rated submissions</h4>
                         <div class="chart-container py-2">
+
                             {% for item in top5docs %}
                                 <div class="rating-row mx-3 my-2 row">
                                     <div class="col-2 high-rated-entry p-2">{{ loop.index }}.</div>
-                                    <div class="col-9 my-auto">{{ item['brand']|title }}: {{ item['name']|title }}</div>
-                                    <div class="col-1 go-btn pt-2"><i class="bi bi-arrow-right-short"></i></div>
+                                    <div class="col-9 my-auto">
+                                        <div class="row ml-1"><a href="{{ url_for('viewSubmission', submissionId=item[1]['_id']) }}">{{ item[1]['brand']|title }}: {{ item[1]['name']|title }}</a></div>
+                                        <div class="row ml-1 text-muted">Average <i class="mx-1 bi bi-star-fill star-rating"></i>{{ item[0][1] }} ({{ item[0][2] }} ratings)</div>
+                                    </div>
+                                    <div class="col-1 go-btn pt-2"><a href="{{ url_for('viewSubmission', submissionId=item[1]['_id']) }}"><i class="bi bi-arrow-right-short"></i></a></div>
                                 </div>
                                 {% if loop.index != top5docs|count %}<hr>{% endif %}
                             {% endfor %}
@@ -83,33 +87,23 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                         <h4 class="text-center mt-4">Recent reviews</h4>
                         <div class="chart-container py-2">
-                            <div class="rating-row mx-3 d-flex my-2 row">
-                                <div class="col-11 my-auto">
-                                    <div class="row lead"><span class="dark-roast my-auto mr-2"></span>Monmouth: Fazenda IP</div>
-                                    <div class="row">This one is really smooth. I buy it on a regular basis</div>
-                                    <div class="row text-muted">rbsam on 06-04-2021 14:39</div>
-                                </div>
-                                <div class="col-1 go-btn align-self-center"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
-                            <hr>
-                            <div class="rating-row mx-3 d-flex my-2 row">
-                                <div class="col-11 my-auto">
-                                    <div class="row lead"><span class="dark-roast my-auto mr-2"></span>Monmouth: Fazenda IP</div>
-                                    <div class="row">This one is really smooth. I buy it on a regular basis</div>
-                                    <div class="row text-muted">rbsam on 06-04-2021 14:39</div>
-                                </div>
-                                <div class="col-1 go-btn align-self-center"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
-                            <hr>
-                            <div class="rating-row mx-3 d-flex my-2 row">
-                                <div class="col-11 my-auto">
-                                    <div class="row lead"><span class="dark-roast my-auto mr-2"></span>Monmouth: Fazenda IP</div>
-                                    <div class="row">This one is really smooth. I buy it on a regular basis</div>
-                                    <div class="row text-muted">rbsam on 06-04-2021 14:39</div>
-                                </div>
-                                <div class="col-1 go-btn align-self-center"><i class="bi bi-arrow-right-short"></i></div>
-                            </div>
-                            
+                            {% for review in recent5reviews %}
+                                <blockquote class="rating-row mx-3 d-flex my-2 row">
+                                    <div class="col-11 my-auto">
+                                        <div class="row mb-1 lead"><span class="dark-roast my-auto mr-2"></span><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}">{{ review[1]|title }}: {{ review[2]|title }}</a></div>
+                                        <div class="row mb-1">{{ review[4].text }}</div>
+                                        <div class="row text-muted">
+                                            <span>
+                                                <a href="{{ url_for('profile', username=review[4].username) }}">
+                                                    {{ review[4].username }}
+                                                </a> on <cite>{{ review[4].reviewTimestamp.strftime('%d-%m-%Y %H:%M') }}</cite>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 go-btn align-self-center"><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}"><i class="bi bi-arrow-right-short"></a></i></div>
+                                </blockquote>
+                                {% if loop.index != recent5reviews|count %}<hr>{% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

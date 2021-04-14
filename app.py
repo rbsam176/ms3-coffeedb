@@ -49,24 +49,46 @@ def index():
         {}, sort=[( '_id', -1 )]
         )
     
-
-
     averages = []
     ratingsTrue = mongo.db.beans.find( { "rating": { "$exists": True } } )
 
     for doc in list(ratingsTrue):
-        averages.append((doc['_id'], getAverageRating(doc['_id'])))
+        averages.append((doc['_id'], getAverageRating(doc['_id']), len(gatherRatings(doc['_id']))))
     
-    sortedAverages = sorted(averages, key=lambda average: average[1], reverse=True)
+    sortedAverages = sorted(averages, key=lambda average: (average[1], average[2]), reverse=True)
     top5tuples = sortedAverages[:5]
     top5docs = []
     for submission in top5tuples:
-        top5docs.append(mongo.db.beans.find_one(
-            {"_id": ObjectId(submission[0])}) )
+        top5docs.append((submission, mongo.db.beans.find_one(
+            {"_id": ObjectId(submission[0])}) ))
 
-    print(mongo.db.beans.find().sort("_id", -1).limit(3)) # get the reviews
 
-    return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs)
+
+    reviewsTrue = mongo.db.beans.find( { "review": { "$exists": True } } )
+
+    reviewsCollection = []
+
+    for doc in list(reviewsTrue):
+        reviews = []
+        for review in doc['review']:
+            reviews.append(review)
+        reviewsCollection.append((doc['_id'], doc['brand'], doc['name'], doc['roast'], reviews))
+
+    reviewTimestamps = []
+
+    for item in reviewsCollection:
+        for timestamp in item[4]:
+            reviewTimestamps.append((item[0], item[1], item[2], item[3], timestamp))
+
+    # convert timezone
+    # for ratings and reviews make them a dictionary inside a tuple, easier to refer in jinja
+
+    sortedTimestamps = sorted(reviewTimestamps, key=lambda timestamp: timestamp[4]['reviewTimestamp'], reverse=True)
+    for x in sortedTimestamps:
+        x[4]['reviewTimestamp'] = utcToLocal(x[4]['reviewTimestamp'])
+    recent5reviews = sortedTimestamps[:5]
+
+    return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs, recent5reviews=recent5reviews)
 
 
 def gatherInputs():
