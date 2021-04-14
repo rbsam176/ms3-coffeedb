@@ -475,7 +475,7 @@ def viewSubmission(submissionId):
                         {
                             "$set" : {
                                 "review.$.text" : str(reviewText),
-                                "review.$.reviewTimestamp": datetime.datetime.utcnow()
+                                "review.$.reviewTimestamp": datetime.utcnow()
                             }
                         }
                     )
@@ -489,7 +489,7 @@ def viewSubmission(submissionId):
                                     "user": currentUserId,
                                     "username": session["user"],
                                     "text": str(reviewText),
-                                    "reviewTimestamp": datetime.datetime.utcnow()
+                                    "reviewTimestamp": datetime.utcnow()
                                 }
                             }
                         }
