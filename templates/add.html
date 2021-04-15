@@ -2,7 +2,6 @@
 
 {% block title %}CoffeeDB: Add a coffee{% endblock %}
 
-
 {% block header %}
     Add a coffee
 {% endblock %}
@@ -12,8 +11,8 @@
 {% endblock %}
 
 {% block recently_added %}
-<div class="container-fluid">
-    <h2 class="text-center my-4">Most recently added</h2>
-    {{ card.input(beans) }}
-</div>
+    <div class="container-fluid">
+        <h2 class="text-center my-4">Most recently added</h2>
+        {{ card.input(beans) }}
+    </div>
 {% endblock %}

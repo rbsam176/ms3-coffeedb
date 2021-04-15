@@ -3,6 +3,7 @@ import sys
 import random
 from datetime import datetime, timezone
 import math
+import base64
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import (
     Flask, flash, render_template, 
@@ -195,6 +196,10 @@ def edit(beanId):
 
 
     if request.method == "POST":
+        image = request.files['file']
+        image_string = base64.b64encode(image.read())
+        print(image_string)
+
         if "editCoffee" in request.form:
             mongo.db.beans.update_one(
                 {"_id": ObjectId(beanId)},

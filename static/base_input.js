@@ -95,6 +95,8 @@ $(document).ready(function() {
             appendToPreview($(".note-checkbox").eq(x).parent().text())
         }
     }
+
+    console.log('ok')
 })
 
 // ADDS CUSTOM INPUT NOTE TO INPUT CONTAINER AND LIVE PREVIEW CONTAINER
@@ -140,7 +142,6 @@ $("#submitCoffee").on('click', function(){
 $("#uploadTrigger").on('click', function(e){
     // const client = filestack.init("AvaoIzsbLTTG0R1N7vg2Uz"); ORIGINAL
     const client = filestack.init("AX7dD5B3WTAzYpPXMkcSBz"); // NEW
-
     const options = {
         // WRITES URL TO TEXT INPUT
         // IF ON MOBILE VIEW, HIDE UPLOADER UI AND INSERT RESET UI

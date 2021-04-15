@@ -33,6 +33,7 @@
                             <input id="imgURL" class="form-control form-control-lg text-center custom-input" name="imgURL" type="url" required {% if submissionImg %}value="{{ submissionImg }}"{% else %}placeholder="http://example.com/image.jpg"{% endif %}>
                         </div>
                     </div>
+                    <input type="file" name="file">
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="brandInput" class="col-md-12 col-lg-3 col-form-label text-center">Brand*</label>
@@ -173,7 +174,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/add.js"></script>
+<script src="/static/base_input.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
 <script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <script src="https://www.filestack.com/docs/js/picker.js"></script>
