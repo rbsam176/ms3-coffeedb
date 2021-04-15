@@ -15,29 +15,29 @@
     {% endwith %}
     <div class="container">
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-lg-6">
                 <h2 class="text-center mt-4">{% block header %}{% endblock %}</h2>
             </div>
-            <div class="d-none d-md-block col-6">
+            <div class="d-none d-lg-block col-6">
                 <h2 class="text-center mt-4">Live preview</h2>
             </div>
         </div>
         <div class="row gy-4 justify-content-center">
-            <div class="col-12 col-md-6 p-2">
-                <form id="{{ form_type }}" name="{{ form_type }}" class="card" method="POST">
+            <div class="col-12 col-lg-6 p-2">
+                <form id="{{ form_type }}" name="{{ form_type }}" class="card data-card mx-2" method="POST">
                     <div class="img-upload form-group">
                         <a id="resetUpload" class="btn btn-light float-right mt-1 mr-1">Reset</a>
                         <div id="img-filebrowser" class="form-group text-center">
                             <a id="uploadTrigger" class="btn btn-primary">Upload Image</a>
                             <label for="imgURL" class="my-2">Or enter image URL below</label>
-                            <input id="imgURL" class="form-control form-control-lg text-center" name="imgURL" type="url" required {% if submissionImg %}value="{{ submissionImg }}"{% else %}placeholder="http://example.com/image.jpg"{% endif %}>
+                            <input id="imgURL" class="form-control form-control-lg text-center custom-input" name="imgURL" type="url" required {% if submissionImg %}value="{{ submissionImg }}"{% else %}placeholder="http://example.com/image.jpg"{% endif %}>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="brandInput" class="col-md-12 col-lg-3 col-form-label text-center">Brand*</label>
                             <div class="col-md-12 col-lg-9">
-                                <select id="brandInput" name="brand" class="dynamicSelection form-control form-control-lg custom-capitalize" required>
+                                <select id="brandInput" name="brand" class="dynamicSelection custom-input form-control form-control-lg custom-capitalize" required>
                                     {% if brand_choice is not defined %}
                                         <option selected disabled value="">Select brand</option>
                                     {% endif %}
@@ -53,19 +53,19 @@
                                 </select>
                             </div>
                             <div class="col-md-12 col-lg-9 offset-lg-3 toggleInput">
-                                <input type="text" name="brand" class="customInput mt-3 form-control form-control-lg" placeholder="Enter new brand">
+                                <input type="text" name="brand" class="dynamicInput mt-3 form-control form-control-lg custom-input" placeholder="Enter new brand">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="nameInput" class="col-md-12 col-lg-3 col-form-label text-center">Name*</label>
                             <div class="col-md-12 col-lg-9">
-                                <input id="nameInput" name="name" type="text" {% if coffee_name %}value="{{ coffee_name }}"{% else %}placeholder="Enter coffee name"{% endif %} class="form-control form-control-lg custom-capitalize" required>
+                                <input id="nameInput" name="name" type="text" {% if coffee_name %}value="{{ coffee_name }}"{% else %}placeholder="Enter coffee name"{% endif %} class="form-control form-control-lg custom-capitalize custom-input" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="roastInput" class="col-md-12 col-lg-3 col-form-label text-center">Roast*</label>
                             <div class="col-md-12 col-lg-9">
-                                <select id="roastInput" name="roast" class="form-control form-control-lg custom-capitalize" required>
+                                <select id="roastInput" name="roast" class="form-control form-control-lg custom-input custom-capitalize" required>
                                     {% if roast_choice is not defined %}
                                         <option value="" disabled selected>Select roast</option>
                                     {% endif %}
@@ -82,7 +82,7 @@
                         <div class="form-group row">
                             <label for="originInput" class="col-md-12 col-lg-3 col-form-label text-center">Origin*</label>
                             <div class="col-md-12 col-lg-9">
-                                <select id="originInput" name="origin" class="dynamicSelection form-control form-control-lg custom-capitalize" required>
+                                <select id="originInput" name="origin" class="dynamicSelection form-control form-control-lg custom-input custom-capitalize" required>
                                     {% if origin_choice is not defined %}
                                         <option selected disabled value="">Select origin</option>
                                     {% endif %}
@@ -98,7 +98,7 @@
                                 </select>
                             </div>
                             <div class="col-md-12 col-lg-9 offset-lg-3 toggleInput">
-                                <input type="text" name="origin" class="customInput form-control form-control-lg" placeholder="Enter new origin">
+                                <input type="text" name="origin" class="dynamicInput mt-3 custom-input form-control form-control-lg" placeholder="Enter new origin">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -111,7 +111,7 @@
                         <div class="form-group row">
                             <label for="websiteInput" class="col-md-12 col-lg-3 col-form-label text-center">Website*</label>
                             <div class="col-md-12 col-lg-9">
-                                <input id="websiteInput" name="website" type="url" {% if url_input %}value="{{ url_input }}"{% else %}placeholder="https://example.com"{% endif %} class="form-control form-control-lg" required>
+                                <input id="websiteInput" name="website" type="url" {% if url_input %}value="{{ url_input }}"{% else %}placeholder="https://example.com"{% endif %} class="form-control form-control-lg custom-input" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -127,9 +127,9 @@
                         <div class="form-group row">
                             <label for="customNoteInput" class="col-12 col-form-label text-center">Add another note</label>
                             <div class="col-12 input-group">
-                                <input id="customNoteInput" type="text" class="form-control">
+                                <input id="customNoteInput" type="text" class="form-control custom-input">
                                 <div class="input-group-append">
-                                    <button id="addNote" class="btn btn-outline-primary" type="button" disabled>Add</button>
+                                    <button id="addNote" class="btn add-btn" type="button" disabled>Add</button>
                                 </div>
                             </div>
                         </div>
@@ -144,8 +144,8 @@
                     </div>
                 </form>
             </div>
-            <div id="livePreview" class="col-6 d-none d-md-block p-2 h-100">
-                <div class="card">
+            <div id="livePreview" class="col-6 d-none d-lg-block p-2 h-100">
+                <div class="card data-card">
                     <a href="#"><img id="imgPreview" src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}" class="card-img-top hover-shadow" alt="..."></a>
                     <div class="card-body">
                         <h3 class="text-center mb-4 custom-capitalize">

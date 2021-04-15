@@ -13,7 +13,7 @@
             {% endif %}
            
             <div class="col-12 col-md-6 col-xl-4 p-3">
-                <div class="card">
+                <div class="card data-card mx-auto">
                     {% if (session["user"] == bean.username) and (bean['_id'] is defined) %}<a href="{{ url_for('edit', beanId=bean['_id']) }}" class="btn edit-btn">EDIT</a>{% endif %}
                     {% if bean['rating'] %}<span class="rating-btn"><i class="bi bi-star-fill pr-1"></i>{{ averageRating }}</span>{% endif %}
                     <a href="{{ url_for('viewSubmission', submissionId=bean['_id']) }}"><img src="{{ bean['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>

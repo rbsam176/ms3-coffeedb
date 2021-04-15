@@ -6,8 +6,6 @@ body {
 
 input {
     outline-color: black;
-    outline-style: solid;
-    outline-width: thin;
 }
 
 a {
@@ -35,6 +33,41 @@ h2, h3 {
     color: white;
     text-shadow: 1px 1px #000000;
     font-size: 36px;
+}
+
+#signup {
+    min-width: 50vw;
+    max-width: 80vw;
+}
+
+.custom-input {
+    border: 2px solid black;
+    border-radius: 0px;
+    height: 50px;
+    font-size: 1.2em;
+    outline: 0;
+}
+
+.custom-input:focus {
+    background-color: #FFF0C6;
+    outline: 2px solid black;
+}
+
+.btn-custom {
+    background-color: #FFBF04;
+    border-radius: 0;
+    padding: 15px;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+}
+
+.btn-custom:hover {
+    background-color: white;
+}
+
+.password-checker {
+    border: 2px solid black;
+    height: 148px;
 }
 
 .navbar-custom {
@@ -84,7 +117,7 @@ h2, h3 {
     box-shadow: 3px 3px black;
 }
 
-.chart-container {
+.custom-container {
     background-color: white;
     border: 2px solid black;
     box-shadow: 4px 4px black;
@@ -110,6 +143,7 @@ h2, h3 {
     background-color: #FFC002;
     border: 2px solid black;
     box-shadow: 3px 3px black;
+    height: 50px;
 }
 
 .pagination-btn:hover {
@@ -326,6 +360,12 @@ h2, h3 {
     background-color: white;
 }
 
+.filter-controls {
+    background-color: white;
+    border: 2px dashed black;
+    border-radius: 0;
+}
+
 .rating-btn {
     position: absolute;
     top: 5px;
@@ -360,10 +400,6 @@ h2, h3 {
     text-transform: capitalize;
 }
 
-#brand-preview, #name-preview {
-
-}
-
 .card-title{
     height: 80px;
     display: flex;
@@ -373,8 +409,19 @@ h2, h3 {
 
 .card {
     height: 100%;
-    border: 2px solid black;
     border-radius: 0;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #FFBF04;
+    border-radius: 0;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    color: black;
+}
+.data-card {
+    border: 2px solid black;
+    max-width: 600px;
 }
 
 .card-img-top {
@@ -403,6 +450,24 @@ ul.add-notes-container li {
 
 .add-notes-container {
     padding-left: 0px;
+}
+
+.add-btn {
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+    height: 50px;
+    background-color: #FFBF04;
+}
+
+.add-btn:disabled {
+    background-color: #F8F8F8;
+    color: #919191;
+}
+
+.add-btn:hover {
+    background-color: white;
 }
 
 .individual-card {

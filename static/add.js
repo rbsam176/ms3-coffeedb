@@ -22,15 +22,15 @@ $('.dynamicSelection').on('change', function () {
 // ON 'OTHER' TEXT INPUT, MAKE DROPDOWN DISABLED
 $(".toggleInput").on('input', function() {
     var parentSelect = $(this).prev('div').children('.dynamicSelection')
-    var customInput = $(this).children('.customInput')
-    if( $(customInput).val().length === 0 ) {
+    var dynamicInput = $(this).children('.dynamicInput')
+    if( $(dynamicInput).val().length === 0 ) {
         $(parentSelect).attr("disabled", false);
     } else {
         $(parentSelect).attr("disabled", true);
         if ($(this).prev().children('select').attr('id') == "brandInput"){
-            $("#brand-preview").text(customInput.val())
+            $("#brand-preview").text(dynamicInput.val())
         } else if ($(this).prev().children('select').attr('id') == "originInput") {
-            $("#origin-preview").text(customInput.val())
+            $("#origin-preview").text(dynamicInput.val())
         }
     }
 })
