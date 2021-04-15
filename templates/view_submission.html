@@ -6,7 +6,7 @@
 {% block content %}
     <div class="container">
         <div class="row justify-content-center">
-            <h2 class="my-4">View submission</h2>
+            <h2 class="mt-4">View submission</h2>
         </div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -22,10 +22,10 @@
             {% endif %}
         {% endwith %}
         <div class="row">
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-6 mt-4">
                 {{ individual_card.input(submission_data) }}
             </div>
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-6 mt-4">
                 <div class="card data-card container-fluid">
                     <form method="POST" id="submitRating">
                         <div class="row">
@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 mb-4">
                                 <input id="submitReview" form="submitReview" name="review" type="submit" class="btn btn-custom float-right" {% if not session['user'] %}disabled{% endif %}>
                             </div>
                         </div>

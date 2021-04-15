@@ -26,7 +26,7 @@
                     <option {% if request.args.get('sort') == 'ratingDesc' %}selected{% endif %} value="ratingDesc">Rating (High > Low)</option>
                     <option {% if request.args.get('sort') == 'ratingAsc' %}selected{% endif %} value="ratingAsc">Rating (Low > High)</option>
                 </select>
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                <button type="submit" class="btn btn-custom ml-2 mb-2">Submit</button>
             </form>
         </div>
         <div class="col-lg-12 col-xl-10 mx-auto">

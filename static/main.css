@@ -506,6 +506,15 @@ ul.add-notes-container li label {
     top: 0px;
 }
 
+.card-sticky {
+    position: sticky;
+    top: 0px;
+}
+
+.tooltip-symbol {
+    background-color: black;
+}
+
 #resetUpload {
     display: none;
 }
