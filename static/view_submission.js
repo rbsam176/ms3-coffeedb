@@ -7,12 +7,16 @@ $("button.star-rating-btn").children('i').each(function(index) {
     }
 })
 
+
+
 $("#reviewContent").keyup(function() {
-    var counter = parseInt($("#characterCounter").text())
+    var limit = 150
     var currentCount = $("#reviewContent").val().length
-    console.log(currentCount)
-    $("#characterCounter").text(counter - currentCount)
+    $("#characterCounter").text(limit - currentCount)
 })
+
+
+
 
 $( document ).ready(function() {
     // GETS INDEX VALUE OF FIRST UNFILLED STAR

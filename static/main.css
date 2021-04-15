@@ -478,6 +478,7 @@ ul.add-notes-container li {
 
 .individual-card {
     max-width: 600px;
+    border: 2px solid black;
     height: 700px;
 }
 

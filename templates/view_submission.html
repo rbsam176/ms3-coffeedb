@@ -26,7 +26,7 @@
                 {{ individual_card.input(submission_data) }}
             </div>
             <div class="col-12 col-lg-6">
-                <div class="card container-fluid">
+                <div class="card data-card container-fluid">
                     <form method="POST" id="submitRating">
                         <div class="row">
                             <div class="col-6">
@@ -116,13 +116,13 @@
                     <form method="POST" id="submitReview">
                         <div class="row">
                             <div class="form-group col-12">
-                                <textarea class="form-control" id="reviewContent" name="reviewContent" rows="3" placeholder="Type your review here" {% if not session['user'] %}disabled{% endif %}></textarea>
+                                <textarea class="form-control custom-input" maxlength=150 id="reviewContent" name="reviewContent" rows="3" placeholder="Type your review here" {% if not session['user'] %}disabled{% endif %}></textarea>
                                 <small class="float-right"><span id="characterCounter">150</span> characters left</small>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input id="submitReview" form="submitReview" name="review" type="submit" class="btn btn-primary float-right" {% if not session['user'] %}disabled{% endif %}>
+                                <input id="submitReview" form="submitReview" name="review" type="submit" class="btn btn-custom float-right" {% if not session['user'] %}disabled{% endif %}>
                             </div>
                         </div>
                     </form>
