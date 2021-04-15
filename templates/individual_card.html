@@ -3,7 +3,7 @@
             {% if (session["user"] == submission.username) and (submission['_id'] is defined) %}<a href="{{ url_for('edit', beanId=submission['_id']) }}" class="btn btn-warning edit-btn">EDIT</a>{% endif %}
             <a href="{{ submission.url }}"><img src="{{ submission['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
             <div class="card-body">
-                <h3 class="card-title text-center mb-4">{{ submission.brand }}: {{ submission.name }}</h3>
+                <h3 class="card-title text-center mb-4"><a href="{{ url_for('viewSubmission', submissionId=submission['_id']) }}">{{ submission.brand }}: {{ submission.name }}</a></h3>
                 <ul class="bean-info">
                     <li>Roast: {{ submission.roast }}</li>
                     <li>Origin: {{ submission.origin }}</li>

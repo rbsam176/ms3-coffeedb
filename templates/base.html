@@ -56,12 +56,14 @@
             {% endif %}
           </ul>
         </div>
-      </nav>
+    </nav>
+    
+    <div class="base-content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-    {% block content %}
-    {% endblock %}
-
-    <footer id="baseFooter" class="container-fluid">
+    <footer id="baseFooter">
         <div class="row h-100">
             <div class="col-12 col-md-4 text-center order-10 order-md-2 align-self-center my-2">Copyright CoffeeDB 2021</div>
             <div class="col-12 col-md-4 text-center order-2 order-md-10 align-self-center my-3"><a class="go-to-top" href="#">Go to top</a></div>

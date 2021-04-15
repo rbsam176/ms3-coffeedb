@@ -2,6 +2,13 @@ body {
     background-color: #F8F8F8;
     color: #151720;
     font-family: 'Hind Madurai', sans-serif;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.base-content {
+    flex: 1;
 }
 
 input {
@@ -103,7 +110,6 @@ h2, h3 {
 
 #baseFooter {
     background-color: #F8A825;
-    height: 100%;
     margin-top: 20px;
     border-top: 4px solid black;
     padding: 20px;
