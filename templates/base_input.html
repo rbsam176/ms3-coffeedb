@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% import 'card.html' as card %}
+{% import 'individual_card.html' as individual_card %}
+{% import 'card.html' as card_stack %}
 
 {% block content %}
     {% with messages = get_flashed_messages(with_categories=true) %}
