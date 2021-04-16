@@ -10,21 +10,7 @@
     <input id="submitCoffee" name="addCoffee" type="submit" class="btn btn-custom"></input>
 {% endblock %}
 
-{% block recently_added %}
-    <div class="container-fluid">
-        <h2 class="text-center my-4">Most recently added</h2>
-        <div class="row">
-            <div class="col-12 col-md-6 d-block d-xl-none my-2">
-                {{ individual_card.input(beans[0]) }}
-            </div>
-            <div class="col-12 col-md-6 d-block d-xl-none my-2">
-                {{ individual_card.input(beans[1]) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 d-none d-xl-block">
-                {{ card_stack.input(beans) }}
-            </div>
-        </div>
-    </div>
+
+{% block scripts %}
+    <script src="/static/base_input.js"></script>
 {% endblock %}

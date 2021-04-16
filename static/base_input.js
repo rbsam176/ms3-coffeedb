@@ -123,6 +123,7 @@ $("#imgURL").focusout(function(){
 
 // TOGGLES DISABLED STATE FOR 'ADD' NOTE BUTTON DEPENDING ON INPUT EXISTENCE
 $("#customNoteInput").on('input', function() {
+    console.log('hi')
     if ($("#customNoteInput").val().length > 0) {
         $("#addNote").prop("disabled", false)
     } else if ($("#customNoteInput").val().length < 1) {

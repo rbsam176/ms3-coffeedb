@@ -65,7 +65,17 @@
                 </div>
                 <hr class="my-4">
                 <h4 class="text-center mt-4">Latest addition</h4>
-                {{ single_card.input(recentSubmission) }}
+                {% if recentSubmission %}
+                    {{ single_card.input(recentSubmission) }}
+                {% else %}
+                    {% if session['user'] %}
+                        <h4 class="text-center mt-4">You haven't submitted any coffee beans yet!</h4>
+                        <h5 class="text-center"><a href="{{ url_for('add') }}">Click here to add some!</a></h5>
+                    {% else %}
+                        <h4 class="text-center mt-4">No beans have been added yet!</h4>
+                        <h5 class="text-center"><a href="{{ url_for('signup') }}">Click here to signup so you can add some.</a></h5>
+                    {% endif %}
+                {% endif %}
             </div>
             <div class="col-12 col-md-12 col-lg-8 order-1 order-md-1 order-lg-12">
                 <div id="videoContainer" class="bg-dark d-flex row mx-1">
@@ -81,46 +91,48 @@
                         <source src="https://i.imgur.com/moPo5ps.mp4" type="video/mp4">
                     </video>
                 </div>
-                <div class="d-flex row mt-2 mb-4">
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-                        <h4 class="text-center mt-2">Top rated submissions</h4>
-                        <div class="custom-container py-2">
-                            {% for item in top5docs %}
-                                <div class="rating-row mx-3 my-2 row">
-                                    <div class="col-2 high-rated-entry p-2">{{ loop.index }}.</div>
-                                    <div class="col-9 my-auto">
-                                        <div class="row ml-1"><a href="{{ url_for('viewSubmission', submissionId=item[1]['_id']) }}">{{ item[1]['brand']|title }}: {{ item[1]['name']|title }}</a></div>
-                                        <div class="row ml-1 text-muted">Average <i class="mx-1 bi bi-star-fill star-rating"></i>{{ item[0][1] }} ({{ item[0][2] }} ratings)</div>
-                                    </div>
-                                    <div class="col-1 go-btn pt-2"><a href="{{ url_for('viewSubmission', submissionId=item[1]['_id']) }}"><i class="bi bi-arrow-right-short"></i></a></div>
-                                </div>
-                                {% if loop.index != top5docs|count %}<hr>{% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-                        <h4 class="text-center mt-2">Recent reviews</h4>
-                        <div class="custom-container py-2">
-                            {% for review in recentReviews %}
-                                <blockquote class="rating-row mx-3 d-flex my-2 row">
-                                    <div class="col-11 my-auto">
-                                        <div class="row mb-1 lead"><span class="roast {% if review[3] == 'dark' %}dark-roast{% elif review[3] == 'medium' %}medium-roast{% elif review[3] == 'light' %}light-roast{% endif %} my-auto mr-2"></span><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}">{{ review[1]|title }}: {{ review[2]|title }}</a></div>
-                                        <div class="row mb-1">{{ review[4].text }}</div>
-                                        <div class="row text-muted">
-                                            <span>
-                                                <a href="{{ url_for('profile', username=review[4].username) }}">
-                                                    {{ review[4].username }}
-                                                </a> on <cite>{{ review[4].reviewTimestamp.strftime('%d-%m-%Y %H:%M') }}</cite>
-                                            </span>
+                {% if (top5docs) and (recentReviews) %}
+                    <div class="d-flex row mt-2 mb-4">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                            <h4 class="text-center mt-2">Top rated submissions</h4>
+                            <div class="custom-container py-2">
+                                {% for item in top5docs %}
+                                    <div class="rating-row mx-3 my-2 row">
+                                        <div class="col-2 high-rated-entry p-2">{{ loop.index }}.</div>
+                                        <div class="col-9 my-auto">
+                                            <div class="row ml-1"><a href="{{ url_for('viewSubmission', submissionId=item[1]['_id']) }}">{{ item[1]['brand']|title }}: {{ item[1]['name']|title }}</a></div>
+                                            <div class="row ml-1 text-muted">Average <i class="mx-1 bi bi-star-fill star-rating"></i>{{ item[0][1] }} ({{ item[0][2] }} ratings)</div>
                                         </div>
+                                        <div class="col-1 go-btn pt-2"><a href="{{ url_for('viewSubmission', submissionId=item[1]['_id']) }}"><i class="bi bi-arrow-right-short"></i></a></div>
                                     </div>
-                                    <div class="col-1 go-btn align-self-center"><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}"><i class="bi bi-arrow-right-short"></a></i></div>
-                                </blockquote>
-                                {% if loop.index != recentReviews|count %}<hr>{% endif %}
-                            {% endfor %}
+                                    {% if loop.index != top5docs|count %}<hr>{% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                            <h4 class="text-center mt-2">Recent reviews</h4>
+                            <div class="custom-container py-2">
+                                {% for review in recentReviews %}
+                                    <blockquote class="rating-row mx-3 d-flex my-2 row">
+                                        <div class="col-11 my-auto">
+                                            <div class="row mb-1 lead"><span class="roast {% if review[3] == 'dark' %}dark-roast{% elif review[3] == 'medium' %}medium-roast{% elif review[3] == 'light' %}light-roast{% endif %} my-auto mr-2"></span><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}">{{ review[1]|title }}: {{ review[2]|title }}</a></div>
+                                            <div class="row mb-1">{{ review[4].text }}</div>
+                                            <div class="row text-muted">
+                                                <span>
+                                                    <a href="{{ url_for('profile', username=review[4].username) }}">
+                                                        {{ review[4].username }}
+                                                    </a> on <cite>{{ review[4].reviewTimestamp.strftime('%d-%m-%Y %H:%M') }}</cite>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-1 go-btn align-self-center"><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}"><i class="bi bi-arrow-right-short"></a></i></div>
+                                    </blockquote>
+                                    {% if loop.index != recentReviews|count %}<hr>{% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>

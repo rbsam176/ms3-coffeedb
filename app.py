@@ -28,8 +28,8 @@ def dynamicValues(fixed, databaseKey):
 
 def getCoffeeData():
     coffeeData = {
-        "roast_types": ["dark", "medium", "light", "unknown"],
-        "origin_types": dynamicValues(["brazil", "england"], mongo.db.beans.distinct('origin')),
+        "roast_types": ["dark", "medium", "light"],
+        "origin_types": dynamicValues(["brazil", "ethiopia", "blend", "colombia"], mongo.db.beans.distinct('origin')),
         "brand_names": dynamicValues(["union", "monmouth", "starbucks"], mongo.db.beans.distinct('brand')),
         "unique_notes": dynamicValues(["caramel", "prune", "cherry"], mongo.db.beans.distinct('notes')),
         "coffeeImg": "https://images.photowall.com/products/49771/coffee-beans.jpg"
@@ -124,7 +124,6 @@ def gatherInputs():
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
-    beans = mongo.db.beans.find().sort("_id", -1).limit(3) # RETURN MOST RECENT 3 ENTRIES
     form_type = "addCoffee"
     full_name = mongo.db.users.find_one(
         {"username": session["user"]})["first_name"] + " " + mongo.db.users.find_one(
@@ -156,8 +155,7 @@ def add():
                 'roast_types' : getCoffeeData()["roast_types"],
                 'origin_types' : getCoffeeData()["origin_types"],
                 'uniqueNotes' : getCoffeeData()["unique_notes"],
-                'brand_names' : getCoffeeData()["brand_names"],
-                'beans' : beans
+                'brand_names' : getCoffeeData()["brand_names"]
             }
             flash(u"A coffee with this name already exists.", "warning")
             return render_template("add.html", **context)
@@ -168,7 +166,6 @@ def add():
 
     context = {
             'form_type' : form_type,
-            'beans' : beans,
             'coffeeImg' : getCoffeeData()["coffeeImg"],
             'roast_types' : getCoffeeData()["roast_types"],
             'origin_types' : getCoffeeData()["origin_types"],
@@ -196,9 +193,9 @@ def edit(beanId):
 
 
     if request.method == "POST":
-        image = request.files['file']
-        image_string = base64.b64encode(image.read())
-        print(image_string)
+        # image = request.files['file']
+        # image_string = base64.b64encode(image.read())
+        # print(image_string)
 
         if "editCoffee" in request.form:
             mongo.db.beans.update_one(
@@ -284,10 +281,14 @@ def browse():
     organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
     notesChecked = [] # RETURNS LIST OF ALL NOTES THAT WERE CHECKED
     
-    # CREATE DICTIONARY FOR WORD CLOUD
-    notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
-    notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
-    notesRelativePercentage = wordCloud(notesList, uniqueNotes)
+    if notes.count():
+        print('yes')
+        # CREATE DICTIONARY FOR WORD CLOUD
+        notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
+        notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
+        notesRelativePercentage = wordCloud(notesList, uniqueNotes)
+    else:
+        notesRelativePercentage = None
 
     # SET DEFAULT HEADER FOR BROWSE
     browseHeader = "Results"
