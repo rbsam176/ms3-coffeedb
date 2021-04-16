@@ -532,6 +532,9 @@ ul.add-notes-container li label {
     color: orange;
 }
 
+.custom-file-label {
+    border-radius: 0;
+}
 
 
 .addBeanInput {
