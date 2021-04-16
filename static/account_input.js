@@ -9,23 +9,15 @@ $("#inputUsername").on('input', function() {
 
 // WHEN FIRST & LAST NAME ENTERED, GENERATE SUGGESTED USERNAME
 $("#inputFirstName, #inputLastName").on('focusout', function() {
+    // IF USERNAME INPUT FIELD IS EMPTY
     if ($("#inputUsername").val().length < 1){
+        // IF FIRST NAME AND LAST NAME INPUT FIELD HAS MORE THAN 2 CHARACTERS
         if ($("#inputFirstName").val().length > 2 && $("#inputLastName").val().length > 2){
+            // CREATE FULL NAME FROM FIRST AND LAST NAME VALUES
             fullname = $("#inputFirstName").val().toLowerCase() + $("#inputLastName").val().toLowerCase()
+            // ENTER SUGGESTED USERNAME
             $("#inputUsername").val(fullname)
-            $("#usernameTag").html('<i class="bi bi-check-circle-fill"></i>')
         }
-    }
-})
-
-$(".swatch-btn").on('click', function(){
-    var clickedSwatchName = $(this).attr('name')
-    if ($(this).parent().parent().attr('id') == 'bgSwatches'){
-        $("#avatar").children('div').removeClass()
-        $("#avatar").children('div').addClass(`avatar-circle ${clickedSwatchName}`)
-    } else if ($(this).parent().parent().attr('id') == 'iconSwatches'){
-        $(".avatar-icon-container").children('i').css('color', `${clickedSwatchName}`)
-        // need to change this because clickedSwatchName is a background-color and it needs to be a color
     }
 })
 
