@@ -448,10 +448,6 @@ h2, h3 {
     border-bottom: 1px dashed black;
 }
 
-#img-filebrowser {
-    width: 300px;
-    margin: 100px auto;
-}
 
 ul.add-notes-container li {
     display:inline-block;
@@ -522,10 +518,6 @@ ul.add-notes-container li label {
 .account-input {
     width: 60vw;
     justify-content: center;
-}
-
-#resetUpload {
-    display: none;
 }
 
 #reviewContent {

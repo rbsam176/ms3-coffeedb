@@ -113,17 +113,18 @@ $("#addNote").on('click', function(e) {
     }
 })
 
-// CHANGES LIVE PREVIEW IMAGE TO IMAGE URL INPUT VALUE
-// SOURCE https://stackoverflow.com/a/13388240
-$("#imgURL").focusout(function(){
-    if ($("#imgURL").val().match(/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/)){
-        $("#imgPreview").attr('src', $("#imgURL").val())
+// RECEIVES UPLOADED IMAGE, CONVERTS TO BASE64 AND DISPLAYS IN LIVE PREVIEW
+// SOURCE https://stackoverflow.com/questions/12660124/javascript-jquery-preview-image-before-upload
+$("#upload64").on('change', function(){
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        $('.img-preview').attr('src', e.target.result);
     }
+    reader.readAsDataURL(this.files[0]);
 })
 
 // TOGGLES DISABLED STATE FOR 'ADD' NOTE BUTTON DEPENDING ON INPUT EXISTENCE
 $("#customNoteInput").on('input', function() {
-    console.log('hi')
     if ($("#customNoteInput").val().length > 0) {
         $("#addNote").prop("disabled", false)
     } else if ($("#customNoteInput").val().length < 1) {
@@ -138,52 +139,6 @@ $("#submitCoffee").on('click', function(){
         return false
     }
 })
-
-// LINKS TO FILESTACK IMAGE UPLOAD API
-$("#uploadTrigger").on('click', function(e){
-    // const client = filestack.init("AvaoIzsbLTTG0R1N7vg2Uz"); ORIGINAL
-    const client = filestack.init("AX7dD5B3WTAzYpPXMkcSBz"); // NEW
-    const options = {
-        // WRITES URL TO TEXT INPUT
-        // IF ON MOBILE VIEW, HIDE UPLOADER UI AND INSERT RESET UI
-        onFileUploadFinished: file => {
-            $("#imgURL").val(file['url'])
-            $("#imgPreview").attr('src', file['url'])
-            if ($("#livePreview").is(":hidden")){
-                $(".img-upload").css('background-image', `url("${file['url']}")`)
-                $(".img-upload").css('background-size', 'cover')
-                $("#img-filebrowser").css('display', 'none')
-                $('#resetUpload').css('display', 'block')
-            }
-        },
-        accept: 'image/*'
-    }
-    client.picker(options).open()
-})
-
-// ON WINDOW RESIZE, HIDE/SHOW UPLOAD UI AND RESET UI
-$(window).resize(function(){     
-    if ($("#livePreview").is(":visible")){ // DESKTOP
-        if ($(".img-upload").css('background-image') != 'none'){ // HAS BACKGROUND
-            $(".img-upload").css('background-image', "") // HIDE BACKGROUND
-            $(".img-upload").css('background-size', "")
-            $("#img-filebrowser").css('display', 'block') // SHOW UPLOADER
-            $('#resetUpload').css('display', 'none') // HIDE RESET BUTTON
-        }
-    } else if ($("#livePreview").is(":hidden")){ // MOBILE
-        if ($(".img-upload").css('background-image') == 'none'){ // HAS NO BACKGROUND
-            if ($('#imgURL').val()){ // IF IMAGE EXISTS
-                $(".img-upload").css('background-image', `url("${$('#imgURL').val()}")`) // SHOW IMAGE
-                $(".img-upload").css('background-size', 'cover')
-                $("#img-filebrowser").css('display', 'none') // HIDE UPLOADER
-                $('#resetUpload').css('display', 'block') // SHOW RESET BUTTON
-            }
-        } else if ($(".img-upload").css('background-image') != 'none'){ // HAS BACKGROUND
-            $("#img-filebrowser").css('display', 'none') // HIDE UPLOADER
-            $('#resetUpload').css('display', 'block') // SHOW RESET BUTTON
-        }
-    }
-});
 
 // RESETS MOBILE UPLOADER BACK TO DEFAULT
 $("#resetUpload").on('click', function(){

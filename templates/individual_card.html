@@ -1,7 +1,7 @@
 {% macro input(submission) -%}
         <div class="card individual-card mx-auto">
             {% if (session["user"] == submission.username) and (submission['_id'] is defined) %}<a href="{{ url_for('edit', beanId=submission['_id']) }}" class="btn btn-warning edit-btn">EDIT</a>{% endif %}
-            <a href="{{ submission.url }}"><img src="{{ submission['img-url'] }}" class="card-img-top hover-shadow" alt="..."></a>
+            <a href="{{ submission.url }}"><img src="data:image/jpeg;base64,{{ submission['img-base64'] | safe }}" class="card-img-top hover-shadow" alt="..."></a>
             <div class="card-body">
                 <h3 class="card-title text-center mb-4"><a href="{{ url_for('viewSubmission', submissionId=submission['_id']) }}">{{ submission.brand }}: {{ submission.name }}</a></h3>
                 <ul class="bean-info">

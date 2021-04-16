@@ -98,6 +98,9 @@ def index():
 
     return render_template("index.html", recentSubmission=recentSubmission, top5docs=top5docs, recentReviews=recentReviews)
 
+def encode64(file):
+    image_string = base64.b64encode(file.read())
+    return image_string.decode('utf8')
 
 def gatherInputs():
     # HOLDS LIST OF NOTES FROM DATABASE
@@ -115,7 +118,7 @@ def gatherInputs():
         "notes": captureNotes,
         "organic": bool(request.form.get("organic")),
         "url": request.form["website"],
-        "img-url": request.form['imgURL'],
+        "img-base64": encode64(request.files['upload64']),
         "username": mongo.db.users.find_one(
             {"username": session["user"]})["username"]
     }
@@ -141,12 +144,13 @@ def add():
 
     if request.method == "POST":
 
-        image = request.files['file']
-        image_string = base64.b64encode(image.read())
-        print(image_string)
+        # image = request.files['upload64']
+        # image_string = base64.b64encode(image.read())
+        # print(image_string)
 
         inputDictionary = gatherInputs()
         inputDictionary["full_name"] = full_name
+        # inputDictionary["img64"] = image_string.decode('utf8')
     
         if mongo.db.beans.find_one(
             {"name": inputDictionary["name"]}):
@@ -160,13 +164,11 @@ def add():
     return render_template("add.html", **context)
 
 
-
-
 @app.route("/edit/<beanId>", methods=["GET", "POST"])
 def edit(beanId):
     matchedBean = mongo.db.beans.find_one(
             {"_id": ObjectId(beanId)})
-    submissionImg = matchedBean["img-url"]
+    submissionImg = matchedBean["img-base64"]
     full_name = matchedBean["full_name"]
     brand_choice = matchedBean["brand"]
     coffee_name = matchedBean["name"]
