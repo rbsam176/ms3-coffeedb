@@ -727,35 +727,31 @@ def update_account(username):
 def delete_account(username):
     first_name = mongo.db.users.find_one(
             {"username": username})["first_name"] # GETS THEIR FIRST NAME
-    deletion_types = {
-        "delete_everything": "No, delete them along with my account",
-        "keep_submissions": "Yes, keep them available for others to see" 
-    }
 
     if request.method == "POST":
-        deletionType = request.form.get("confirmDeletionType") # RETURNS DELETION CHOICE
-        loggedInAccount = mongo.db.users.find_one(
-            {"username": session["user"]}) # RETURNS MATCHING USERNAME FROM DATABASE
+        if "deleteUser" in request.form:
+            loggedInAccount = mongo.db.users.find_one(
+                {"username": session["user"]}) # RETURNS MATCHING USERNAME FROM DATABASE
 
-        # INCORRECT USERNAME VALIDATION
-        if session["user"] != request.form.get("confirmUsername"):
-            flash(u"You did not enter the correct username. Try again.", "warning")
-            return redirect(url_for("delete_account", username=username))
-        else:
-            # USERNAME AND PASSWORD MATCHED
-            if check_password_hash(loggedInAccount["password"], request.form.get("confirmPassword")):
-                # DELETE USER AND THEIR SUBMISSIONS
-                submissionsQuery = {"username": loggedInAccount["username"]}
-                mongo.db.beans.delete_many(submissionsQuery)
-                mongo.db.users.delete_one(loggedInAccount)
-                # DELETION VALIDATION
-                flash(u"Your account has been permanently deleted", "success")
-                session.pop("user") # LOG USER OUT
-                return redirect(url_for("index"))
-            else:
-                # USERNAME IS CORRECT BUT PASSWORD INPUT DID NOT MATCH
-                flash(u"You did not enter the correct password. Try again.", "warning")
+            # INCORRECT USERNAME VALIDATION
+            if session["user"] != request.form.get("confirmUsername"):
+                flash(u"You did not enter the correct username. Try again.", "warning")
                 return redirect(url_for("delete_account", username=username))
+            else:
+                # USERNAME AND PASSWORD MATCHED
+                if check_password_hash(loggedInAccount["password"], request.form.get("confirmPassword")):
+                    # DELETE USER AND THEIR SUBMISSIONS
+                    submissionsQuery = {"username": loggedInAccount["username"]}
+                    mongo.db.beans.delete_many(submissionsQuery)
+                    mongo.db.users.delete_one(loggedInAccount)
+                    # DELETION VALIDATION
+                    flash(u"Your account has been permanently deleted", "success")
+                    session.pop("user") # LOG USER OUT
+                    return redirect(url_for("index"))
+                else:
+                    # USERNAME IS CORRECT BUT PASSWORD INPUT DID NOT MATCH
+                    flash(u"You did not enter the correct password. Try again.", "warning")
+                    return redirect(url_for("delete_account", username=username))
                 
     return render_template("delete_account.html", username=username, first_name=first_name)
 

@@ -11,6 +11,10 @@ body {
     flex: 1;
 }
 
+.index-message {
+    background-color: #F8A825;
+}
+
 input {
     outline-color: black;
 }
