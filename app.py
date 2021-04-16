@@ -128,41 +128,6 @@ def add():
     full_name = mongo.db.users.find_one(
         {"username": session["user"]})["first_name"] + " " + mongo.db.users.find_one(
         {"username": session["user"]})["last_name"]
-    if request.method == "POST":
-        inputDictionary = gatherInputs()
-        inputDictionary["full_name"] = full_name
-        if mongo.db.beans.find_one(
-            {"name": inputDictionary["name"]}):
-            submissionImg = gatherInputs()["img-url"]
-            brand_choice = gatherInputs()["brand"]
-            coffee_name = gatherInputs()["name"]
-            roast_choice = gatherInputs()["roast"]
-            origin_choice = gatherInputs()["origin"]
-            organic_choice = gatherInputs()["organic"]
-            url_input = gatherInputs()["url"]
-            notes_input = gatherInputs()["notes"]
-            context = {
-                'form_type' : form_type,
-                'notes_input' : notes_input,
-                'url_input' : url_input,
-                'organic_choice' : organic_choice,
-                'origin_choice' : origin_choice,
-                'roast_choice' : roast_choice,
-                'coffee_name' : coffee_name,
-                'brand_choice' : brand_choice,
-                'submissionImg' : submissionImg,
-                'coffeeImg' : getCoffeeData()["coffeeImg"],
-                'roast_types' : getCoffeeData()["roast_types"],
-                'origin_types' : getCoffeeData()["origin_types"],
-                'uniqueNotes' : getCoffeeData()["unique_notes"],
-                'brand_names' : getCoffeeData()["brand_names"]
-            }
-            flash(u"A coffee with this name already exists.", "warning")
-            return render_template("add.html", **context)
-
-        insertSubmission = mongo.db.beans.insert_one(inputDictionary)
-        flash(u"Your submission has been added.", "added")
-        return redirect(url_for("viewSubmission", submissionId=insertSubmission.inserted_id))
 
     context = {
             'form_type' : form_type,
@@ -172,8 +137,29 @@ def add():
             'uniqueNotes' : getCoffeeData()["unique_notes"],
             'brand_names' : getCoffeeData()["brand_names"],
             'full_name' : full_name
-        }
+    }
+
+    if request.method == "POST":
+
+        image = request.files['file']
+        image_string = base64.b64encode(image.read())
+        print(image_string)
+
+        inputDictionary = gatherInputs()
+        inputDictionary["full_name"] = full_name
+    
+        if mongo.db.beans.find_one(
+            {"name": inputDictionary["name"]}):
+            flash(u"A coffee with this name already exists.", "warning")
+            return redirect(url_for("add"))
+        else:
+            insertSubmission = mongo.db.beans.insert_one(inputDictionary)
+            flash(u"Your submission has been added.", "added")
+            return redirect(url_for("viewSubmission", submissionId=insertSubmission.inserted_id))
+
     return render_template("add.html", **context)
+
+
 
 
 @app.route("/edit/<beanId>", methods=["GET", "POST"])
@@ -193,10 +179,6 @@ def edit(beanId):
 
 
     if request.method == "POST":
-        # image = request.files['file']
-        # image_string = base64.b64encode(image.read())
-        # print(image_string)
-
         if "editCoffee" in request.form:
             mongo.db.beans.update_one(
                 {"_id": ObjectId(beanId)},

@@ -6,7 +6,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-            <div class="row text-center justify-content-center">
+            <div class="row text-center mt-2 justify-content-center">
                 <div class="col-10 alert {% if category == 'warning' %}alert-warning{% elif category == 'success' %}alert-success{% endif %}" role="alert">
                     {{ message }}
                 </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="row gy-4 justify-content-center">
             <div class="col-12 col-lg-6 p-2">
-                <form id="{{ form_type }}" name="{{ form_type }}" class="card data-card mx-2" method="POST">
+                <form id="{{ form_type }}" name="{{ form_type }}" class="card data-card mx-2" method="POST" enctype='multipart/form-data'>
                     <div class="img-upload form-group">
                         <a id="resetUpload" class="btn btn-light float-right mt-1 mr-1">Reset</a>
                         <div id="img-filebrowser" class="form-group text-center">

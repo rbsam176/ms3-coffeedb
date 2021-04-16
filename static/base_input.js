@@ -116,7 +116,7 @@ $("#addNote").on('click', function(e) {
 // CHANGES LIVE PREVIEW IMAGE TO IMAGE URL INPUT VALUE
 // SOURCE https://stackoverflow.com/a/13388240
 $("#imgURL").focusout(function(){
-    if (/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/ in $("#imgURL").val()){
+    if ($("#imgURL").val().match(/(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/)){
         $("#imgPreview").attr('src', $("#imgURL").val())
     }
 })
