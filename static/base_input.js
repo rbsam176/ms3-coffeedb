@@ -95,8 +95,6 @@ $(document).ready(function() {
             appendToPreview($(".note-checkbox").eq(x).parent().text())
         }
     }
-
-    console.log('ok')
 })
 
 // ADDS CUSTOM INPUT NOTE TO INPUT CONTAINER AND LIVE PREVIEW CONTAINER
@@ -119,9 +117,12 @@ $("#upload64").on('change', function(){
     var reader = new FileReader();
     reader.onload = function(e) {
         $('.img-preview').attr('src', e.target.result);
+        $(".custom-file-label").text("Successfully uploaded!")
     }
     reader.readAsDataURL(this.files[0]);
 })
+
+
 
 // TOGGLES DISABLED STATE FOR 'ADD' NOTE BUTTON DEPENDING ON INPUT EXISTENCE
 $("#customNoteInput").on('input', function() {
@@ -139,15 +140,6 @@ $("#submitCoffee").on('click', function(){
         return false
     }
 })
-
-// RESETS MOBILE UPLOADER BACK TO DEFAULT
-$("#resetUpload").on('click', function(){
-    $(".img-upload").css('background-image', "")
-    $(".img-upload").css('background-size', "")
-    $("#img-filebrowser").css('display', 'block')
-    $('#imgURL').val("")
-})
-
 // PREVENTS ENTER KEY DEFAULT BEHAVIOUR
 // ADDS CUSTOM NOTE TO CONTAINER ON ENTER KEY INPUT
 $("#customNoteInput").keydown(function (e) {
