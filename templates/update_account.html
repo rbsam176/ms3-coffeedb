@@ -1,54 +1,10 @@
 {% extends "base_profile.html" %}
+{% import 'account_input.html' as accountForm %}
 
 {% block title %}CoffeeDB: Update Account{% endblock %}
 
 {% block profile_content %}
-<h3 class="card-title text-center mb-4">Account information</h3>
-    <div class="row mt-4 justify-content-center">
-        <form id="signup" method="POST">
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputFirstName">First name*</label>
-                    <input type="text" class="form-control custom-capitalize custom-input" name="inputFirstName" id="inputFirstName" value="{{ first_name }}" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputLastName">Last name*</label>
-                    <input type="text" class="form-control custom-capitalize custom-input" name="inputLastName" id="inputLastName" value="{{ last_name }}" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                <label for="inputEmail">Email*</label>
-                <input type="email" class="form-control custom-input" name="inputEmail" id="inputEmail" value="{{ email }}" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputUsername">Username (cannot be edited)</label>
-                    <input type="text" class="form-control custom-input" name="inputUsername" id="inputUsername" value="{{ username }}" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputPassword">Password*</label>
-                    <input type="password" class="form-control mb-3 custom-input" minlength="8" maxlength="15" name="inputPassword" id="inputPassword" placeholder="Password" required>
-                    <label for="inputConfirmPassword">Confirm Password*</label>
-                    <input type="password" class="form-control custom-input" minlength="8" maxlength="15" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword">Password criteria</label>
-                    <div class="bg-light password-checker p-3 w-100">
-                        <i id="characterLength" class="bi bi-check-circle"></i> Between 8 - 15 characters<br>
-                        <i id="uppercaseCheck" class="bi bi-check-circle"></i> Minimum 1 uppercase character<br>
-                        <i id="numberCheck" class="bi bi-check-circle"></i> Mininum 1 number<br>
-                        <i id="matchCheck" class="bi bi-check-circle"></i> Passwords must match
-                    </div>
-                </div>
-            </div>
-            <small>Already have an account? <a href="{{ url_for('login') }}"><u>Sign in to your account here.</u></a></small><br>
-            <button type="submit" class="btn btn-custom mt-3">Save changes</button>
-          </form>
-    </div>
-
-
+    {{ accountForm.input("updateAccount", first_name, last_name, email, username) }}
 {% endblock %}
 {% block scripts %}
 <script src="/static/signup.js"></script>

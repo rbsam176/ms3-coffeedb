@@ -303,6 +303,7 @@ def browse():
         # SETS DEFAULT SEARCH VALUE AS NONE
         searchInput = None
         # GETS SEARCH INPUT VALUE FROM INDEX REDIRECT IF EXISTS
+        # SOURCE https://stackoverflow.com/questions/55447599/how-to-send-data-in-flask-to-another-page
         if request.args.get('indexSearchQuery'):
             searchInput = request.args.get('indexSearchQuery')
         # GETS SEARCH INPUT VALUE FROM BROWSE PAGE FORM IF EXISTS

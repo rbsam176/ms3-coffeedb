@@ -515,6 +515,11 @@ ul.add-notes-container li label {
     background-color: black;
 }
 
+.account-input {
+    width: 60vw;
+    justify-content: center;
+}
+
 #resetUpload {
     display: none;
 }
