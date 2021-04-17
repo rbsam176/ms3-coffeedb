@@ -108,12 +108,11 @@
                                     {% if loop.index != top5docs|count %}<hr>{% endif %}
                                 {% endfor %}
                             {% else %}
+                                <h4 class="text-center p-3">No beans have been rated yet!</h4>
                                 {% if session['user'] %}
-                                    <h4 class="text-center mt-4">You haven't submitted any coffee beans yet!</h4>
-                                    <h5 class="text-center"><a href="{{ url_for('add') }}">Click here to add some!</a></h5>
+                                    <h5 class="text-center px-2"><a href="{{ url_for('add') }}">Go to the <a href="{{ url_for('browse') }}">Browse</a> page to find some submissions to rate.</a></h5>
                                 {% else %}
-                                    <h4 class="text-center mt-4">No beans have been added yet!</h4>
-                                    <h5 class="text-center"><a href="{{ url_for('signup') }}">Click here to signup so you can add some.</a></h5>
+                                    <h5 class="text-center px-2"><a href="{{ url_for('login') }}">Click here to login so you can start rating.</a></h5>
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -141,8 +140,8 @@
                                 {% endfor %}
                             {% else %}
                                 <div class="p-2">
-                                    <h5 class="text-center my-auto pb-3">No reviews yet</h5>
-                                    <h6 class="text-center my-auto">You can be the first!<br>Go to the <a href="{{ url_for('browse') }}">Browse</a> page to find some submissions to review.</h6>
+                                    <h4 class="text-center">No reviews yet</h4>
+                                    <h5 class="text-center mt-3">Go to the <a href="{{ url_for('browse') }}">Browse</a> page to find some submissions to review.</h5>
                                 </div>
                                 {% endif %}
                         </div>

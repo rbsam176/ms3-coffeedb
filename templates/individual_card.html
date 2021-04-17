@@ -1,6 +1,17 @@
 {% macro input(submission) -%}
+    {% if submission['rating'] %}
+        {% set ratingsLength = submission['rating']|list|length %}
+        {% set totalRatings = [] %}
+        {% for score in range(ratingsLength) %}
+            {% set score = submission['rating'][score].score | int %}
+            {{ totalRatings.append(score) or "" }}
+        {% endfor %}
+        {% set averageRating = totalRatings | sum / ratingsLength %}
+        {% set averageRating = averageRating|round %}                   
+    {% endif %}
         <div class="card individual-card mx-auto">
             {% if (session["user"] == submission.username) and (submission['_id'] is defined) %}<a href="{{ url_for('edit', beanId=submission['_id']) }}" class="btn btn-warning edit-btn">EDIT</a>{% endif %}
+            {% if submission['rating'] %}<span class="rating-btn"><i class="bi bi-star-fill pr-1"></i>{{ averageRating }}</span>{% endif %}
             <a href="{{ submission.url }}"><img src="data:image/jpeg;base64,{{ submission['img-base64'] | safe }}" class="card-img-top hover-shadow" alt="..."></a>
             <div class="card-body">
                 <h3 class="card-title text-center mb-4"><a href="{{ url_for('viewSubmission', submissionId=submission['_id']) }}">{{ submission.brand }}: {{ submission.name }}</a></h3>

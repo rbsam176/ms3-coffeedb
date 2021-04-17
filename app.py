@@ -70,6 +70,7 @@ def index():
         top5docs.append((submission, mongo.db.beans.find_one(
             {"_id": ObjectId(submission[0])}) ))
 
+
     # COLLECTION CONTAINING ALL DOCUMENTS WITH REVIEWS
     reviewsTrue = mongo.db.beans.find( { "review": { "$exists": True } } )
     # CONTAINS DOC DATA AND REVIEWS

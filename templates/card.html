@@ -1,41 +1,9 @@
 {% macro input(data) -%}
+    {% import 'individual_card.html' as single_card %}
     <div class="row gy-4">
-        {% for bean in data %}
-            {% if bean['rating'] %}
-                {% set ratingsLength = bean['rating']|list|length %}
-                {% set totalRatings = [] %}
-                {% for score in range(ratingsLength) %}
-                    {% set score = bean['rating'][score].score | int %}
-                    {{ totalRatings.append(score) or "" }}
-                {% endfor %}
-                {% set averageRating = totalRatings | sum / ratingsLength %}
-                {% set averageRating = averageRating|round %}                   
-            {% endif %}
-           
+        {% for bean in data %}           
             <div class="col-12 col-md-6 col-xl-4 p-3">
-                <div class="card data-card mx-auto">
-                    {% if (session["user"] == bean.username) and (bean['_id'] is defined) %}<a href="{{ url_for('edit', beanId=bean['_id']) }}" class="btn edit-btn">EDIT</a>{% endif %}
-                    {% if bean['rating'] %}<span class="rating-btn"><i class="bi bi-star-fill pr-1"></i>{{ averageRating }}</span>{% endif %}
-                    <a href="{{ url_for('viewSubmission', submissionId=bean['_id']) }}"><img src="data:image/jpeg;base64,{{ bean['img-base64'] | safe }}" class="card-img-top hover-shadow" alt="..."></a>
-                    <div class="card-body">
-                        <h3 class="card-title text-center mb-4"><a href="{{ url_for('viewSubmission', submissionId=bean['_id']) }}">{{ bean.brand }}: {{ bean.name }}</a></h3>
-                        <ul class="bean-info">
-                            <li>Roast: {{ bean.roast }}</li>
-                            <li>Origin: {{ bean.origin }}</li>
-                            <li>Organic: {{ bean.organic }}</li>
-                            <li><u><a href="{{ bean.url }}">More Info</a></u></li>
-                        </ul>
-                        <h5 class="text-center my-3">Notes:</h5>
-                        <div class="notes-container">
-                            {% for note in bean.notes %}
-                                <span class="note-bubble bean-note">{{ note }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="row mt-4 custom-card-footer justify-content-center">
-                            <div class="user-submitted text-muted mt-3 custom-capitalize">Submitted by <a href="{{ url_for('profile', username=bean.username) }}">{{ bean.full_name }}</a></div>
-                        </div>
-                    </div>
-                </div>
+                {{ single_card.input(bean) }}
             </div>
         {% endfor %}
     </div>

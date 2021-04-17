@@ -15,8 +15,9 @@ $("#inputFirstName, #inputLastName").on('focusout', function() {
         if ($("#inputFirstName").val().length > 2 && $("#inputLastName").val().length > 2){
             // CREATE FULL NAME FROM FIRST AND LAST NAME VALUES
             fullname = $("#inputFirstName").val().toLowerCase() + $("#inputLastName").val().toLowerCase()
+            fullnameTrimmed = fullname.replace(/ /g, "")
             // ENTER SUGGESTED USERNAME
-            $("#inputUsername").val(fullname)
+            $("#inputUsername").val(fullnameTrimmed)
         }
     }
 })
