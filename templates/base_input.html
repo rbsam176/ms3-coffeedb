@@ -31,10 +31,10 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
-                            <label for="upload64" class="col-md-12 col-lg-3 col-form-label text-center">Image*</label>
+                            <label for="upload64" class="col-md-12 col-lg-3 col-form-label text-center">Image{% if request.endpoint == 'add' %}*{% endif %}</label>
                             <div class="col-md-12 col-lg-9 mb-2">
                                 <div class="custom-file">
-                                    <input type="file" accept="image/*" name="upload64" id="upload64" class="custom-file-input">
+                                    <input type="file" accept="image/*" name="upload64" id="upload64" class="custom-file-input" {% if request.endpoint == 'add' %}required{% endif %}>
                                     <label class="custom-file-label data-card form-control form-control-lg" for="upload64">Choose image file</label>
                                 </div>
                             </div>
@@ -114,9 +114,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="websiteInput" class="col-md-12 col-lg-3 col-form-label text-center">Website*</label>
+                            <label for="websiteInput" class="col-md-12 col-lg-3 col-form-label text-center">Website</label>
                             <div class="col-md-12 col-lg-9">
-                                <input id="websiteInput" name="website" type="url" {% if url_input %}value="{{ url_input }}"{% else %}placeholder="https://example.com"{% endif %} class="form-control form-control-lg custom-input" required>
+                                <input id="websiteInput" name="website" type="url" {% if url_input %}value="{{ url_input }}"{% else %}placeholder="https://example.com"{% endif %} class="form-control form-control-lg custom-input">
                             </div>
                         </div>
                         <div class="form-group row">

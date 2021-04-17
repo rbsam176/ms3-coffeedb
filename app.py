@@ -32,7 +32,7 @@ def getCoffeeData():
         "origin_types": dynamicValues(["brazil", "ethiopia", "blend", "colombia"], mongo.db.beans.distinct('origin')),
         "brand_names": dynamicValues(["union", "monmouth", "starbucks"], mongo.db.beans.distinct('brand')),
         "unique_notes": dynamicValues(["caramel", "prune", "cherry"], mongo.db.beans.distinct('notes')),
-        "coffeeImg": "https://images.photowall.com/products/49771/coffee-beans.jpg"
+        "coffeeImg": "/static/assets/default_submission_img.png"
     }
     return coffeeData
 
@@ -103,7 +103,7 @@ def encode64(file):
     image_string = base64.b64encode(file.read())
     return image_string.decode('utf8')
 
-def gatherInputs():
+def gatherInputs(matchedBean = None):
     # HOLDS LIST OF NOTES FROM DATABASE
     captureNotes = []
     # GRABS NOTES INPUT AND TRANSFORMS TO LOWERCASE
@@ -119,10 +119,11 @@ def gatherInputs():
         "notes": captureNotes,
         "organic": bool(request.form.get("organic")),
         "url": request.form["website"],
-        "img-base64": encode64(request.files['upload64']),
+        "img-base64": encode64(request.files['upload64']) if request.files['upload64'] else matchedBean["img-base64"],
         "username": mongo.db.users.find_one(
             {"username": session["user"]})["username"]
     }
+
     return userInput
 
 
@@ -145,13 +146,8 @@ def add():
 
     if request.method == "POST":
 
-        # image = request.files['upload64']
-        # image_string = base64.b64encode(image.read())
-        # print(image_string)
-
         inputDictionary = gatherInputs()
         inputDictionary["full_name"] = full_name
-        # inputDictionary["img64"] = image_string.decode('utf8')
     
         if mongo.db.beans.find_one(
             {"name": inputDictionary["name"]}):
@@ -182,11 +178,13 @@ def edit(beanId):
 
 
     if request.method == "POST":
-        if "editCoffee" in request.form:
+        if "editCoffee" in request.form:  
+
             mongo.db.beans.update_one(
                 {"_id": ObjectId(beanId)},
-                {"$set": gatherInputs()}
+                {"$set": gatherInputs(matchedBean)}
             )
+
             flash(u"Your submission has been edited.", "added")
             return redirect(url_for("viewSubmission", submissionId=beanId))
         
