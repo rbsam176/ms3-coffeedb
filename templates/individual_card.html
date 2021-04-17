@@ -7,7 +7,7 @@
             {{ totalRatings.append(score) or "" }}
         {% endfor %}
         {% set averageRating = totalRatings | sum / ratingsLength %}
-        {% set averageRating = averageRating|round %}                   
+        {% set averageRating = averageRating|round(1) %}                   
     {% endif %}
         <div class="card individual-card mx-auto">
             {% if (session["user"] == submission.username) and (submission['_id'] is defined) %}<a href="{{ url_for('edit', beanId=submission['_id']) }}" class="btn btn-warning edit-btn">EDIT</a>{% endif %}

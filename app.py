@@ -364,7 +364,7 @@ def getAverageRating(submissionId):
         averageRating = ratings[0]
     else:
         averageRating = 0
-    averageRating = round(averageRating)
+    averageRating = round(averageRating, 1)
     return averageRating
 
 
