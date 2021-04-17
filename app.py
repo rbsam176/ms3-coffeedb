@@ -254,15 +254,9 @@ def pagination(perPage, data):
 def browse():
     data = mongo.db.beans.find().sort("_id", -1)
     offset, perPage, page, beansCount, pageQuantity = pagination(6, data)
-
     beans = data.skip(offset).limit(perPage)
-
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
     uniqueNotes = getCoffeeData()["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
-    roastChecked = [] # RETURNS LIST OF ALL ROAST TYPES THAT WERE CHECKED
-    originChecked = [] # RETURNS LIST OF ALL ORIGINS THAT WERE CHECKED
-    organicChecked = [] # RETURNS WHETHER ORGANIC TOGGLE WAS ON/OFF
-    notesChecked = [] # RETURNS LIST OF ALL NOTES THAT WERE CHECKED
     
     if notes.count():
         print('yes')
@@ -275,7 +269,6 @@ def browse():
 
     # SET DEFAULT HEADER FOR BROWSE
     browseHeader = "Results"
-
 
     # DYNAMICALLY CREATES A FIND QUERY
     # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
@@ -294,31 +287,19 @@ def browse():
         elif request.args.get("searchCriteria"):
             searchInput = request.args.get("searchCriteria")
 
-        # MATCHING ALL OR ANY CONDITIONS FOR NOTES SELECTION
-        conditionType = request.args.get('conditionType')
-
-
-        for roast in request.args.getlist("roast"):
-            roastChecked.append(roast)
-        for origin in request.args.getlist("origin"):
-            originChecked.append(origin)
-        if bool(request.args.getlist("organicRequired")):
-            organicChecked.append(True)
-        for tag in request.args.getlist("tag"):
-            notesChecked.append(tag)
        
         # CHECKS IF LIST VALUES EXIST AND APPENDS TO DYNAMIC QUERY
-        if roastChecked:
-            dynamicQuery["$and"].append({ "roast": { "$in": roastChecked}})
-        if originChecked:
-            dynamicQuery["$and"].append({ "origin": { "$in": originChecked }})
-        if organicChecked:
+        if request.args.getlist("roast"):
+            dynamicQuery["$and"].append({ "roast": { "$in": request.args.getlist("roast") }} )
+        if request.args.getlist("origin"):
+            dynamicQuery["$and"].append({ "origin": { "$in": request.args.getlist("origin") }} )
+        if bool(request.args.getlist("organicRequired")):
             dynamicQuery["$and"].append({ "organic": True })
-        if notesChecked:
-            if conditionType == "all":
-                dynamicQuery["$and"].append({ "notes": { "$all": notesChecked }})
-            if conditionType == "any":
-                dynamicQuery["$and"].append({ "notes": { "$in": notesChecked }})
+        if request.args.getlist('tag'):
+            if request.args['conditionType'] == "all":
+                dynamicQuery["$and"].append({ "notes": { "$all": request.args.getlist('tag') }})
+            if request.args['conditionType'] == "any":
+                dynamicQuery["$and"].append({ "notes": { "$in": request.args.getlist('tag') }})
         # IF SEARCH INPUT HAS VALUE
         if searchInput:
             # SEARCH DATABASE FOR VALUE IN 'BRAND' OR 'NAME' KEYS
@@ -332,29 +313,22 @@ def browse():
             # REASSIGNS BEANS VARIABLE TO INCLUDE QUERY AND PAGINATION OFFSET/LIMIT
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
 
+    # IF CUSTOM FILTER QUERY, CHANGE HEADER
+    if dynamicQuery["$and"]:
+            browseHeader = "Filtered results"
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
     context = {
         'beans' : beans,
         'roast_types' : getCoffeeData()["roast_types"],
         'origin_types' : getCoffeeData()["origin_types"],
-        'roastChecked' : roastChecked,
-        'originChecked' : originChecked,
-        'organicChecked' : organicChecked,
         'notesRelativePercentage' : notesRelativePercentage,
-        'notesChecked' : notesChecked,
-        'conditionType' : conditionType,
         'page_variable' : page,
         'beansCount' : beansCount,
         'pageQuantity' : pageQuantity,
         'browseHeader' : browseHeader,
         'offset' : offset
     }
-
-    # IF CUSTOM FILTER QUERY, CHANGE HEADER
-    if dynamicQuery["$and"]:
-            browseHeader = "Filtered results"
-
 
     return render_template("browse.html", **context)
 

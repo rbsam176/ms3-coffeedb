@@ -29,7 +29,7 @@
                         <h4 class="text-center">Roast</h4>
                         <div class="filter-checks form-group">
                             {% for roast in roast_types %}
-                                <input type="checkbox" id="{{ roast }}" value="{{ roast }}" name="roast" {% if roastChecked|length != 0 %} {% if roast in roastChecked %} checked  {% endif %} {% endif %}>
+                                <input type="checkbox" id="{{ roast }}" value="{{ roast }}" name="roast" {% if request.args['roast'] == roast %}checked{% endif %}>
                                 <label for="{{ roast }}">{{ roast }}</label><br>
                             {% endfor %}
                         </div>
@@ -38,7 +38,7 @@
                         <h4 class="text-center">Origin</h4>
                         <div class="filter-checks form-group">
                             {% for origin in origin_types %}
-                                <input type="checkbox" id="{{ origin }}" value="{{ origin }}" name="origin" {% if originChecked|length != 0 %} {% if origin in originChecked %} checked  {% endif %} {% endif %}>
+                                <input type="checkbox" id="{{ origin }}" value="{{ origin }}" name="origin" {% if request.args['origin'] == origin %}checked{% endif %}>
                                 <label for="{{ origin }}">{{ origin }}</label><br>
                             {% endfor %}
                         </div>
@@ -48,8 +48,8 @@
                             <div class="col-12 text-center form-group">
                                 <h4>Organic</h4>
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" value="True" id="organicRequired" name="organicRequired" {% if organicChecked %} checked {% endif %}>
-                                    <label class="custom-control-label organicLabel" id="organicLabel" for="organicRequired">{% if organicChecked %}Is required{% else %}Not required{% endif %}</label>
+                                    <input type="checkbox" class="custom-control-input" value="True" id="organicRequired" name="organicRequired" {% if request.args['organicRequired'] == "True" %}checked{% endif %}>
+                                    <label class="custom-control-label organicLabel" id="organicLabel" for="organicRequired">{% if request.args['organicRequired'] == "True" %}Is required{% else %}Not required{% endif %}</label>
                                 </div>
                             </div>
                         </div>
@@ -65,8 +65,8 @@
                 <div class="row my-4 justify-content-center">
                     <label for="allConditions">Show submissions containing</label>
                     <select form="filterCriteria" class="mx-2" name="conditionType">
-                        <option value="all" {% if conditionType == "all" %}selected{% endif %}>all</option>
-                        <option value="any" {% if conditionType == "any" %}selected{% endif %}>any</option>
+                        <option value="all" {% if request.args['conditionType'] == 'all' %}selected{% endif %}>all</option>
+                        <option value="any" {% if request.args['conditionType'] == 'any' %}selected{% endif %}>any</option>
                     </select>
                     <label for="allConditions">of the following notes</label>
                 </div>
@@ -75,22 +75,22 @@
                         {% for key, value in notesRelativePercentage.items() %}
                             {% if value > 75 %}
                                 <span class="checkbox-container">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
                                     <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
                                 </span>
                             {% elif value > 50 %}
                                 <span class="checkbox-container">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
                                     <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
                                 </span>
                             {% elif value > 25 %}
                                 <span class="checkbox-container">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
                                     <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
                                 </span>
                             {% else %}
                                 <span class="checkbox-container">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in notesChecked %}checked{% endif %}>
+                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
                                     <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
                                 </span>
                             {% endif %}
@@ -113,17 +113,7 @@
         {% if beans|length == 0 %}
             <hr>
             <h5 class="text-center">Sorry!</h5>
-            <p class="text-center">There are no 
-                {% if organicChecked %}
-                    <strong>organic</strong>
-                {% endif %} 
-                <strong>{{ roastChecked|join(', ') }}</strong> roasted beans 
-                {% if originChecked[0] == 'blend' %}
-                    that have a <strong>mixed origin</strong>
-                {% else %} 
-                {% if originChecked %}from <strong> {{ originChecked|join(', ') }}</strong>{% endif %}
-                {% endif %} listed!
-            </p>
+            <p class="text-center">There are no beans listed matching this description!</p>
         {% endif %}
         {{ card.input(beans) }}
     </div>
