@@ -239,11 +239,9 @@ def wordCloud(list, uniqueList):
     return itemPercentageDict
 
 # CREATES OFFSET AMOUNT BASED ON SPECIFIED QUANTITY SHOWN PER PAGE
-def pagination(perPage, data):
+def pagination(perPage, dataCount):
     page = 1
     offset = 0
-    # dataCount = data.count() # OLD
-    dataCount = mongo.db.data.count_documents({}) # NUMBER OF BEANS BEING PASSED TO VIEW
     pageQuantity = math.ceil(dataCount / perPage)
     if 'page' in request.args:
         page = int(request.args.get("page"))
@@ -253,11 +251,20 @@ def pagination(perPage, data):
 
 @app.route("/browse", methods=["GET"])
 def browse():
+    # GETS ALL DATA FROM BEANS COLLECTION (SORTED BY MOST RECENT)
     data = mongo.db.beans.find().sort("_id", -1)
-    offset, perPage, page, beansCount, pageQuantity = pagination(6, data)
+
+    # RUNS PAGINATION FUNCTION TO GET VARIABLES
+    offset, perPage, page, beansCount, pageQuantity = pagination(6, mongo.db.beans.count_documents({}))
+
+    # USES PAGINATION VARIABLES TO ASSIGN OFFSET AND NUMBER PER PAGE
     beans = data.skip(offset).limit(perPage)
-    notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
-    uniqueNotes = getCoffeeData()["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
+
+    # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
+    notes = mongo.db.beans.find({}, {"notes" : 1})
+
+    # RETURNS LIST OF ALL UNIQUE NOTES
+    uniqueNotes = getCoffeeData()["unique_notes"]
     
     if mongo.db.beans.count_documents({}):
         # CREATE DICTIONARY FOR WORD CLOUD
@@ -274,6 +281,7 @@ def browse():
     # ADAPTED FROM https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python
     dynamicQuery = {}
     dynamicQuery["$and"]=[]
+
     # GETS USER INPUT DATA AND APPENDS IT TO LISTS
     if request.method == "GET":
 
@@ -309,7 +317,8 @@ def browse():
         if dynamicQuery["$and"]:
             findQuery = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
             # REASSIGNS VALUES TO PAGINATION VARIABLES
-            offset, perPage, page, beansCount, pageQuantity = pagination(6, findQuery)
+            offset, perPage, page, beansCount, pageQuantity = pagination(6, mongo.db.beans.count_documents(dynamicQuery))
+            print(dynamicQuery)
             # REASSIGNS BEANS VARIABLE TO INCLUDE QUERY AND PAGINATION OFFSET/LIMIT
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
 
@@ -568,7 +577,7 @@ def profile(username):
     if username in users: # IF URL CONTAINS REAL USERNAME
         # user_submissions = mongo.db.beans.find({"username": username}).sort("_id", -1) # GETS THEIR SUBMISSIONS
         data = mongo.db.beans.find({"username": username}).sort("_id", -1)
-        offset, perPage, page, beansCount, pageQuantity = pagination(6, data)
+        offset, perPage, page, beansCount, pageQuantity = pagination(6, mongo.db.beans.count_documents({"username": username}))
         user_submissions = data.skip(offset).limit(perPage)
 
         user_submissions = list(user_submissions)
