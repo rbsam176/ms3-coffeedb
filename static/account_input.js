@@ -24,7 +24,7 @@ $("#inputFirstName, #inputLastName").on('focusout', function() {
 
 // PASSWORD LENGTH CHECKER
 function characterLength(iconId){
-    if ($("#inputPassword").val().length > 7 && $("#inputPassword").val().length < 16){
+    if ($("#inputPassword").val().length > 7){
         // IF IT ISN'T ALREADY FILLED
         if (!$(iconId).hasClass('bi-check-circle-fill')){
             $(iconId).removeClass()
