@@ -242,7 +242,8 @@ def wordCloud(list, uniqueList):
 def pagination(perPage, data):
     page = 1
     offset = 0
-    dataCount = data.count() # NUMBER OF BEANS BEING PASSED TO VIEW
+    # dataCount = data.count() # OLD
+    dataCount = mongo.db.data.count_documents({}) # NUMBER OF BEANS BEING PASSED TO VIEW
     pageQuantity = math.ceil(dataCount / perPage)
     if 'page' in request.args:
         page = int(request.args.get("page"))
@@ -258,8 +259,7 @@ def browse():
     notes = mongo.db.beans.find({}, {"notes" : 1}) # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
     uniqueNotes = getCoffeeData()["unique_notes"] # RETURNS LIST OF ALL UNIQUE NOTES
     
-    if notes.count():
-        print('yes')
+    if mongo.db.beans.count_documents({}):
         # CREATE DICTIONARY FOR WORD CLOUD
         notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
         notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
