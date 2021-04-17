@@ -70,26 +70,26 @@
                     </select>
                     <label for="allConditions">of the following notes</label>
                 </div>
-                <div class="row justify-content-center">
+                <div class="row pb-2 justify-content-center">
                     {% if notesRelativePercentage %}
                         {% for key, value in notesRelativePercentage.items() %}
                             {% if value > 75 %}
-                                <span class="checkbox-container">
+                                <span class="checkbox-container my-2">
                                     <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
-                                    <label for="{{ key }}" class="note-bubble cloud-75 cloud-note">{{ key }}</label>
+                                    <label for="{{ key }}" class="note-bubble my-auto cloud-75 cloud-note">{{ key }}</label>
                                 </span>
                             {% elif value > 50 %}
-                                <span class="checkbox-container">
+                                <span class="checkbox-container my-2">
                                     <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
                                     <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
                                 </span>
                             {% elif value > 25 %}
-                                <span class="checkbox-container">
+                                <span class="checkbox-container my-2">
                                     <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
                                     <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
                                 </span>
                             {% else %}
-                                <span class="checkbox-container">
+                                <span class="checkbox-container my-2">
                                     <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
                                     <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
                                 </span>

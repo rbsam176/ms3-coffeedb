@@ -266,6 +266,7 @@ def browse():
     # RETURNS LIST OF ALL UNIQUE NOTES
     uniqueNotes = getCoffeeData()["unique_notes"]
     
+    # IF BEANS COLLECTION HAS DOCUMENTS
     if mongo.db.beans.count_documents({}):
         # CREATE DICTIONARY FOR WORD CLOUD
         notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
@@ -273,6 +274,7 @@ def browse():
         notesRelativePercentage = wordCloud(notesList, uniqueNotes)
     else:
         notesRelativePercentage = None
+    
 
     # SET DEFAULT HEADER FOR BROWSE
     browseHeader = "Results"

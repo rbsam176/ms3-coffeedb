@@ -73,7 +73,7 @@ $("#websiteInput").on('input', function() {
 
 // APPENDS HTML TO PREVIEW RENDER CONTAINER
 function appendToPreview(tag){
-    $(".preview-notes-container").append(`<span class="note-bubble tag-preview bean-note">${tag}</span>`)
+    $(".preview-notes-container").append(`<span class="note-bubble card-notes tag-preview bean-note">${tag}</span>`)
 }
 
 // LISTENS FOR NOTE CHECKED AND RUNS APPENDING FUNCTION OR REMOVES

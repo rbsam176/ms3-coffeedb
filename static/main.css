@@ -653,9 +653,12 @@ input[type=checkbox]:checked + label.cloud-note {
     border: 2px solid black;
     box-shadow: 2px 2px black;
     white-space: nowrap;
-    line-height: 50px;
     margin: 5px;
-    vertical-align: middle;
+    /* vertical-align: middle; */
+    /* line-height: 60px; */
+}
+
+.card-notes {
     line-height: 60px;
 }
 
