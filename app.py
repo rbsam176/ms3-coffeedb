@@ -218,25 +218,41 @@ def edit(beanId):
 
 
 # CREATES DICTIONARY OF UNIQUE ITEMS AND THEIR OCCURANCE PERCENTAGE
-def wordCloud(list, uniqueList):
-    itemCount = {item:list.count(item) for item in uniqueList} # CONTAINS UNIQUE NOTES WITH ITS COUNT OF OCCURANCE
+def wordCloud(list, uniqueList, limit):
+
+    # CREATES TUPLE WITH UNIQUE ITEM AND ITS NUMBER OF OCCURANCES
+    itemCount = []
+    for x in uniqueList:
+        itemCount.append((x, list.count(x)))
+    itemCount = sorted(itemCount, key=lambda item: item[1], reverse=True)
+
+    # list has duplicates?
+    
+    if limit:
+        # GETS TOP 10 OCCURANCES
+        itemCount = sorted(itemCount, key=lambda item: item[1], reverse=True)[:10]
 
     itemPercentage = {}
     for item in itemCount:
         length = len(uniqueList) # RETURNS NUMBER OF NOTES
-        occurance = itemCount.get(item) # RETURNS HOW MANY TIMES NOTES OCCUR
+        occurance = item[1] # RETURNS HOW MANY TIMES NOTES OCCUR
         percentage = occurance / length * 100 # DIVIDES TOTAL NUMBER OF NOTES BY OCCURANCE 
         itemPercentage[item] = percentage # ADDS TO DICTIONARY
-    
+
     most_common_item = max(itemPercentage, key=itemPercentage.get) # SOURCE: https://stackoverflow.com/a/14091645
     most_common_percentage = itemPercentage.get(most_common_item) # HIGHEST PERCENTAGE
     
+
     itemPercentageDict = {}
     for num in itemPercentage:
         percentage = itemPercentage.get(num) / most_common_percentage * 100 # DIVIDES PERCENTAGE BY THE HIGHEST PERCENTAGE
-        itemPercentageDict[num] = round(percentage, 1) # ROUNDS IT DOWN
+        itemPercentageDict[num] = round(percentage, 1) # ROUNDS IT DOWN <<< OLD
     
-    return itemPercentageDict
+    newItemPercentageList = []
+    for key, value in itemPercentageDict.items():
+        newItemPercentageList.append((key[0], value))
+
+    return newItemPercentageList
 
 # CREATES OFFSET AMOUNT BASED ON SPECIFIED QUANTITY SHOWN PER PAGE
 def pagination(perPage, dataCount):
@@ -266,14 +282,23 @@ def browse():
     # RETURNS LIST OF ALL UNIQUE NOTES
     uniqueNotes = getCoffeeData()["unique_notes"]
     
+    notesPercentagesAll = None
+    notesPercentagesLimited = None
+
     # IF BEANS COLLECTION HAS DOCUMENTS
     if mongo.db.beans.count_documents({}):
         # CREATE DICTIONARY FOR WORD CLOUD
         notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
         notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
-        notesRelativePercentage = wordCloud(notesList, uniqueNotes)
-    else:
-        notesRelativePercentage = None
+        
+        notesPercentagesAll = wordCloud(notesList, list(uniqueNotes), False)
+        notesPercentagesLimited = wordCloud(notesList, list(uniqueNotes), True)
+
+        if len(notesPercentagesAll) > 10:
+            notesPercentagesExtra = notesPercentagesAll[10:]
+        else:
+            notesPercentagesExtra = None
+
     
 
     # SET DEFAULT HEADER FOR BROWSE
@@ -320,7 +345,6 @@ def browse():
             findQuery = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
             # REASSIGNS VALUES TO PAGINATION VARIABLES
             offset, perPage, page, beansCount, pageQuantity = pagination(6, mongo.db.beans.count_documents(dynamicQuery))
-            print(dynamicQuery)
             # REASSIGNS BEANS VARIABLE TO INCLUDE QUERY AND PAGINATION OFFSET/LIMIT
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
 
@@ -333,7 +357,8 @@ def browse():
         'beans' : beans,
         'roast_types' : getCoffeeData()["roast_types"],
         'origin_types' : getCoffeeData()["origin_types"],
-        'notesRelativePercentage' : notesRelativePercentage,
+        'notesPercentagesExtra' : notesPercentagesExtra,
+        'notesPercentagesLimited' : notesPercentagesLimited,
         'page_variable' : page,
         'beansCount' : beansCount,
         'pageQuantity' : pageQuantity,

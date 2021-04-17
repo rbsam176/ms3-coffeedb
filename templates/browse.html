@@ -70,32 +70,35 @@
                     </select>
                     <label for="allConditions">of the following notes</label>
                 </div>
-                <div class="row pb-2 justify-content-center">
-                    {% if notesRelativePercentage %}
-                        {% for key, value in notesRelativePercentage.items() %}
-                            {% if value > 75 %}
+                <div id="notesContainer" class="row pb-2 justify-content-center">
+                    {% if notesPercentagesLimited %}
+                        {% for item in notesPercentagesLimited %}
+                            {% if item[1] > 75 %}
                                 <span class="checkbox-container my-2">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
-                                    <label for="{{ key }}" class="note-bubble my-auto cloud-75 cloud-note">{{ key }}</label>
+                                    <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                    <label for="{{ item[0] }}" class="note-bubble my-auto cloud-75 cloud-note">{{ item[0] }}</label>
                                 </span>
-                            {% elif value > 50 %}
+                            {% elif item[1] > 50 %}
                                 <span class="checkbox-container my-2">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
-                                    <label for="{{ key }}" class="note-bubble cloud-50 cloud-note">{{ key }}</label>
+                                    <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                    <label for="{{ item[0] }}" class="note-bubble cloud-50 cloud-note">{{ item[0] }}</label>
                                 </span>
-                            {% elif value > 25 %}
+                            {% elif item[1] > 25 %}
                                 <span class="checkbox-container my-2">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
-                                    <label for="{{ key }}" class="note-bubble cloud-25 cloud-note">{{ key }}</label>
+                                    <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                    <label for="{{ item[0] }}" class="note-bubble cloud-25 cloud-note">{{ item[0] }}</label>
                                 </span>
                             {% else %}
                                 <span class="checkbox-container my-2">
-                                    <input type="checkbox" id="{{ key }}" form="filterCriteria" name="tag" value="{{ key }}" {% if key in request.args.getlist('tag') %}checked{% endif %}>
-                                    <label for="{{ key }}" class="note-bubble cloud-0 cloud-note">{{ key }}</label>
+                                    <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                    <label for="{{ item[0] }}" class="note-bubble cloud-0 cloud-note">{{ item[0] }}</label>
                                 </span>
                             {% endif %}
                         {% endfor %}
                     {% endif %}
+                </div>
+                <div class="row pb-2 justify-content-center">
+                    <button id="showMore">Show more</button>
                 </div>
             </div>
             <hr>
@@ -118,9 +121,11 @@
         {{ card.input(beans) }}
     </div>
     {{ pagination.input(pageQuantity, null, beansCount, page_variable, offset, formName="filterCriteria") }}
-
-
+<p id="content"></p>
 {% endblock %}
 {% block scripts %}
 <script src="/static/browse.js"></script>
+<script type="text/javascript">
+    myVar = myFunc({{notesPercentagesExtra|tojson}})
+ </script>
 {% endblock %}
