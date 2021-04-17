@@ -479,7 +479,8 @@ ul.add-notes-container li {
 .individual-card {
     max-width: 600px;
     border: 2px solid black;
-    height: 700px;
+    /* height: 700px; */
+    min-height: 600px;
 }
 
 ul.add-notes-container li input {
@@ -655,6 +656,7 @@ input[type=checkbox]:checked + label.cloud-note {
     line-height: 50px;
     margin: 5px;
     vertical-align: middle;
+    line-height: 60px;
 }
 
 .note-bubble:hover {
