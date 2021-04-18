@@ -345,6 +345,7 @@ def browse():
     if dynamicQuery["$and"]:
             browseHeader = "Filtered results"
 
+    # SOURCE https://stackoverflow.com/questions/17649875/why-does-random-shuffle-return-none
     shuffledNotes = random.sample(notesRelativePercentages, len(notesRelativePercentages))
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE

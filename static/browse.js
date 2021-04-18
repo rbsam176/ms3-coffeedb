@@ -25,7 +25,7 @@ $("#showMore").on('click', function(){
         $("#showMore").text("Show less")
         // SHOWS EXTRA NOTES
         $(".extra-note").each(function(index){
-            $(this).css('display', 'block')
+            $(this).css('display', 'inline-block')
         })
     } else if ($("#showMore").text() == "Show less"){
         // TOGGLE BUTTON TEXT
