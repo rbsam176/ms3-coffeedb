@@ -658,6 +658,10 @@ input[type=checkbox]:checked + label.cloud-note {
     /* line-height: 60px; */
 }
 
+.extra-note {
+    display: none;
+}
+
 .card-notes {
     line-height: 60px;
 }

@@ -218,19 +218,13 @@ def edit(beanId):
 
 
 # CREATES DICTIONARY OF UNIQUE ITEMS AND THEIR OCCURANCE PERCENTAGE
-def wordCloud(list, uniqueList, limit):
+def wordCloud(list, uniqueList):
 
     # CREATES TUPLE WITH UNIQUE ITEM AND ITS NUMBER OF OCCURANCES
     itemCount = []
     for x in uniqueList:
         itemCount.append((x, list.count(x)))
     itemCount = sorted(itemCount, key=lambda item: item[1], reverse=True)
-
-    # list has duplicates?
-    
-    if limit:
-        # GETS TOP 10 OCCURANCES
-        itemCount = sorted(itemCount, key=lambda item: item[1], reverse=True)[:10]
 
     itemPercentage = {}
     for item in itemCount:
@@ -282,8 +276,7 @@ def browse():
     # RETURNS LIST OF ALL UNIQUE NOTES
     uniqueNotes = getCoffeeData()["unique_notes"]
     
-    notesPercentagesAll = None
-    notesPercentagesLimited = None
+    notesRelativePercentages = None
 
     # IF BEANS COLLECTION HAS DOCUMENTS
     if mongo.db.beans.count_documents({}):
@@ -291,15 +284,8 @@ def browse():
         notesCollection = list(notes) # CONVERTS NON-UNIQUE LIST OF NOTES INTO LIST
         notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
         
-        notesPercentagesAll = wordCloud(notesList, list(uniqueNotes), False)
-        notesPercentagesLimited = wordCloud(notesList, list(uniqueNotes), True)
+        notesRelativePercentages = wordCloud(notesList, list(uniqueNotes))
 
-        if len(notesPercentagesAll) > 10:
-            notesPercentagesExtra = notesPercentagesAll[10:]
-        else:
-            notesPercentagesExtra = None
-
-    
 
     # SET DEFAULT HEADER FOR BROWSE
     browseHeader = "Results"
@@ -357,8 +343,7 @@ def browse():
         'beans' : beans,
         'roast_types' : getCoffeeData()["roast_types"],
         'origin_types' : getCoffeeData()["origin_types"],
-        'notesPercentagesExtra' : notesPercentagesExtra,
-        'notesPercentagesLimited' : notesPercentagesLimited,
+        'notesRelativePercentages' : notesRelativePercentages,
         'page_variable' : page,
         'beansCount' : beansCount,
         'pageQuantity' : pageQuantity,
