@@ -27,7 +27,7 @@
                 <form class="row" method="GET" name="sentCriteria" id="filterCriteria">
                     <div class="col-12 col-lg-4">
                         <h4 class="text-center">Roast</h4>
-                        <div class="filter-checks form-group">
+                        <div class="filter-checks form-group text-center">
                             {% for roast in roast_types %}
                                 <input type="checkbox" id="{{ roast }}" value="{{ roast }}" name="roast" {% if request.args['roast'] == roast %}checked{% endif %}>
                                 <label for="{{ roast }}">{{ roast }}</label><br>
@@ -36,13 +36,29 @@
                     </div>
                     <div class="col-12 col-lg-4">
                         <h4 class="text-center">Origin</h4>
-                        <div class="filter-checks form-group">
-                            {% for origin in origin_types %}
-                                <input type="checkbox" id="{{ origin }}" value="{{ origin }}" name="origin" {% if request.args['origin'] == origin %}checked{% endif %}>
-                                <label for="{{ origin }}">{{ origin }}</label><br>
+                        <div id="originOptions" class="filter-checks filter-checks-grid form-group m-0">
+                            {% for origin in originsOccurances %}
+                                {% if loop.index <= 4 %}
+                                    <input type="checkbox" id="{{ origin[0] }}" value="{{ origin[0] }}" name="origin[0]" {% if request.args['origin'] == origin[0] %}checked{% endif %}>
+                                    <label class="text-left pl-2 mb-1" for="{{ origin[0] }}">{{ origin[0] }}</label><br>
+                                {% endif %}        
                             {% endfor %}
                         </div>
+                        <div id="originOptionsExtra" class="filter-checks filter-checks-grid form-group m-0">
+                            {% for origin in originsOccurances %}
+                                {% if loop.index >= 5 %}
+                                    <input type="checkbox" id="{{ origin[0] }}" value="{{ origin[0] }}" name="origin[0]" {% if request.args['origin'] == origin[0] %}checked{% endif %}>
+                                    <label class="text-left pl-2 mb-1" for="{{ origin[0] }}">{{ origin[0] }}</label><br>
+                                {% endif %}        
+                            {% endfor %}
+                        </div>
+                        {% if originsOccurances|length >= 5 %}
+                            <div class="row pb-2 justify-content-center">
+                                <button id="showMoreOrigin" type="button" class="show-more more-origin mt-2"><i class="bi bi-chevron-compact-down"></i></button>
+                            </div>
+                        {% endif %}
                     </div>
+
                     <div class="col-12 col-lg-4">
                         <div class="row">
                             <div class="col-12 text-center form-group">
@@ -99,9 +115,11 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="row pb-2 justify-content-center">
-                    <button id="showMore" type="button" class="btn-custom">Show more</button>
-                </div>
+                {% if shuffledNotes|length >= 10 %}
+                    <div class="row pb-2 justify-content-center">
+                        <button id="showMoreNotes" type="button" class="show-more more-notes mt-4">Show more <i class="bi bi-chevron-compact-down"></i></button>
+                    </div>
+                {% endif %}
             </div>
             <hr>
             <!-- SUBMIT/RESET -->

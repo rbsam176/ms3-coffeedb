@@ -18,18 +18,18 @@ $( "input[name='tag']" ).on("change", function(){
     }
 });
 
-// CLICKING SHOW MORE
-$("#showMore").on('click', function(){
-    if ($("#showMore").text() == "Show more"){
+// CLICKING SHOW MORE ON NOTES
+$("#showMoreNotes").on('click', function(){
+    if ($("#showMoreNotes").text().includes("Show more")) {
         // TOGGLE BUTTON TEXT
-        $("#showMore").text("Show less")
+        $("#showMoreNotes").html("Show less <i class='bi bi-chevron-compact-up'></i>")
         // SHOWS EXTRA NOTES
         $(".extra-note").each(function(index){
             $(this).css('display', 'inline-block')
         })
-    } else if ($("#showMore").text() == "Show less"){
+    } else if ($("#showMoreNotes").text().includes("Show less")){
         // TOGGLE BUTTON TEXT
-        $("#showMore").text("Show more")
+        $("#showMoreNotes").html("Show more <i class='bi bi-chevron-compact-down'></i>")
         // HIDE EXTRA NOTES
         $(".extra-note").each(function(index){
             $(this).css('display', 'none')
@@ -37,6 +37,37 @@ $("#showMore").on('click', function(){
     }
 })
 
+// CLICKING SHOW MORE ON ORIGIN
+$("#showMoreOrigin").on('click', function(){
+    if ($("#showMoreOrigin").children('i').hasClass('bi bi-chevron-compact-down')) {
+        // TOGGLE BUTTON ICON
+        $("#showMoreOrigin").children('i').removeClass('bi-chevron-compact-down')
+        $("#showMoreOrigin").children('i').addClass('bi-chevron-compact-up')
+        
+        // SHOW OVERFLOW ORIGINS
+        if ($("#originOptionsExtra").css('display', 'none')){
+            $("#originOptionsExtra").css('display', 'block')
+        }
+
+    } else if ($("#showMoreOrigin").children('i').hasClass('bi bi-chevron-compact-up')) {
+        // TOGGLE BUTTON ICON
+        $("#showMoreOrigin").children('i').removeClass('bi-chevron-compact-up')
+        $("#showMoreOrigin").children('i').addClass('bi-chevron-compact-down')
+        // HIDE OVERFLOW ORIGINS
+        if ($("#originOptionsExtra").css('display', 'block')){
+            $("#originOptionsExtra").css('display', 'none')
+        }
+    }
+})
+
+// $( document ).ready(function(index) {
+//     $("#originOptions").children('input').each(function(index){
+//         if (index >= 4){
+//             $(this).css('display', 'none')
+//             $(this).next('label').css('display', 'none')
+//         }
+//     })
+// })
 
 // function myFunc(data) {
 //     $("#showMore").on('click', function(){

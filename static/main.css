@@ -691,14 +691,39 @@ input[type=checkbox]:checked + label.cloud-note {
 
 .filter-checks {
     text-transform: capitalize;
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;
     text-align: center;
 }
 
 .filter-checks > label {
     min-width: 80px;
+}
+
+.filter-checks-grid {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+.show-more {
+    background: none;
+    border: 1px solid #DFDFDF;
+}
+
+.show-more:hover {
+    background-color: white;
+}
+
+.more-notes {
+    width: 50%;
+    padding: 10px 15px;
+}
+
+.more-origin {
+    width: 75%;
+}
+
+#originOptionsExtra {
+    display: none;
 }
 
 .organicLabel {

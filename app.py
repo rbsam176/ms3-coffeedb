@@ -27,6 +27,16 @@ def dynamicValues(fixed, databaseKey):
     return removeDuplicates
 
 def getCoffeeData():
+    origins = dynamicValues(["brazil", "ethiopia", "blend", "colombia"], mongo.db.beans.distinct('origin'))
+
+    # need to sort it by most commonly used
+    # overflow = {}
+    # for index, x in enumerate(origins):
+    #     if index >= 2:
+    #         overflow[x] = "overflow"
+    #     else: 
+    #         overflow[x] = "default"
+
     coffeeData = {
         "roast_types": ["dark", "medium", "light"],
         "origin_types": dynamicValues(["brazil", "ethiopia", "blend", "colombia"], mongo.db.beans.distinct('origin')),
@@ -216,6 +226,14 @@ def edit(beanId):
         }
         return render_template("edit.html", **context)
 
+def countOccurances(nonUniqueList, uniqueList):
+    itemCount = []
+    for x in uniqueList:
+        itemCount.append((x, nonUniqueList.count(x)))
+    itemCount = sorted(itemCount, key=lambda item: item[1], reverse=True)
+
+    return itemCount
+
 
 # CREATES DICTIONARY OF UNIQUE ITEMS AND THEIR OCCURANCE PERCENTAGE
 def wordCloud(list, uniqueList):
@@ -282,7 +300,16 @@ def browse():
 
     # RETURNS LIST OF ALL UNIQUE NOTES
     uniqueNotes = getCoffeeData()["unique_notes"]
-    
+
+    # RETURNS LIST OF ALL NON-UNIQUE ORIGINS IN DB
+    originColl = mongo.db.beans.find({}, {"origin" : 1})
+    origins = []
+    for doc in originColl:
+        origins.append(doc['origin'])
+
+    # RETURNS LIST OF ALL UNIQUE ORIGINS
+    uniqueOrigins = getCoffeeData()["origin_types"]
+
     notesRelativePercentages = None
 
     # IF BEANS COLLECTION HAS DOCUMENTS
@@ -292,6 +319,9 @@ def browse():
         notesList = [y for x in notesCollection for y in x['notes']] # UNPACKS LIST INTO LIST OF JUST NOTES VALUES
         
         notesRelativePercentages = wordCloud(notesList, list(uniqueNotes))
+        originsOccurances = countOccurances(origins, uniqueOrigins)
+
+        print(originsOccurances)
 
 
     # SET DEFAULT HEADER FOR BROWSE
@@ -352,7 +382,7 @@ def browse():
     context = {
         'beans' : beans,
         'roast_types' : getCoffeeData()["roast_types"],
-        'origin_types' : getCoffeeData()["origin_types"],
+        'originsOccurances' : originsOccurances,
         'shuffledNotes' : shuffledNotes,
         'page_variable' : page,
         'beansCount' : beansCount,
