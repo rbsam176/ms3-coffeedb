@@ -242,11 +242,18 @@ def wordCloud(list, uniqueList):
         percentage = itemPercentage.get(num) / most_common_percentage * 100 # DIVIDES PERCENTAGE BY THE HIGHEST PERCENTAGE
         itemPercentageDict[num] = round(percentage, 1) # ROUNDS IT DOWN <<< OLD
     
-    newItemPercentageList = []
+    newItemPercentageList = [] #change this name
     for key, value in itemPercentageDict.items():
         newItemPercentageList.append((key[0], value))
 
-    return newItemPercentageList
+    itemPercentagesLabelled = []
+    for index, item in enumerate(newItemPercentageList):
+        if index >= 10:
+            itemPercentagesLabelled.append((item[0], item[1], "extra-note"))
+        else:
+            itemPercentagesLabelled.append(item)
+
+    return itemPercentagesLabelled
 
 # CREATES OFFSET AMOUNT BASED ON SPECIFIED QUANTITY SHOWN PER PAGE
 def pagination(perPage, dataCount):
@@ -338,12 +345,14 @@ def browse():
     if dynamicQuery["$and"]:
             browseHeader = "Filtered results"
 
+    shuffledNotes = random.sample(notesRelativePercentages, len(notesRelativePercentages))
+
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
     context = {
         'beans' : beans,
         'roast_types' : getCoffeeData()["roast_types"],
         'origin_types' : getCoffeeData()["origin_types"],
-        'notesRelativePercentages' : notesRelativePercentages,
+        'shuffledNotes' : shuffledNotes,
         'page_variable' : page,
         'beansCount' : beansCount,
         'pageQuantity' : pageQuantity,
