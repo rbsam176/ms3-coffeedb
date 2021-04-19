@@ -45,8 +45,8 @@ $("#showMoreOrigin").on('click', function(){
         $("#showMoreOrigin").children('i').addClass('bi-chevron-compact-up')
         
         // SHOW OVERFLOW ORIGINS
-        if ($("#originOptionsExtra").css('display', 'none')){
-            $("#originOptionsExtra").css('display', 'block')
+        if ($(".origin-box").hasClass('originOptionsExtra')){
+            $(".origin-box").removeClass('originOptionsExtra')
         }
 
     } else if ($("#showMoreOrigin").children('i').hasClass('bi bi-chevron-compact-up')) {
@@ -54,8 +54,8 @@ $("#showMoreOrigin").on('click', function(){
         $("#showMoreOrigin").children('i').removeClass('bi-chevron-compact-up')
         $("#showMoreOrigin").children('i').addClass('bi-chevron-compact-down')
         // HIDE OVERFLOW ORIGINS
-        if ($("#originOptionsExtra").css('display', 'block')){
-            $("#originOptionsExtra").css('display', 'none')
+        if (!$(".origin-box").hasClass('originOptionsExtra')){
+            $(".origin-box").addClass('originOptionsExtra')
         }
     }
 })

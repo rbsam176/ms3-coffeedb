@@ -25,47 +25,46 @@
             <div class="container-fluid">
                 <h2 class="text-center my-4">Filter criteria</h2>
                 <form class="row" method="GET" name="sentCriteria" id="filterCriteria">
+                    <!-- ROAST -->
                     <div class="col-12 col-lg-4">
                         <h4 class="text-center">Roast</h4>
-                        <div class="filter-checks form-group text-center">
+                        <div class="filter-checks form-group">
                             {% for roast in roast_types %}
-                                <input type="checkbox" id="{{ roast }}" value="{{ roast }}" name="roast" {% if request.args['roast'] == roast %}checked{% endif %}>
-                                <label for="{{ roast }}">{{ roast }}</label><br>
+                                <span class="checkbox-container text-center m-1">
+                                    <input type="checkbox" id="{{ roast }}" name="roast" value="{{ roast }}">
+                                    <label for="{{ roast }}" class="opacity-toggle">{{ roast|title }}</label>
+                                </span>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="col-12 col-lg-4">
+                    <!-- ORIGIN -->
+                    <div class="col-12 col-lg-4 px-0">
                         <h4 class="text-center">Origin</h4>
-                        <div id="originOptions" class="filter-checks filter-checks-grid form-group m-0">
+                        <div class="row justify-content-center">
                             {% for origin in originsOccurances %}
-                                {% if loop.index <= 4 %}
-                                    <input type="checkbox" id="{{ origin[0] }}" value="{{ origin[0] }}" name="origin[0]" {% if request.args['origin'] == origin[0] %}checked{% endif %}>
-                                    <label class="text-left pl-2 mb-1" for="{{ origin[0] }}">{{ origin[0] }}</label><br>
-                                {% endif %}        
+                                <div class="checkbox-container m-1 {% if loop.index > 4 %}origin-box originOptionsExtra{% endif %}">
+                                    <input type="checkbox" id="{{ origin[0]|replace(' ', '') }}" name="origin" value="{{ origin[0] }}" {% if request.args['origin'] == origin[0] %}checked{% endif %}>
+                                    <label for="{{ origin[0]|replace(' ', '') }}" class="opacity-toggle">{{ origin[0]|title }}</label>
+                                </div>
                             {% endfor %}
                         </div>
-                        <div id="originOptionsExtra" class="filter-checks filter-checks-grid form-group m-0">
-                            {% for origin in originsOccurances %}
-                                {% if loop.index >= 5 %}
-                                    <input type="checkbox" id="{{ origin[0] }}" value="{{ origin[0] }}" name="origin[0]" {% if request.args['origin'] == origin[0] %}checked{% endif %}>
-                                    <label class="text-left pl-2 mb-1" for="{{ origin[0] }}">{{ origin[0] }}</label><br>
-                                {% endif %}        
-                            {% endfor %}
-                        </div>
-                        {% if originsOccurances|length >= 5 %}
+                        <!-- SHOW MORE ORIGIN -->
+                        {% if originsOccurances|length > 4 %}
                             <div class="row pb-2 justify-content-center">
                                 <button id="showMoreOrigin" type="button" class="show-more more-origin mt-2"><i class="bi bi-chevron-compact-down"></i></button>
                             </div>
                         {% endif %}
                     </div>
-
+                    <!-- ORGANIC -->
                     <div class="col-12 col-lg-4">
                         <div class="row">
                             <div class="col-12 text-center form-group">
                                 <h4>Organic</h4>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" value="True" id="organicRequired" name="organicRequired" {% if request.args['organicRequired'] == "True" %}checked{% endif %}>
-                                    <label class="custom-control-label organicLabel" id="organicLabel" for="organicRequired">{% if request.args['organicRequired'] == "True" %}Is required{% else %}Not required{% endif %}</label>
+                                <div class="checkbox-container">
+                                    <input type="radio" id="organicFalse" name="organicRequired" value=False {% if not request.args %}checked{% elif request.args['organicRequired'] == 'False' %}checked{% endif %}>
+                                    <label for="organicFalse" class="opacity-toggle">Not required</label>
+                                    <input type="radio" id="organicTrue" name="organicRequired" value=True {% if request.args['organicRequired'] == "True" %}checked{% endif %}>
+                                    <label for="organicTrue" class="opacity-toggle">Required</label>
                                 </div>
                             </div>
                         </div>

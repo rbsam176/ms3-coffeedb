@@ -29,14 +29,6 @@ def dynamicValues(fixed, databaseKey):
 def getCoffeeData():
     origins = dynamicValues(["brazil", "ethiopia", "blend", "colombia"], mongo.db.beans.distinct('origin'))
 
-    # need to sort it by most commonly used
-    # overflow = {}
-    # for index, x in enumerate(origins):
-    #     if index >= 2:
-    #         overflow[x] = "overflow"
-    #     else: 
-    #         overflow[x] = "default"
-
     coffeeData = {
         "roast_types": ["dark", "medium", "light"],
         "origin_types": dynamicValues(["brazil", "ethiopia", "blend", "colombia"], mongo.db.beans.distinct('origin')),
@@ -321,7 +313,6 @@ def browse():
         notesRelativePercentages = wordCloud(notesList, list(uniqueNotes))
         originsOccurances = countOccurances(origins, uniqueOrigins)
 
-        print(originsOccurances)
 
 
     # SET DEFAULT HEADER FOR BROWSE
@@ -351,7 +342,7 @@ def browse():
             dynamicQuery["$and"].append({ "roast": { "$in": request.args.getlist("roast") }} )
         if request.args.getlist("origin"):
             dynamicQuery["$and"].append({ "origin": { "$in": request.args.getlist("origin") }} )
-        if bool(request.args.getlist("organicRequired")):
+        if "True" in request.args.getlist('organicRequired'):
             dynamicQuery["$and"].append({ "organic": True })
         if request.args.getlist('tag'):
             if request.args['conditionType'] == "all":
