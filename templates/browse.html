@@ -31,8 +31,8 @@
                         <div class="filter-checks form-group">
                             {% for roast in roast_types %}
                                 <span class="checkbox-container text-center m-1">
-                                    <input type="checkbox" id="{{ roast }}" name="roast" value="{{ roast }}">
-                                    <label for="{{ roast }}" class="opacity-toggle">{{ roast|title }}</label>
+                                    <input type="checkbox" id="{{ roast }}" name="roast" value="{{ roast }}" {% if request.args['roast'] == roast %}checked{% endif %}>
+                                    <label for="{{ roast }}" class="filter-toggle">{{ roast|title }}</label>
                                 </span>
                             {% endfor %}
                         </div>
@@ -44,7 +44,7 @@
                             {% for origin in originsOccurances %}
                                 <div class="checkbox-container m-1 {% if loop.index > 4 %}origin-box originOptionsExtra{% endif %}">
                                     <input type="checkbox" id="{{ origin[0]|replace(' ', '') }}" name="origin" value="{{ origin[0] }}" {% if request.args['origin'] == origin[0] %}checked{% endif %}>
-                                    <label for="{{ origin[0]|replace(' ', '') }}" class="opacity-toggle">{{ origin[0]|title }}</label>
+                                    <label for="{{ origin[0]|replace(' ', '') }}" class="filter-toggle">{{ origin[0]|title }}</label>
                                 </div>
                             {% endfor %}
                         </div>
@@ -62,9 +62,9 @@
                                 <h4>Organic</h4>
                                 <div class="checkbox-container">
                                     <input type="radio" id="organicFalse" name="organicRequired" value=False {% if not request.args %}checked{% elif request.args['organicRequired'] == 'False' %}checked{% endif %}>
-                                    <label for="organicFalse" class="opacity-toggle">Not required</label>
+                                    <label for="organicFalse" class="filter-toggle">Not required</label>
                                     <input type="radio" id="organicTrue" name="organicRequired" value=True {% if request.args['organicRequired'] == "True" %}checked{% endif %}>
-                                    <label for="organicTrue" class="opacity-toggle">Required</label>
+                                    <label for="organicTrue" class="filter-toggle">Required</label>
                                 </div>
                             </div>
                         </div>
@@ -92,22 +92,22 @@
                                 {% if item[1] > 75 %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
                                         <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="note-bubble my-auto cloud-75 cloud-note">{{ item[0] }}</label>
+                                        <label for="{{ item[0] }}" class="filter-toggle my-auto cloud-75 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% elif item[1] > 50 %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
                                         <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="note-bubble cloud-50 cloud-note">{{ item[0] }}</label>
+                                        <label for="{{ item[0] }}" class="filter-toggle cloud-50 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% elif item[1] > 25 %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
                                         <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="note-bubble cloud-25 cloud-note">{{ item[0] }}</label>
+                                        <label for="{{ item[0] }}" class="filter-toggle cloud-25 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% else %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
                                         <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="note-bubble cloud-0 cloud-note">{{ item[0] }}</label>
+                                        <label for="{{ item[0] }}" class="filter-toggle cloud-0 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% endif %}
                             {% endfor %}

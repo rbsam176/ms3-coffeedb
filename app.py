@@ -119,12 +119,14 @@ def gatherInputs(matchedBean = None):
         "roast": request.form["roast"],
         "origin": request.form["origin"].lower(),
         "notes": captureNotes,
-        "organic": bool(request.form.get("organic")),
+        # "organic": bool(request.form.get("organic")),
+        "organic" : True if "True" in request.form.getlist('organicRequired') else False,
         "url": request.form["website"],
         "img-base64": encode64(request.files['upload64']) if request.files['upload64'] else matchedBean["img-base64"],
         "username": mongo.db.users.find_one(
             {"username": session["user"]})["username"]
     }
+
 
     return userInput
 

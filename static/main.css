@@ -658,20 +658,20 @@ input[type=checkbox]:checked + label.cloud-note {
     /* line-height: 60px; */
 }
 
-.opacity-toggle {
+.filter-toggle {
     padding: 10px;
     border: 2px solid black;
 }
 
-.opacity-toggle:hover {
+.filter-toggle:hover {
     background-color: #F8A825;
 }
 
-input[type=checkbox]:checked + label.opacity-toggle {
+input[type=checkbox]:checked + label.filter-toggle {
     background-color: #F8A825;
 }
 
-input[type=radio]:checked + label.opacity-toggle {
+input[type=radio]:checked + label.filter-toggle {
     background-color: #F8A825;
 }
 

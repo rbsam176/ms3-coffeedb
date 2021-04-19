@@ -1,12 +1,3 @@
-// TOGGLES ORGANIC LABEL TEXT
-$( "#organicToggle" ).on('click', function(){
-    if ($( "#organicLabel" ).text() == "Off"){
-        $( "#organicLabel" ).text("On")
-    } else if ($( "#organicLabel" ).text() == "On"){
-        $( "#organicLabel" ).text("Off")
-    }
-})
-
 // IF USER SELECTS 'OTHER' IN DROPDOWN, PRESENT TEXT INPUT AND MAKE IT REQUIRED
 $('.dynamicSelection').on('change', function () {
     var toggleInput = $(this).parent().next('.toggleInput')
