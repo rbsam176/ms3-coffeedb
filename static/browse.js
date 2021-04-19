@@ -51,8 +51,24 @@ $("#showMoreOrigin").on('click', function(){
     }
 })
 
-// on page load if origin/note checked then ensure show all is enabled
-
+// SHOWS ORIGIN IF IN SHOW MORE SECTION AND IS IN URL ARGS
+$( document ).ready(function() {
+    if ($(".origin-box").children('input').is(':checked')){
+        $('.origin-box').each(function(){
+            if ($(this).hasClass('originOptionsExtra')){
+                $(this).removeClass('originOptionsExtra')
+            }
+        })
+    }
+    // IF NO MORE ICONS ARE HIDDEN
+    $(".origin-box").each(function(){
+        if (!$(this).hasClass('originOptionsExtra')){
+            // TOGGLE BUTTON ICON
+            $("#showMoreOrigin").children('i').removeClass('bi-chevron-compact-down')
+            $("#showMoreOrigin").children('i').addClass('bi-chevron-compact-up')
+        }
+    })
+})
 
 
 

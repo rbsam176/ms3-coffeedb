@@ -18,7 +18,7 @@
                 <ul class="bean-info">
                     <li>Roast: {{ submission.roast }}</li>
                     <li>Origin: {{ submission.origin }}</li>
-                    <li>Organic: {{ submission.organic }}</li>
+                    <li>{% if submission.organic %}Organic{% else %}Not organic{% endif %}</li>
                     <li><a href="{{ submission.url }}">More Info</a></li>
                 </ul>
                 <h5 class="text-center my-3">Notes:</h5>

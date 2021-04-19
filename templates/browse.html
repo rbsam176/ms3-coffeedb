@@ -43,7 +43,7 @@
                         <div class="row justify-content-center">
                             {% for origin in originsOccurances %}
                                 <div class="checkbox-container m-1 {% if loop.index > 4 %}origin-box originOptionsExtra{% endif %}">
-                                    <input type="checkbox" id="{{ origin[0]|replace(' ', '') }}" name="origin" value="{{ origin[0] }}" {% if request.args['origin'] == origin[0] %}checked{% endif %}>
+                                    <input type="checkbox" id="{{ origin[0]|replace(' ', '') }}" name="origin" value="{{ origin[0] }}" {% if origin[0] in request.args.getlist('origin') %}checked{% endif %}>
                                     <label for="{{ origin[0]|replace(' ', '') }}" class="filter-toggle">{{ origin[0]|title }}</label>
                                 </div>
                             {% endfor %}
