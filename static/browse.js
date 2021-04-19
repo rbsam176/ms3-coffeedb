@@ -60,15 +60,6 @@ $("#showMoreOrigin").on('click', function(){
     }
 })
 
-// $( document ).ready(function(index) {
-//     $("#originOptions").children('input').each(function(index){
-//         if (index >= 4){
-//             $(this).css('display', 'none')
-//             $(this).next('label').css('display', 'none')
-//         }
-//     })
-// })
-
 // function myFunc(data) {
 //     $("#showMore").on('click', function(){
 //         $("#showMore").text('Show Less')
