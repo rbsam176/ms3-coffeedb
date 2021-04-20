@@ -29,7 +29,7 @@
                 <div class="card data-card container-fluid">
                     <form method="POST" id="submitRating">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12 col-sm-6">
                                 <div class="row justify-content-center">
                                     <h3 class="my-4">Your rating</h3>
                                 </div>
@@ -63,7 +63,7 @@
                                     {% endif %}
                                 {% endwith %}
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-sm-6">
                                 <div class="row justify-content-center">
                                     <h3 class="my-4">Average rating</h3>
                                 </div>
@@ -84,9 +84,9 @@
                     <div class="row my-3 justify-content-center">
                         <h3>Latest user reviews</h3>
                     </div>
-                    <div class="row px-4">
-                        {% if existing_reviews %}
-                            {% for review in existing_reviews %}
+                    {% if existing_reviews %}
+                        {% for review in existing_reviews %}
+                            <div class="row px-4">
                                 <blockquote class="blockquote mb-4">
                                     <p class="mb-0">{{ review['text'] }}</p>
                                     <footer class="blockquote-footer">
@@ -101,11 +101,11 @@
                                         on <cite>{{ review['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite>
                                     </footer>
                                 </blockquote>
-                            {% endfor %}
-                        {% else %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
                         <p class="mb-0">No reviews yet! Be the first and add yours below.</p>
-                        {% endif %}
-                    </div>
+                    {% endif %}
                     {% if (existing_reviews) and (existing_reviews|count > 1) %}
                         <a href="{{ url_for('allReviews', submissionId=submission_data['_id']) }}">See all reviews</a>
                     {% endif %}

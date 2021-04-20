@@ -541,10 +541,11 @@ def allReviews(submissionId):
     feedback = []
     for item in data['review']:
         feedback.append(item)
-        for rating in data['rating']:
-            if rating['user'] == item['user']:
-                index = feedback.index(item)
-                feedback[index]['rating'] = rating
+        if 'rating' in data:
+            for rating in data['rating']:
+                if rating['user'] == item['user']:
+                    index = feedback.index(item)
+                    feedback[index]['rating'] = rating
 
     # CONVERTS TIMESTAMP TO USER TIMEZONE
     for x in feedback:

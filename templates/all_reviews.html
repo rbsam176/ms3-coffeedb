@@ -37,10 +37,12 @@
                             <p class="mb-0">{{ item['text'] }}</p>
                             <footer class="blockquote-footer">
                                 <a href="{{ url_for('profile', username=item['username']) }}">{{ item['username'] }}</a>
-                                {% if item.rating['username'] == item['username'] %}
-                                    {% for score in range(item.rating['score']) %}
-                                        <i class="bi bi-star-fill star-rating"></i>
-                                    {% endfor %}
+                                {% if 'rating' in item %}
+                                    {% if item.rating['username'] == item['username'] %}
+                                        {% for score in range(item.rating['score']) %}
+                                            <i class="bi bi-star-fill star-rating"></i>
+                                        {% endfor %}
+                                    {% endif %}
                                 {% endif %}
                                 on <cite>{{ item['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite>
                             </footer>
