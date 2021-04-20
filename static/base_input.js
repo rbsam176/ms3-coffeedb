@@ -96,12 +96,14 @@ $(document).ready(function() {
 $("#addNote").on('click', function(e) {
     e.preventDefault()
     var rawInputText = $("#customNoteInput").val()
+    console.log(rawInputText)
+    console.log(rawInputText.replace(' ', ''))
     if (rawInputText.length > 0){
         // $(".add-notes-container").append(`<li class="add-notes-checkboxes"><label><input class="note-checkbox" name="note" value="${rawInputText}" type="checkbox" checked>${rawInputText}</label></li>`)
         $(".add-notes").append(`
         <span class="checkbox-container m-1">
-            <input type="checkbox" id="${rawInputText}" class="note-checkbox" name="note" value="${rawInputText}" checked>
-            <label for="${rawInputText}" class="filter-toggle">${rawInputText}</label>
+            <input type="checkbox" id="${rawInputText.replace(' ', '')}" class="note-checkbox" name="note" value="${rawInputText}" checked>
+            <label for="${rawInputText.replace(' ', '')}" class="filter-toggle">${rawInputText}</label>
         </span>
         `)
         appendToPreview(rawInputText)
