@@ -4,7 +4,7 @@
 {% import 'pagination_bottom.html' as pagination_bottom %}
 {% import 'quick_search.html' as quickSearch %}
 
-{% block title %}CoffeeDB: Browse{% endblock %}
+{% block title %}CoffeeDB: Browse {% if ("page" in request.args) and not (page_variable == 1) %}(Page {{ page_variable }}){% endif %}{% endblock %}
 
 {% block content %}
     

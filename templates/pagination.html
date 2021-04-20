@@ -1,6 +1,6 @@
 {% macro input(pageQuantity, headerText, totalCount, page_variable, offset, formName) -%}
     <div class="container">
-        <div class="row">
+        <div class="row pt-2">
             <div class="col-4 d-none d-md-block"></div>
             <div class="col-12 col-lg-4">
                 <h2 class="text-center mx-auto justify-content-center">{{ headerText }} ({{ totalCount }})</h2>
@@ -15,10 +15,9 @@
                     <option {% if request.args.get('sort') == 'brandAz' %}selected{% endif %} value="brandAz">Brand (A > Z)</option>
                     <option {% if request.args.get('sort') == 'brandZa' %}selected{% endif %} value="brandZa">Brand (Z > A)</option>
                 </select>
-                <!-- <button type="submit" form="{{ formName }}">Submit</button> -->
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-lg-4">
             {% if pageQuantity > 1 %}
             <div class="col-6 col-sm-2 order-sm-first text-left">
                 <button form="{{ formName }}" type="submit" name="page" class="pagination-btn" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}">
@@ -27,7 +26,7 @@
             </div>
             {% endif %}
             <div class="col-12 order-last col-sm-8 justify-content-center mt-2 mt-sm-0"> 
-                <h5 class="text-center mt-3">Showing results {{ offset + 1 }} to {% if offset + 6 < totalCount %}{{ offset + 6 }}{% else %}{{ totalCount }}{% endif %} ({% if page_variable %}Page {{ page_variable }}{% else %}Page 1{% endif %} of {{ pageQuantity }})</h5>
+                <h5 class="text-center mt-3">Showing results {{ offset + 1 }} to {% if offset + 6 < totalCount %}{{ offset + 6 }}{% else %}{{ totalCount }}{% endif %} <span class="d-inline-block">({% if page_variable %}Page {{ page_variable }}{% else %}Page 1{% endif %} of {{ pageQuantity }})</span></h5>
             </div>
             {% if pageQuantity > 1 %}
             <div class="col-6 col-sm-2 order-sm-last text-right">
