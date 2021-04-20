@@ -72,9 +72,13 @@ function appendToPreview(tag){
 // USED https://stackoverflow.com/a/40280312 FOR SUPPORT
 $("form").on('change', 'input:checkbox.note-checkbox', function() {
     if($(this).is(':checked')){
+        console.log('checked, appending')
         appendToPreview($(this).parent().text())
     } else if(!$(this).is(':checked')){
-        $(".preview-notes-container").children(`.tag-preview:contains(${$(this).parent().text()})`).remove()
+        console.log('remove')
+        console.log($(this).parent().text())
+        console.log($(".preview-notes-container").children('.tag-preview').text())
+        $(".preview-notes-container").children(`.tag-preview:contains(${$(this).parent().text().trim()})`).remove()
     }
 })
 
@@ -93,7 +97,13 @@ $("#addNote").on('click', function(e) {
     e.preventDefault()
     var rawInputText = $("#customNoteInput").val()
     if (rawInputText.length > 0){
-        $(".add-notes-container").append(`<li class="add-notes-checkboxes"><label><input class="note-checkbox" name="note" value="${rawInputText}" type="checkbox" checked>${rawInputText}</label></li>`)
+        // $(".add-notes-container").append(`<li class="add-notes-checkboxes"><label><input class="note-checkbox" name="note" value="${rawInputText}" type="checkbox" checked>${rawInputText}</label></li>`)
+        $(".add-notes").append(`
+        <span class="checkbox-container m-1">
+            <input type="checkbox" id="${rawInputText}" class="note-checkbox" name="note" value="${rawInputText}" checked>
+            <label for="${rawInputText}" class="filter-toggle">${rawInputText}</label>
+        </span>
+        `)
         appendToPreview(rawInputText)
         $("#customNoteInput").val('')
     } else {

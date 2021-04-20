@@ -622,6 +622,10 @@ ul.bean-info {
     position: absolute;
 }
 
+.checkbox-container {
+    display: inline-block;
+}
+
 input[name="tag"] {
     padding: 4px 8px;
     margin: 4px;
