@@ -1,6 +1,6 @@
 {% macro input(pageQuantity, headerText, totalCount, page_variable, offset, formName) -%}
     <div class="container-fluid">
-        <div class="row justify-content-center mt-4">
+        <div class="row justify-content-center my-4">
             {% if pageQuantity > 1 %}
             <div class="col-6  col-sm-2 text-center">
                 <button form="{{ formName }}" type="submit" name="page" class="pagination-btn" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}">
