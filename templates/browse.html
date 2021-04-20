@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import 'card.html' as card %}
 {% import 'pagination.html' as pagination %}
+{% import 'pagination_bottom.html' as pagination_bottom %}
 {% import 'quick_search.html' as quickSearch %}
 
 {% block title %}CoffeeDB: Browse{% endblock %}
@@ -125,11 +126,11 @@
             <div class="row justify-content-center mt-4">
                 <div class="col-12 form-group text-center">
                     <a href="{{ url_for('browse') }}" class="btn btn-secondary btn-lg">Reset</a>
-                    <input id="submitCriteria" form="filterCriteria" type="submit" name="submit" value="Search" class="btn btn-primary btn-lg">
+                    <input id="submitCriteria" form="filterCriteria" type="submit" value="Search" class="btn btn-primary btn-lg">
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
     {{ pagination.input(pageQuantity, browseHeader, beansCount, page_variable, offset, formName="filterCriteria") }}
     <div class="container-fluid">
         {% if beans|length == 0 %}
@@ -139,7 +140,7 @@
         {% endif %}
         {{ card.input(beans) }}
     </div>
-    {{ pagination.input(pageQuantity, null, beansCount, page_variable, offset, formName="filterCriteria") }}
+    {{ pagination_bottom.input(pageQuantity, null, beansCount, page_variable, offset, formName="filterCriteria") }}
 <p id="content"></p>
 {% endblock %}
 {% block scripts %}

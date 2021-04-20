@@ -5,16 +5,16 @@
 
 {% block content %}
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-1">
-                <h3 class="my-4">
+        <div class="row justify-content-center mx-4">
+            <div class="col-2 d-none d-sm-block text-left">
+                <h3 class="my-4 text-center">
                     <a href="{{ url_for('viewSubmission', submissionId=submissionId) }}"><i class="bi bi-arrow-left-circle"></i></a>
                 </h3>
             </div>
-            <div class="col-10 text-center">
+            <div class="col text-center">
                 <h2 class="my-4">All reviews</h2>
             </div>
-            <div class="col-1">
+            <div class="col-2 d-none d-sm-block">
             </div>
         </div>
         <div class="col-lg-12 col-xl-10 mx-auto">
@@ -37,12 +37,10 @@
                             <p class="mb-0">{{ item['text'] }}</p>
                             <footer class="blockquote-footer">
                                 <a href="{{ url_for('profile', username=item['username']) }}">{{ item['username'] }}</a>
-                                {% if 'rating' in item %}
-                                    {% if item.rating['username'] == item['username'] %}
-                                        {% for score in range(item.rating['score']) %}
-                                            <i class="bi bi-star-fill star-rating"></i>
-                                        {% endfor %}
-                                    {% endif %}
+                                {% if ('rating' in item) and (item.rating['username'] == item['username']) %}
+                                    {% for score in range(item.rating['score']) %}
+                                        <i class="bi bi-star-fill star-rating"></i>
+                                    {% endfor %}
                                 {% endif %}
                                 on <cite>{{ item['reviewTimestamp'].strftime('%d-%m-%Y %H:%M') }}</cite>
                             </footer>

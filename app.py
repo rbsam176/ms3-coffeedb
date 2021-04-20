@@ -278,6 +278,20 @@ def pagination(perPage, dataCount):
         offset = multiply * perPage
     return offset, perPage, page, dataCount, pageQuantity
 
+def pagination_sort(beans):
+    if request.args.get("sort") == 'dateDesc': # New
+        beans = beans.sort("_id", -1)
+    if request.args.get("sort") == 'dateAsc': # Old
+        beans = beans.sort("_id", 1)
+    if request.args.get("sort") == 'nameAz': # A > Z name
+        beans = beans.sort("name", 1)
+    if request.args.get("sort") == 'nameZa': # Z > A name
+        beans = beans.sort("name", -1)
+    if request.args.get("sort") == 'brandAz': # A > Z brand
+        beans = beans.sort("brand", 1)
+    if request.args.get("sort") == 'brandZa': # Z > A brand
+        beans = beans.sort("brand", -1)
+
 @app.route("/browse", methods=["GET"])
 def browse():
     # GETS ALL DATA FROM BEANS COLLECTION (SORTED BY MOST RECENT)
@@ -364,12 +378,16 @@ def browse():
             # REASSIGNS BEANS VARIABLE TO INCLUDE QUERY AND PAGINATION OFFSET/LIMIT
             beans = mongo.db.beans.find(dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
 
+        pagination_sort(beans)
+            
+
     # IF CUSTOM FILTER QUERY, CHANGE HEADER
     if dynamicQuery["$and"]:
             browseHeader = "Filtered results"
 
     # SOURCE https://stackoverflow.com/questions/17649875/why-does-random-shuffle-return-none
     shuffledNotes = random.sample(notesRelativePercentages, len(notesRelativePercentages))
+
 
     beans = list(beans) # CONVERTS TO LIST BEFORE PASSING INTO TEMPLATE
     context = {
@@ -625,6 +643,8 @@ def profile(username):
         data = mongo.db.beans.find({"username": username}).sort("_id", -1)
         offset, perPage, page, beansCount, pageQuantity = pagination(6, mongo.db.beans.count_documents({"username": username}))
         user_submissions = data.skip(offset).limit(perPage)
+
+        pagination_sort(user_submissions)
 
         user_submissions = list(user_submissions)
         submission_count = len(list(user_submissions))

@@ -1,6 +1,7 @@
 {% extends "base_profile.html" %}
 {% import 'card.html' as card %}
 {% import 'pagination.html' as pagination %}
+{% import 'pagination_bottom.html' as pagination_bottom %}
 
 {% block title %}CoffeeDB: {{ first_name|title }}'s Profile{% endblock %}
 
@@ -9,7 +10,7 @@
         <form method="GET" id="profileSubmissions">
             {{ pagination.input(pageQuantity, "Submissions", beansCount, page_variable, offset, formName="profileSubmissions") }}
             {{ card.input(user_submissions) }}
-            {{ pagination.input(pageQuantity, null, beansCount, page_variable, offset, formName="profileSubmissions") }}
+            {{ pagination_bottom.input(pageQuantity, null, beansCount, page_variable, offset, formName="filterCriteria") }}
         </form>
     {% elif session["user"] == username %}
         <h3 class="card-title text-center mb-4">Submissions</h3>
