@@ -91,9 +91,11 @@ h2, h3 {
 .filterValidation {
     background-color: #FFBF04;
     border-radius: 0;
-    padding: 15px;
+    padding: 0px 10px;
+    margin: 5px;
     border: 2px solid black;
     line-height: 60px;
+    display: inline-block;
 }
 
 .filterValidation:hover {
