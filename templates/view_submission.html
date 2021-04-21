@@ -86,9 +86,9 @@
                     </div>
                     {% if existing_reviews %}
                         {% for review in existing_reviews %}
-                            <div class="row px-4">
-                                <blockquote class="blockquote mb-4">
-                                    <p class="mb-0">{{ review['text'] }}</p>
+                            <div class="row px-4 pt-3 {% if review['username'] == session['user'] %}bg-warning{% endif %}">
+                                <blockquote class="blockquote">
+                                    <p class="p-0 m-0">{{ review['text'] }}</p>
                                     <footer class="blockquote-footer">
                                         <a href="{{ url_for('profile', username=review['username']) }}">{{ review['username'] }}</a> 
                                         {% for item in submission_data['rating'] %}
@@ -107,7 +107,7 @@
                         <p class="mb-0">No reviews yet! Be the first and add yours below.</p>
                     {% endif %}
                     {% if (existing_reviews) and (existing_reviews|count > 1) %}
-                        <a href="{{ url_for('allReviews', submissionId=submission_data['_id']) }}">See all reviews</a>
+                        <a class="mt-2" href="{{ url_for('allReviews', submissionId=submission_data['_id']) }}">See all reviews</a>
                     {% endif %}
                     <hr>
                     <div class="row px-4 justify-content-center">
@@ -116,7 +116,7 @@
                     <form method="POST" id="submitReview">
                         <div class="row">
                             <div class="form-group col-12">
-                                <textarea class="form-control custom-input" maxlength=150 id="reviewContent" name="reviewContent" rows="3" {% if not session['user'] %}disabled placeholder="You must login to write a review"{% else %}placeholder="Type your review here"{% endif %}></textarea>
+                                <textarea class="form-control custom-input" maxlength=150 id="reviewContent" name="reviewContent" rows="3" {% if not session['user'] %}disabled placeholder="You must login to write a review"{% else %}placeholder="Type your review here"{% endif %}>{% if existing_user_review %}{{ existing_user_review }}{% endif %}</textarea>
                                 <small class="float-right"><span id="characterCounter">150</span> characters left</small>
                             </div>
                         </div>

@@ -454,6 +454,9 @@ def viewSubmission(submissionId):
     else:
         existing_reviews = None
 
+    # DEFAULT USER REVIEW SET TO NONE
+    existing_user_review = None
+
     # ASK USER TO LOGIN IN ORDER TO RATE
     if 'user' not in session:
         if request.method == "POST":
@@ -468,6 +471,14 @@ def viewSubmission(submissionId):
         
         # SET DEFAULT USER RATING
         existing_user_rating = 0
+
+        # GETS USERS OWN REVIEW IF EXISTS
+        if 'review' in submission_data:
+            for item in submission_data["review"]:
+                # IF USER HAS MADE A RATING ALREADY
+                if item["user"] == currentUserId:
+                    # REASSIGN VARIABLE TO CONTAIN REVIEW
+                    existing_user_review = str(item["text"])
 
         # IF SUBMISSION HAS RATINGS
         if 'rating' in submission_data:
@@ -505,17 +516,6 @@ def viewSubmission(submissionId):
             if "review" in request.form:
                 # GETS USER REVIEW INPUT
                 reviewText = request.form['reviewContent']
-
-                # DEFAULT USER REVIEW SET TO NONE
-                existing_user_review = None
-
-                # IF SUBMISSION HAS REVIEWS
-                if 'review' in submission_data:
-                    for item in submission_data["review"]:
-                        # IF USER HAS MADE A RATING ALREADY
-                        if item["user"] == currentUserId:
-                            # REASSIGN VARIABLE TO CONTAIN REVIEW
-                            existing_user_review = str(item["text"])
                 
                 # IF USER HAS ALREADY REVIEWED
                 if existing_user_review:
@@ -547,7 +547,7 @@ def viewSubmission(submissionId):
 
                 return redirect(url_for("viewSubmission", submissionId=submissionId))
 
-        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, total_ratings=getTotalRatings(submissionId), existing_reviews=existing_reviews)
+        return render_template("view_submission.html", submission_data=submission_data, averageRating=averageRating, existing_user_rating=existing_user_rating, existing_user_review=existing_user_review, total_ratings=getTotalRatings(submissionId), existing_reviews=existing_reviews)
 
 # SOURCE: https://stackoverflow.com/questions/4563272/convert-a-python-utc-datetime-to-a-local-datetime-using-only-python-standard-lib
 def utcToLocal(utc):
