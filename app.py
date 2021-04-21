@@ -355,7 +355,9 @@ def browse():
        
         # CHECKS IF LIST VALUES EXIST AND APPENDS TO DYNAMIC QUERY
         if request.args.getlist("roast"):
+            print(request.args.getlist("roast"))
             dynamicQuery["$and"].append({ "roast": { "$in": request.args.getlist("roast") }} )
+            print(dynamicQuery)
         if request.args.getlist("origin"):
             dynamicQuery["$and"].append({ "origin": { "$in": request.args.getlist("origin") }} )
         if "True" in request.args.getlist('organicRequired'):

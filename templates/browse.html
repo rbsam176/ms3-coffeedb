@@ -134,7 +134,7 @@
     {% if request.args %}
         <div class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 mb-4">
                     <!-- ORIGIN VALIDATION -->
                     {% if request.args.get("origin") != None %}
                         {% for origin in request.args.getlist("origin") %}
@@ -147,12 +147,10 @@
                                     {% endif %}
                                 {% endfor %}
 
-                                {% set newArgs = {"origin": originList, "roast": request.args.getlist('roast'), "organicRequired": request.args.getlist('organicRequired'), "tag": request.args.getlist('tag') } %}
+                                {% set newArgs = {"origin": originList, "roast": request.args.getlist('roast'), "organicRequired": request.args.getlist('organicRequired'), "tag": request.args.getlist('tag'), "conditionType": request.args.getlist('conditionType') } %}
                                 
-                                <a href="{{ url_for('browse', **newArgs) }}">remove origin</a>
-
-                                <input type="checkbox" id="{{ origin }}Validation" form="filterCriteria" name="origin" value="{{ origin }}" checked>
-                                <label for="{{ origin }}Validation" class="filter-toggle"><a href="#">{{ origin|title }} <i class="ml-1 bi bi-x-circle"></i></a></label>
+                                
+                                <a href="{{ url_for('browse', **newArgs) }}" class="filterValidation m-1">{{ origin|title }} <i class="ml-1 bi bi-x-circle"></i></i></a>
                             </span>
                         {% endfor %}
 
@@ -171,10 +169,7 @@
 
                                 {% set newArgs = {"origin": request.args.getlist('origin'), "roast": request.args.getlist('roast'), "organicRequired": request.args.getlist('organicRequired'), "tag": tagList, "conditionType": request.args.getlist('conditionType') } %}
 
-                                <a href="{{ url_for('browse', **newArgs) }}">remove tag</a>
-
-                                <input type="checkbox" id="{{ tag }}Validation" form="filterCriteria" name="tag" value="{{ tag }}" checked>
-                                <label for="test" class="filter-toggle">{{ tag|title }} <i class="ml-1 bi bi-x-circle"></i></label>
+                                <a href="{{ url_for('browse', **newArgs) }}" class="filterValidation m-1">{{ tag|title }} <i class="ml-1 bi bi-x-circle"></i></i></a>
                             </span>
                         {% endfor %}
                     {% endif %}
@@ -190,25 +185,20 @@
                                     {% endif %}
                                 {% endfor %}
 
-                                {% set newArgs = {"origin": request.args.getlist('origin'), "roast": roastList, "organicRequired": request.args.getlist('organicRequired'), "tag": request.args.getlist('tag') } %}
+                                {% set newArgs = {"origin": request.args.getlist('origin'), "roast": roastList, "organicRequired": request.args.getlist('organicRequired'), "tag": request.args.getlist('tag'), "conditionType": request.args.getlist('conditionType') } %}
 
-                                <a href="{{ url_for('browse', **newArgs) }}">remove roast</a>
+                                <a href="{{ url_for('browse', **newArgs) }}" class="filterValidation m-1">{{ roast|title }} <i class="ml-1 bi bi-x-circle"></i></a>
 
-                                <input type="checkbox" id="{{ roast }}Validation" form="filterCriteria" name="roast" value="{{ roast }}" checked>
-                                <label for="{{ roast }}Validation" class="filter-toggle">{{ roast|title }} <i class="ml-1 bi bi-x-circle"></i></label>
                             </span>
                         {% endfor %}
                     {% endif %}
                     <!-- ORGANIC VALIDATION -->
                     {% if request.args.get("organicRequired") == "True" %}
                         <span class="checkbox-container my-1">
-                            
-                            {% set newArgs = {"origin": request.args.getlist('origin'), "roast": request.args.getlist('roast'), "tag": request.args.getlist('tag') } %}
 
-                            <a href="{{ url_for('browse', **newArgs) }}">remove organic</a>
+                            {% set newArgs = {"origin": request.args.getlist('origin'), "roast": request.args.getlist('roast'), "tag": request.args.getlist('tag'), "conditionType": request.args.getlist('conditionType') } %}
 
-                            <input type="checkbox" id="organicValidation" form="filterCriteria" name="organicRequired" value="True" checked>
-                            <label for="organicValidation" class="filter-toggle">Organic <i class="ml-1 bi bi-x-circle"></i></label>
+                            <a href="{{ url_for('browse', **newArgs) }}" class="filterValidation m-1">Organic <i class="ml-1 bi bi-x-circle"></i></a>
                         </span>
                     {% endif %}
 

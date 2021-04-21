@@ -76,6 +76,19 @@ h2, h3 {
     background-color: white;
 }
 
+.filterValidation {
+    background-color: #FFBF04;
+    border-radius: 0;
+    padding: 15px;
+    border: 2px solid black;
+    line-height: 60px;
+}
+
+.filterValidation:hover {
+    background: none;
+    color: black;
+}
+
 .password-checker {
     border: 2px solid black;
     height: 148px;
