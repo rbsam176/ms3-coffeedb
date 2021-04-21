@@ -88,6 +88,10 @@ h2, h3 {
     background-color: white;
 }
 
+.bg-highlight {
+    background-color: #FFE9A9;
+}
+
 .filterValidation {
     background-color: #FFBF04;
     border-radius: 0;

@@ -31,7 +31,7 @@
         </div>
         <div class="col-lg-12 col-xl-10 mx-auto">
             {% for item in submission_data %}
-                <div class="card p-4 my-3 {% if item['username'] == session['user'] %}bg-warning{% endif %}">
+                <div class="card p-4 my-3 {% if item['username'] == session['user'] %}bg-highlight{% endif %}">
                     <div class="row px-3">
                         <blockquote class="blockquote my-auto">
                             <p class="mb-0">{{ item['text'] }}</p>

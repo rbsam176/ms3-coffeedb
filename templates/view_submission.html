@@ -86,7 +86,7 @@
                     </div>
                     {% if existing_reviews %}
                         {% for review in existing_reviews %}
-                            <div class="row px-4 pt-3 {% if review['username'] == session['user'] %}bg-warning{% endif %}">
+                            <div class="row px-4 pt-3 {% if review['username'] == session['user'] %}bg-highlight{% endif %}">
                                 <blockquote class="blockquote">
                                     <p class="p-0 m-0">{{ review['text'] }}</p>
                                     <footer class="blockquote-footer">
