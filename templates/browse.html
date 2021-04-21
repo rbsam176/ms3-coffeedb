@@ -192,7 +192,7 @@
         {% endif %}
         {{ card.input(beans) }}
     </div>
-    {{ pagination_bottom.input(pageQuantity, null, beansCount, page_variable, offset, formName="filterCriteria") }}
+    {{ pagination_bottom.input(pageQuantity, page_variable, formName="filterCriteria") }}
 <p id="content"></p>
 {% endblock %}
 {% block scripts %}

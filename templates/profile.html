@@ -10,7 +10,7 @@
         <form method="GET" id="profileSubmissions">
             {{ pagination.input(pageQuantity, "Submissions", beansCount, page_variable, offset, formName="profileSubmissions") }}
             {{ card.input(user_submissions) }}
-            {{ pagination_bottom.input(pageQuantity, null, beansCount, page_variable, offset, formName="filterCriteria") }}
+            {{ pagination_bottom.input(pageQuantity, page_variable, formName="profileSubmissions") }}
         </form>
     {% elif session["user"] == username %}
         <h3 class="card-title text-center mb-4">Submissions</h3>
