@@ -111,7 +111,7 @@
                     {% endif %}
                     <hr>
                     <div class="row px-4 justify-content-center">
-                        <label for="reviewContent"><h3>Your review</h3></label>
+                        <label for="reviewContent"><h3>{% if existing_user_review %}Edit your review{% else %}Write a review{% endif %}</h3></label>
                     </div>
                     <form method="POST" id="submitReview">
                         <div class="row">
