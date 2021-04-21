@@ -3,7 +3,9 @@
 
 {% block content %}
 <div class="container-fluid">
-    <h2 class="text-center my-4 custom-capitalize">{{ first_name }}'s profile</h2>
+    <h2 class="text-center mt-4 custom-capitalize">{{ getUserData.firstName }}'s profile</h2>
+    <h6 class="text-center">Member since {{ getUserData.userSince }}</h6>
+    {% if getUserData.userSubmissionsCount > 0 %}<h6 class="text-center">{{ getUserData.userSubmissionsCount }} submission{% if getUserData.userSubmissionsCount > 1 %}s{% endif %} </h6>{% endif %}
     <div class="row">
         <div class="col-12 p-0 p-sm-4">
             <div class="card">

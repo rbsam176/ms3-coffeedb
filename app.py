@@ -637,6 +637,23 @@ def login():
             return redirect(url_for("login"))
     return render_template("login.html")
 
+def getUserData(username):
+    firstName = mongo.db.users.find_one({"username": username})['first_name']
+    userData = mongo.db.users.find_one({"username": username})['_id']
+    userSubmissionsCount = mongo.db.beans.count_documents({"username": username})
+    userCreationTimestamp = ObjectId(userData).generation_time
+    userSince = utcToLocal(userCreationTimestamp).date()
+
+    userData = {
+        'firstName' : firstName,
+        'userData' : userData,
+        'userSubmissionsCount' : userSubmissionsCount,
+        'userCreationTimestamp' : userCreationTimestamp,
+        'userSince' : userSince
+    }
+
+    return userData
+
 @app.route("/profile/<username>")
 def profile(username):
     users = mongo.db.users.distinct('username') # RETURNS LIST OF USERS IN DATABASE
@@ -650,19 +667,18 @@ def profile(username):
 
         user_submissions = list(user_submissions)
         submission_count = len(list(user_submissions))
-        first_name = mongo.db.users.find_one(
-            {"username": username})["first_name"] # GETS THEIR FIRST NAME
+
         # RENDERS PROFILE PAGE VISISBLE TO ALL
         context = {
             'username' : username,
-            'first_name' : first_name,
             'user_submissions' : user_submissions,
             'submission_count' : submission_count,
             'offset' : offset,
             'perPage' : perPage,
             'page_variable' : page,
             'beansCount' : beansCount,
-            'pageQuantity' : pageQuantity
+            'pageQuantity' : pageQuantity,
+            'getUserData' : getUserData(username)
         }
 
         return render_template("profile.html", **context)
@@ -752,16 +768,14 @@ def update_account(username):
             'username' : existingPreferences["username"],
             'first_name' : existingPreferences["first_name"],
             'last_name' : existingPreferences["last_name"],
-            'email' : existingPreferences["email"]
+            'email' : existingPreferences["email"],
+            'getUserData' : getUserData(username)
         }
 
         return render_template("update_account.html", **context)
 
 @app.route("/profile/<username>/delete_account", methods=["GET", "POST"])
 def delete_account(username):
-    first_name = mongo.db.users.find_one(
-            {"username": username})["first_name"] # GETS THEIR FIRST NAME
-
     if request.method == "POST":
         if "deleteUser" in request.form:
             loggedInAccount = mongo.db.users.find_one(
@@ -787,7 +801,7 @@ def delete_account(username):
                     flash(u"You did not enter the correct password. Try again.", "warning")
                     return redirect(url_for("delete_account", username=username))
                 
-    return render_template("delete_account.html", username=username, first_name=first_name)
+    return render_template("delete_account.html", username=username, getUserData=getUserData(username))
 
 @app.route("/logout")
 def logout():
