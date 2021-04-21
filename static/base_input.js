@@ -4,6 +4,7 @@ $('.dynamicSelection').on('change', function () {
     if ($(this).val() == "Other..."){
         $(toggleInput).css('display', 'block')
         $(toggleInput).children().attr('required', true)
+        $(toggleInput).children('input').focus()
     } else {
         $(toggleInput).css('display', 'none')
         $(toggleInput).children().attr('required', false)
