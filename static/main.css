@@ -683,8 +683,12 @@ input[type=checkbox]:checked + label.cloud-note {
     box-shadow: 2px 2px black;
     white-space: nowrap;
     margin: 5px;
-    /* vertical-align: middle; */
-    /* line-height: 60px; */
+    color: black;
+}
+
+.note-bubble:hover {
+    background-color: #F8A825;
+    color: black;
 }
 
 .filter-toggle {
@@ -710,11 +714,6 @@ input[type=radio]:checked + label.filter-toggle {
 
 .card-notes {
     line-height: 60px;
-}
-
-.note-bubble:hover {
-    background-color: #F8A825;
-    cursor: pointer;
 }
 
 .notes-container {
