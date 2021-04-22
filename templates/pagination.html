@@ -27,7 +27,7 @@
             </div>
             {% endif %}
             <div class="col-12 order-last col-sm-8 justify-content-center mt-2 mt-sm-0"> 
-                <h5 class="text-center mt-3">Showing results {{ offset + 1 }} to {% if offset + 6 < totalCount %}{{ offset + 6 }}{% else %}{{ totalCount }}{% endif %} <span class="d-inline-block">({% if page_variable %}Page {{ page_variable }}{% else %}Page 1{% endif %} of {{ pageQuantity }})</span></h5>
+                <h5 class="text-center mt-3">{% if not totalCount < 1 %}Showing results {{ offset + 1 }} to {% if offset + 6 < totalCount %}{{ offset + 6 }}{% else %}{{ totalCount }}{% endif %} <span class="d-inline-block">({% if page_variable %}Page {{ page_variable }}{% else %}Page 1{% endif %} of {{ pageQuantity }}){% else %}No results{% endif %}</span></h5>
             </div>
             {% if pageQuantity > 1 %}
             <div class="col-6 col-sm-2 order-sm-last text-right">
