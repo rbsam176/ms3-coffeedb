@@ -51,8 +51,8 @@ $("#showMoreOrigin").on('click', function(){
     }
 })
 
-// SHOWS ORIGIN IF IN SHOW MORE SECTION AND IS IN URL ARGS
 $( document ).ready(function() {
+    // SHOWS ORIGIN IF IN SHOW MORE SECTION AND IS IN URL ARGS
     if ($(".origin-box").children('input').is(':checked')){
         $('.origin-box').each(function(){
             if ($(this).hasClass('originOptionsExtra')){
@@ -68,6 +68,17 @@ $( document ).ready(function() {
             $("#showMoreOrigin").children('i').addClass('bi-chevron-compact-up')
         }
     })
+    // AUTOCOMPLETE ASSIGNMENT
+    $.getJSON('/autocomplete', function(data) {     
+        // PARSES JSON DATA PULLED FROM MONGODB
+        var jsonParsed = JSON.parse(data.autocomplete_values);
+        // CONCATENATES BRANDS AND NAMES TO SINGLE LIST
+        var autocompleteData = jsonParsed.brands.concat(jsonParsed.names)
+        // ASSIGNS LIST OF BRANDS, NAMES TO SEARCH INPUT AUTOCOMPLETE
+        $( "#searchInput" ).autocomplete({
+            source: autocompleteData
+        });
+    });
 })
 
 

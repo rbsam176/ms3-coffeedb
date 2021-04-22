@@ -4,10 +4,11 @@ import random
 from datetime import datetime, timezone
 import math
 import base64
+import json
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import (
     Flask, flash, render_template, 
-    redirect, request, session, url_for)
+    redirect, request, session, url_for, jsonify)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 if os.path.exists("env.py"):
@@ -20,6 +21,18 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
+
+@app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+    values = {
+        "brands" : list(getCoffeeData()['brand_names']),
+        "names" : list(mongo.db.beans.distinct('name')),
+        "origins" : list(getCoffeeData()['origin_types']),
+        "notes" : list(getCoffeeData()['unique_notes'])
+    }
+    json_values = json.dumps(values)
+    
+    return jsonify(autocomplete_values=json_values)
 
 def dynamicValues(fixed, databaseKey):
     combinedList = [fixed] + [databaseKey]
@@ -126,7 +139,6 @@ def gatherInputs(matchedBean = None):
         "username": mongo.db.users.find_one(
             {"username": session["user"]})["username"]
     }
-
 
     return userInput
 

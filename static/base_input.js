@@ -83,16 +83,6 @@ $("form").on('change', 'input:checkbox.note-checkbox', function() {
     }
 })
 
-// CHECKS IF NOTES CHECKBOXES ARE CHECKED ON LOAD AND APPENDS TO LIVE PREVIEW
-$(document).ready(function() {
-    for (x in $(".note-checkbox")) {
-        if ($(".note-checkbox").eq(x).is(':checked')){
-            console.log($(".note-checkbox").eq(x).parent().text())
-            appendToPreview($(".note-checkbox").eq(x).parent().text())
-        }
-    }
-})
-
 // ADDS CUSTOM INPUT NOTE TO INPUT CONTAINER AND LIVE PREVIEW CONTAINER
 $("#addNote").on('click', function(e) {
     e.preventDefault()
@@ -152,4 +142,31 @@ $("#customNoteInput").keydown(function (e) {
         $("#addNote").click()
         return false
     }
+})
+
+$(document).ready(function() {
+    // CHECKS IF NOTES CHECKBOXES ARE CHECKED ON LOAD AND APPENDS TO LIVE PREVIEW
+    for (x in $(".note-checkbox")) {
+        if ($(".note-checkbox").eq(x).is(':checked')){
+            console.log($(".note-checkbox").eq(x).parent().text())
+            appendToPreview($(".note-checkbox").eq(x).parent().text())
+        }
+    }
+    // AUTOCOMPLETE ASSIGNMENT
+    $.getJSON('/autocomplete', function(data) {     
+        // PARSES JSON DATA PULLED FROM MONGODB
+        var jsonParsed = JSON.parse(data.autocomplete_values);
+        // ASSIGNS LIST OF BRANDS TO CUSTOM BRAND INPUT FIELD AUTOCOMPLETE
+        $( "#customBrand" ).autocomplete({
+            source: jsonParsed.brands
+        });
+        // ASSIGNS LIST OF ORIGINS TO CUSTOM ORIGIN INPUT FIELD AUTOCOMPLETE
+        $( "#customOrigin" ).autocomplete({
+            source: jsonParsed.origins
+        });
+        // ASSIGNS LIST OF NOTES TO CUSTOM NOTE INPUT FIELD AUTOCOMPLETE
+        $( "#customNotes" ).autocomplete({
+            source: jsonParsed.notes
+        });
+    });
 })
