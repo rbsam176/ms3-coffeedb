@@ -133,74 +133,79 @@ def gatherInputs(matchedBean = None):
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
-    form_type = "addCoffee"
-    full_name = mongo.db.users.find_one(
-        {"username": session["user"]})["first_name"] + " " + mongo.db.users.find_one(
-        {"username": session["user"]})["last_name"]
+    # IF USER IS LOGGED IN
+    if "user" in session:
+        form_type = "addCoffee"
+        full_name = mongo.db.users.find_one(
+            {"username": session["user"]})["first_name"] + " " + mongo.db.users.find_one(
+            {"username": session["user"]})["last_name"]
 
-    context = {
-            'form_type' : form_type,
-            'coffeeImg' : getCoffeeData()["coffeeImg"],
-            'roast_types' : getCoffeeData()["roast_types"],
-            'origin_types' : getCoffeeData()["origin_types"],
-            'uniqueNotes' : getCoffeeData()["unique_notes"],
-            'brand_names' : getCoffeeData()["brand_names"],
-            'full_name' : full_name
-    }
+        context = {
+                'form_type' : form_type,
+                'coffeeImg' : getCoffeeData()["coffeeImg"],
+                'roast_types' : getCoffeeData()["roast_types"],
+                'origin_types' : getCoffeeData()["origin_types"],
+                'uniqueNotes' : getCoffeeData()["unique_notes"],
+                'brand_names' : getCoffeeData()["brand_names"],
+                'full_name' : full_name
+        }
 
-    if request.method == "POST":
+        if request.method == "POST":
 
-        inputDictionary = gatherInputs()
-        inputDictionary["full_name"] = full_name
-    
-        if mongo.db.beans.find_one(
-            {"name": inputDictionary["name"]}):
-            flash(u"A coffee with this name already exists.", "warning")
-            return redirect(url_for("add"))
-        else:
-            insertSubmission = mongo.db.beans.insert_one(inputDictionary)
-            flash(u"Your submission has been added.", "added")
-            return redirect(url_for("viewSubmission", submissionId=insertSubmission.inserted_id))
+            inputDictionary = gatherInputs()
+            inputDictionary["full_name"] = full_name
+        
+            if mongo.db.beans.find_one(
+                {"name": inputDictionary["name"]}):
+                flash(u"A coffee with this name already exists.", "warning")
+                return redirect(url_for("add"))
+            else:
+                insertSubmission = mongo.db.beans.insert_one(inputDictionary)
+                flash(u"Your submission has been added.", "added")
+                return redirect(url_for("viewSubmission", submissionId=insertSubmission.inserted_id))
 
-    return render_template("add.html", **context)
+        return render_template("add.html", **context)
+    # IF USER NOT LOGGED IN, REDIRECT
+    else:
+        return redirect(url_for("signup"))
 
 
 @app.route("/edit/<beanId>", methods=["GET", "POST"])
 def edit(beanId):
     matchedBean = mongo.db.beans.find_one(
             {"_id": ObjectId(beanId)})
-    submissionImg = matchedBean["img-base64"]
-    full_name = matchedBean["full_name"]
-    brand_choice = matchedBean["brand"]
-    coffee_name = matchedBean["name"]
-    roast_choice = matchedBean["roast"]
-    origin_choice = matchedBean["origin"]
-    organic_choice = matchedBean["organic"]
-    url_input = matchedBean["url"]
-    notes_input = matchedBean["notes"]
-    form_type = "editCoffee"
-
-
-    if request.method == "POST":
-        if "editCoffee" in request.form:  
-
-            mongo.db.beans.update_one(
-                {"_id": ObjectId(beanId)},
-                {"$set": gatherInputs(matchedBean)}
-            )
-
-            flash(u"Your submission has been edited.", "added")
-            return redirect(url_for("viewSubmission", submissionId=beanId))
         
-        if "deleteCoffee" in request.form:
-            mongo.db.beans.delete_one(
-                {"_id": ObjectId(beanId)}
-            )
-            flash(u"Your submission has been deleted.", "success")
-            return redirect(url_for("profile", username=session["user"]))
-        
-
+    # IF USER LOGGED IN IS USER OF SUBMISSION
     if session["user"] == matchedBean["username"]:
+        submissionImg = matchedBean["img-base64"]
+        full_name = matchedBean["full_name"]
+        brand_choice = matchedBean["brand"]
+        coffee_name = matchedBean["name"]
+        roast_choice = matchedBean["roast"]
+        origin_choice = matchedBean["origin"]
+        organic_choice = matchedBean["organic"]
+        url_input = matchedBean["url"]
+        notes_input = matchedBean["notes"]
+        form_type = "editCoffee"
+
+        if request.method == "POST":
+            if "editCoffee" in request.form:  
+
+                mongo.db.beans.update_one(
+                    {"_id": ObjectId(beanId)},
+                    {"$set": gatherInputs(matchedBean)}
+                )
+
+                flash(u"Your submission has been edited.", "added")
+                return redirect(url_for("viewSubmission", submissionId=beanId))
+            
+            if "deleteCoffee" in request.form:
+                mongo.db.beans.delete_one(
+                    {"_id": ObjectId(beanId)}
+                )
+                flash(u"Your submission has been deleted.", "success")
+                return redirect(url_for("profile", username=session["user"]))
+            
         context = {
             'form_type' : form_type,
             'notes_input' : notes_input,
@@ -219,6 +224,11 @@ def edit(beanId):
             'full_name' : full_name
         }
         return render_template("edit.html", **context)
+
+    # IF USER IS NOT SUBMISSION USER THEN REDIRECT TO VIEW SUBMISSION
+    else:
+        return redirect(url_for("viewSubmission", submissionId=beanId))
+
 
 def countOccurances(nonUniqueList, uniqueList):
     itemCount = []
@@ -591,51 +601,61 @@ def allReviews(submissionId):
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if request.method == "POST":
-        existing_user_email = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
-        existing_user_username = mongo.db.users.find_one({"username": request.form.get("inputUsername").lower()})
-        if existing_user_email:
-            flash(u"An account with this email already exists", "warning")
-            return redirect(url_for("signup"))
-        if existing_user_username:
-            flash(u"An account with this username already exists", "warning")
-            return redirect(url_for("signup"))
-        newUser = {
-            "first_name": request.form.get("inputFirstName").lower(),
-            "last_name": request.form.get("inputLastName").lower(),
-            "email": request.form.get("inputEmail").lower(),
-            "username": request.form.get("inputUsername").lower(),
-            "password": generate_password_hash(request.form.get("inputPassword"))
-        }
-        mongo.db.users.insert_one(newUser)
-        session["user"] = request.form.get("inputUsername").lower()
-        flash(u"Registration Successful!", "success")
-        return redirect(url_for("profile", username=session["user"]))
+    # IF USER IS NOT LOGGED IN ALREADY
+    if "user" not in session:
+        if request.method == "POST":
+            existing_user_email = mongo.db.users.find_one({"email": request.form.get("inputEmail").lower()})
+            existing_user_username = mongo.db.users.find_one({"username": request.form.get("inputUsername").lower()})
+            if existing_user_email:
+                flash(u"An account with this email already exists", "warning")
+                return redirect(url_for("signup"))
+            if existing_user_username:
+                flash(u"An account with this username already exists", "warning")
+                return redirect(url_for("signup"))
+            newUser = {
+                "first_name": request.form.get("inputFirstName").lower(),
+                "last_name": request.form.get("inputLastName").lower(),
+                "email": request.form.get("inputEmail").lower(),
+                "username": request.form.get("inputUsername").lower(),
+                "password": generate_password_hash(request.form.get("inputPassword"))
+            }
+            mongo.db.users.insert_one(newUser)
+            session["user"] = request.form.get("inputUsername").lower()
+            flash(u"Registration Successful!", "success")
+            return redirect(url_for("profile", username=session["user"]))
 
-    return render_template("signup.html")
+        return render_template("signup.html")
+    # IF USER IS LOGGED IN, REDIRECT
+    else:
+        return redirect(url_for("profile", username=session["user"]))
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        userEmailMatch = mongo.db.users.find_one(
-            {"email": request.form.get("loginEmail").lower()})
-        if userEmailMatch:
-            matchedUsername = userEmailMatch["username"]
-            # CHECKS IF HASHED PASSWORD MATCHES USER INPUT
-            if check_password_hash(userEmailMatch["password"], request.form.get("loginPassword")):
-                session["user"] = matchedUsername
-                flash(u"Welcome {}".format(userEmailMatch["first_name"].capitalize()), "success")
-                return redirect(url_for("profile", username=session["user"]))
+    # IF USER IS NOT LOGGED IN ALREADY
+    if "user" not in session:
+        if request.method == "POST":
+            userEmailMatch = mongo.db.users.find_one(
+                {"email": request.form.get("loginEmail").lower()})
+            if userEmailMatch:
+                matchedUsername = userEmailMatch["username"]
+                # CHECKS IF HASHED PASSWORD MATCHES USER INPUT
+                if check_password_hash(userEmailMatch["password"], request.form.get("loginPassword")):
+                    session["user"] = matchedUsername
+                    flash(u"Welcome {}".format(userEmailMatch["first_name"].capitalize()), "success")
+                    return redirect(url_for("profile", username=session["user"]))
+                else:
+                    # INVALID PASSWORD MATCH
+                    flash(u"Incorrect login details. Please try again.", "warning")
+                    return redirect(url_for("login"))
             else:
-                # INVALID PASSWORD MATCH
+                # INCORRECT EMAIL
                 flash(u"Incorrect login details. Please try again.", "warning")
                 return redirect(url_for("login"))
-        else:
-            # INCORRECT EMAIL
-            flash(u"Incorrect login details. Please try again.", "warning")
-            return redirect(url_for("login"))
-    return render_template("login.html")
+        return render_template("login.html")
+    # IF USER IS LOGGED IN, REDIRECT
+    else:
+        return redirect(url_for("profile", username=session["user"]))
 
 def getUserData(username):
     firstName = mongo.db.users.find_one({"username": username})['first_name']
@@ -776,6 +796,10 @@ def update_account(username):
 
 @app.route("/profile/<username>/delete_account", methods=["GET", "POST"])
 def delete_account(username):
+    # IF USER ISN'T LOGGED IN OR NOT LOGGED IN AS USER OF PROFILE BEING VIEWED
+    if "user" not in session or session["user"] != username:
+        # REDIRECTS TO PROFILE PAGE
+        return redirect(url_for("profile", username=username))
     if request.method == "POST":
         if "deleteUser" in request.form:
             loggedInAccount = mongo.db.users.find_one(
@@ -805,9 +829,13 @@ def delete_account(username):
 
 @app.route("/logout")
 def logout():
-    flash(u"You have been logged out", "success")
-    session.pop("user")
-    return redirect(url_for("login"))
+    # IF USER NOT LOGGED IN
+    if "user" not in session:
+        return redirect(url_for("login"))
+    else:
+        flash(u"You have been logged out", "success")
+        session.pop("user")
+        return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
