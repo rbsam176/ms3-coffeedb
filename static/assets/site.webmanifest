@@ -1,0 +1,19 @@
+{
+    "name": "CoffeeDB",
+    "short_name": "CoffeeDB",
+    "icons": [
+        {
+            "src": "/static/assets/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/assets/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#f8a825",
+    "background_color": "#f8a825",
+    "display": "standalone"
+}
