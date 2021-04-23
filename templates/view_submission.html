@@ -111,7 +111,7 @@
                     {% endif %}
                     <hr>
                     <div class="row px-4 justify-content-center">
-                        <label for="reviewContent"><h3>{% if existing_user_review %}Edit your review{% else %}Write a review{% endif %}</h3></label>
+                        <h3><label for="reviewContent">{% if existing_user_review %}Edit your review{% else %}Write a review{% endif %}</label></h3>
                     </div>
                     <form method="POST" id="submitReview">
                         <div class="row">
@@ -122,7 +122,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 mb-4">
-                                <input id="submitReview" form="submitReview" name="review" type="submit" class="btn btn-custom float-right" {% if not session['user'] %}disabled{% endif %}>
+                                <input form="submitReview" name="review" type="submit" class="btn btn-custom float-right" {% if not session['user'] %}disabled{% endif %}>
                             </div>
                         </div>
                     </form>
