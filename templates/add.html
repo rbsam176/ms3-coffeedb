@@ -12,5 +12,5 @@
 
 
 {% block scripts %}
-    <script src="/static/base_input.js"></script>
+    <script src="{{ url_for('static', filename='base_input.js') }}"></script>
 {% endblock %}

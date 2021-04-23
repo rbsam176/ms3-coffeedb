@@ -33,5 +33,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="/static/confirm_delete.js"></script>
+    <script src="{{ url_for('static', filename='confirm_delete.js') }}"></script>
 {% endblock %}

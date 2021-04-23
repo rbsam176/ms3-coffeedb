@@ -196,5 +196,5 @@
 <p id="content"></p>
 {% endblock %}
 {% block scripts %}
-<script src="/static/browse.js"></script>
+<script src="{{ url_for('static', filename='browse.js') }}"></script>
 {% endblock %}

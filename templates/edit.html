@@ -15,6 +15,6 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="/static/base_input.js"></script>
-    <script src="/static/confirm_delete.js"></script>
+    <script src="{{ url_for('static', filename='base_input.js') }}"></script>
+    <script src="{{ url_for('static', filename='confirm_delete.js') }}"></script>
 {% endblock %}

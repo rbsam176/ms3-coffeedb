@@ -132,5 +132,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-<script src="/static/view_submission.js"></script>
+    <script src="{{ url_for('static', filename='view_submission.js') }}"></script>
 {% endblock %}
