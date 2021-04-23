@@ -116,7 +116,6 @@ $("#upload64").on('change', function(){
 })
 
 
-
 // TOGGLES DISABLED STATE FOR 'ADD' NOTE BUTTON DEPENDING ON INPUT EXISTENCE
 $("#customNoteInput").on('input', function() {
     if ($("#customNoteInput").val().length > 0) {
@@ -129,10 +128,11 @@ $("#customNoteInput").on('input', function() {
 // PROVIDES VALIDATION 
 $("#submitCoffee").on('click', function(){
     if (!$('.note-checkbox:checked').length){
-        $(".add-notes-container").effect("shake")
+        $(".add-notes").effect("shake")
         return false
     }
 })
+
 // PREVENTS ENTER KEY DEFAULT BEHAVIOUR
 // ADDS CUSTOM NOTE TO CONTAINER ON ENTER KEY INPUT
 $("#customNoteInput").keydown(function (e) {
