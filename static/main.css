@@ -1,5 +1,5 @@
 body {
-    background-color: #F8F8F8;
+    background-color: #F8A825;
     color: #151720;
     font-family: 'Hind Madurai', sans-serif;
     display: flex;
@@ -10,6 +10,8 @@ body {
 .base-content {
     flex: 1;
     /* what is this doing? */
+    background-color: #F8F8F8;
+    padding-bottom: 20px;
 }
 
 .index-message {
@@ -160,7 +162,6 @@ a.anchor {
 
 #baseFooter {
     background-color: #F8A825;
-    margin-top: 20px;
     border-top: 4px solid black;
     padding: 20px;
 }
