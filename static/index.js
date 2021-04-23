@@ -1,4 +1,12 @@
-$("#main").css('display', 'none')
+// GET NAV ON-LOAD POSITION
+var defaultPosition = $("#navContainer").position()
+// ON SCROLL
+document.addEventListener('scroll', function (event) {
+    // IF MOBILE NAV IS OPEN AND AT ON-LOAD POSITION
+    if ($("#navContainer").position().top == defaultPosition.top && $(".navbar-collapse").hasClass('show')) {
+        $('.navbar-collapse').collapse('toggle')
+    }
+})
 
 $(document).ready(function(){
     // CYCLES THROUGH BOTH VIDEOS

@@ -9,6 +9,7 @@ body {
 
 .base-content {
     flex: 1;
+    /* what is this doing? */
 }
 
 .index-message {
@@ -140,7 +141,12 @@ h2, h3 {
     background-color: #F8A825;
     width: 100vw;
     height: 100vh;
-    border-bottom: 4px solid black;
+}
+
+#navContainer {
+    position: sticky;
+    top: 0;
+    z-index: 20;
 }
 
 #baseFooter {

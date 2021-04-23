@@ -15,7 +15,7 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <div id="index-bg" class="container-fluid d-flex mb-4">
+    <div id="index-bg" class="container-fluid d-flex">
         <div id="logoNav" class="row justify-content-center align-self-center">
             <div id="logo" class="text-center mt-2"><a href="{{ url_for('index') }}"><span class="h1 coffee-title home-title">Coffee</span><span class="ml-2 h1 db-title home-title">DB</span></a>
                 <img class="bean-icon bean2" src="{{ url_for('static', filename='assets/bean2.png') }}" />
@@ -55,6 +55,7 @@
             </div>
         </div>
     </div>
+    {{ navbar.input() }}
     <div id="indexBody" class="container-fluid">
         <div class="row mt-2">
             <div class="col-12 col-md-12 col-lg-4 order-12 order-md-12 order-lg-11 px-2 h-100">
