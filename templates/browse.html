@@ -78,12 +78,12 @@
                     <h2 class="mt-4">Popular tasting notes</h2>
                 </div>
                 <div class="row my-4 justify-content-center">
-                    <label for="allConditions">Show submissions containing</label>
-                    <select form="filterCriteria" class="mx-2" name="conditionType">
+                    <label for="noteConditions">Show submissions containing</label>
+                    <select id="noteConditions" form="filterCriteria" class="mx-2" name="conditionType">
                         <option value="all" {% if request.args['conditionType'] == 'all' %}selected{% endif %}>all</option>
                         <option value="any" {% if request.args['conditionType'] == 'any' %}selected{% endif %}>any</option>
                     </select>
-                    <label for="allConditions">of the following notes</label>
+                    <label for="noteConditions">of the following notes</label>
                 </div>
                 <div id="notesContainer" class="row pb-2">
                     <div class="col-12 col-lg-8 offset-lg-2 text-center">
@@ -91,23 +91,23 @@
                             {% for item in shuffledNotes %}
                                 {% if item[1] > 75 %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
-                                        <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="filter-toggle my-auto cloud-75 cloud-note">{{ item[0] }}</label>
+                                        <input type="checkbox" id="note-{{ item[0]|replace(' ', '') }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                        <label for="note-{{ item[0]|replace(' ', '') }}" class="filter-toggle my-auto cloud-75 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% elif item[1] > 50 %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
-                                        <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="filter-toggle cloud-50 cloud-note">{{ item[0] }}</label>
+                                        <input type="checkbox" id="note-{{ item[0]|replace(' ', '') }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                        <label for="note-{{ item[0]|replace(' ', '') }}" class="filter-toggle cloud-50 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% elif item[1] > 25 %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
-                                        <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="filter-toggle cloud-25 cloud-note">{{ item[0] }}</label>
+                                        <input type="checkbox" id="note-{{ item[0]|replace(' ', '') }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                        <label for="note-{{ item[0]|replace(' ', '') }}" class="filter-toggle cloud-25 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% else %}
                                     <span class="checkbox-container my-2 {% if item[2] == 'extra-note' %}extra-note{% endif %}">
-                                        <input type="checkbox" id="{{ item[0] }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
-                                        <label for="{{ item[0] }}" class="filter-toggle cloud-0 cloud-note">{{ item[0] }}</label>
+                                        <input type="checkbox" id="note-{{ item[0]|replace(' ', '') }}" form="filterCriteria" name="tag" value="{{ item[0] }}" {% if item[0] in request.args.getlist('tag') %}checked{% endif %}>
+                                        <label for="note-{{ item[0]|replace(' ', '') }}" class="filter-toggle cloud-0 cloud-note">{{ item[0] }}</label>
                                     </span>
                                 {% endif %}
                             {% endfor %}
