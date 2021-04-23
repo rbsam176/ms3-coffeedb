@@ -21,7 +21,7 @@
         <div class="row mt-lg-4 justify-content-center">
             {% if pageQuantity > 1 %}
             <div class="col-6 col-sm-2 order-sm-first text-left">
-                <button form="{{ formName }}" type="submit" name="page" class="pagination-btn" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}">
+                <button form="{{ formName }}" aria-label="Previous page" type="submit" name="page" class="pagination-btn" {% if page_variable == 1 %}disabled{% endif %} value="{{ page_variable - 1}}">
                     <i class="bi bi-arrow-left-short align-self-center"></i>
                 </button>
             </div>
@@ -31,7 +31,7 @@
             </div>
             {% if pageQuantity > 1 %}
             <div class="col-6 col-sm-2 order-sm-last text-right">
-                <button form="{{ formName }}" type="submit" name="page" class="pagination-btn" {% if page_variable == pageQuantity %}disabled{% endif %} value="{{ page_variable + 1}}">
+                <button form="{{ formName }}" aria-label="Next page" type="submit" name="page" class="pagination-btn" {% if page_variable == pageQuantity %}disabled{% endif %} value="{{ page_variable + 1}}">
                     <i class="bi bi-arrow-right-short align-self-center"></i>
                 </button>
             </div>
