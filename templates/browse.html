@@ -17,10 +17,9 @@
             {{ quickSearch.input("filterCriteria", "autofocus") }}
         </form>
         <!-- COLLAPSE BUTTON -->
-        <div class="row my-4 mx-2 justify-content-center">
-            <button type="button" class="btn filter-controls btn-lg btn-block" data-toggle="collapse" data-target="#browseCriteria">Open filter controls</button>
+        <div class="row mt-4 mx-2 justify-content-center">
+            <button type="button" class="btn filter-controls btn-lg btn-block" data-toggle="collapse" data-target="#browseCriteria">Open filter controls <i class="ml-2 bi bi-chevron-compact-down"></i></button>
         </div>
-        <hr>
         <div id="browseCriteria" class="collapse">
             <!-- FILTER -->
             <div class="container-fluid">
@@ -130,6 +129,7 @@
                 </div>
             </div>
         </div>
+        <hr>
     </div>
     {% if "origin", "roast", "organicRequired", "tag" in request.args %}
         <div class="container">

@@ -51,6 +51,16 @@ $("#showMoreOrigin").on('click', function(){
     }
 })
 
+$(".filter-controls").on('click', function(){
+    if ($(".filter-controls").text().includes("Open filter controls")){
+        $(this).html("Close filter controls <i class='ml-2 bi bi-chevron-compact-up'>")
+        $(this).css('background-color', '#E8EAED')
+    } else {
+        $(this).html("Open filter controls <i class='ml-2 bi bi-chevron-compact-down'>")
+        $(this).css('background-color', 'white')
+    }
+})
+
 $( document ).ready(function() {
     // SHOWS ORIGIN IF IN SHOW MORE SECTION AND IS IN URL ARGS
     if ($(".origin-box").children('input').is(':checked')){
@@ -80,43 +90,3 @@ $( document ).ready(function() {
         });
     });
 })
-
-
-
-// function myFunc(data) {
-//     $("#showMore").on('click', function(){
-//         $("#showMore").text('Show Less')
-//         $(".checkbox-container").each(function(index){
-//             if (index > 5){
-//                 $(this).css('display', 'none')
-//             }
-//         })
-//         for (item in data){
-//             if (data[item][1] > 75){
-//                 size = "cloud-75"
-//             } else if (data[item][1] > 50) {
-//                 size = "cloud-50"
-//             } else if (data[item][1] > 50) {
-//                 size = "cloud-25"
-//             } else {
-//                 size = "cloud-0"
-//             }
-//             $("#notesContainer").append(`
-//                 <span class="checkbox-container my-2">
-//                     <input type="checkbox" id="${data[item][0]}" form="filterCriteria" name="tag" value="${data[item][0]}">
-//                     <label for="${data[item][0]}" class="note-bubble my-auto ${size} cloud-note">${data[item][0]}</label>
-//                 </span>
-//             `)
-//         }
-//     })
-//     return data
-// }
-
-// var availableTags = [
-//     "ActionScript",
-//     "Nothing"
-// ]
-
-// $( "#searchCriteria" ).autocomplete({
-//     source: availableTags
-// });

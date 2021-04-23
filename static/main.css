@@ -1,5 +1,5 @@
 body {
-    background-color: #F8A825;
+    background-color: #F8F8F8;
     color: #151720;
     font-family: 'Hind Madurai', sans-serif;
     display: flex;
@@ -10,7 +10,6 @@ body {
 .base-content {
     flex: 1;
     /* what is this doing? */
-    background-color: #F8F8F8;
     padding-bottom: 20px;
 }
 
@@ -142,7 +141,8 @@ h2, h3 {
 #index-bg {
     background-color: #F8A825;
     width: 100vw;
-    height: 100vh;
+    /* height: 100vh; */
+    min-height: 100vh;
 }
 
 #navContainer {
@@ -225,9 +225,9 @@ a.anchor {
 
 .quick-search {
     width: 100%;
-    height: 200%;
+    height: 60px;
     padding: 10px 12% 10px 10px;
-    font-size: 1.5em;
+    font-size: 1.2em;
     border: 2px solid black;
     box-shadow: 3px 3px black;
 }
