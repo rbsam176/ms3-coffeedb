@@ -149,6 +149,15 @@ h2, h3 {
     z-index: 20;
 }
 
+/* SOURCE https://stackoverflow.com/questions/10732690/offsetting-an-html-anchor-to-adjust-for-fixed-header */
+/* OFFSET INDEX ANCHOR */
+a.anchor {
+    display: block;
+    position: relative;
+    top: -80px;
+    visibility: hidden;
+}
+
 #baseFooter {
     background-color: #F8A825;
     margin-top: 20px;
