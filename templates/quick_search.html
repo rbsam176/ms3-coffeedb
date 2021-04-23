@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="searchInputContainer row">
         <input id="searchInput" type="text" name="searchCriteria" {% if autofocus %}autofocus{% endif %} form="{{ formId }}" {% if request.args.get('searchCriteria') %}value="{{ request.args.get('searchCriteria') }}"{% endif %} class="mx-2 quick-search" placeholder="Enter brand or coffee name">
-        <button type="submit" form="{{ formId }}" class="search-btn">&#10140;</button>
+        <button type="submit" aria-label="Submit search query" form="{{ formId }}" class="search-btn">&#10140;</button>
     </div>
 </div>
 {% endmacro %}

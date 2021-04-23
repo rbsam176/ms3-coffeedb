@@ -21,7 +21,7 @@
         </form>
         <!-- COLLAPSE BUTTON -->
         <div class="row mt-4 mx-2 justify-content-center">
-            <button type="button" class="btn filter-controls btn-lg btn-block" data-toggle="collapse" data-target="#browseCriteria">Open filter controls <i class="ml-2 bi bi-chevron-compact-down"></i></button>
+            <button type="button" aria-label="Toggle filter controls visibility" class="btn filter-controls btn-lg btn-block" data-toggle="collapse" data-target="#browseCriteria">Open filter controls <i class="ml-2 bi bi-chevron-compact-down"></i></button>
         </div>
         <div id="browseCriteria" class="collapse">
             <!-- FILTER -->
@@ -54,7 +54,7 @@
                         <!-- SHOW MORE ORIGIN -->
                         {% if originsOccurances|length > 4 %}
                             <div class="row pb-2 justify-content-center">
-                                <button id="showMoreOrigin" type="button" class="show-more more-origin mt-2"><i class="bi bi-chevron-compact-down"></i></button>
+                                <button id="showMoreOrigin" aria-label="Toggle visibility of more origin options" type="button" class="show-more more-origin mt-2"><i class="bi bi-chevron-compact-down"></i></button>
                             </div>
                         {% endif %}
                     </div>
@@ -119,7 +119,7 @@
                 </div>
                 {% if shuffledNotes|length >= 10 %}
                     <div class="row pb-2 justify-content-center">
-                        <button id="showMoreNotes" type="button" class="show-more more-notes mt-4">Show more <i class="bi bi-chevron-compact-down"></i></button>
+                        <button id="showMoreNotes" type="button" aria-label="Toggle visibility of more flavour note options" class="show-more more-notes mt-4">Show more <i class="bi bi-chevron-compact-down"></i></button>
                     </div>
                 {% endif %}
             </div>

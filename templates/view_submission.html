@@ -34,11 +34,11 @@
                                     <h3 class="my-4">Your rating</h3>
                                 </div>
                                 <div class="row justify-content-center">
-                                    <button class="star-rating star-rating-btn" form="submitRating" value="1" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 1) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
-                                    <button class="star-rating star-rating-btn" form="submitRating" value="2" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 2) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
-                                    <button class="star-rating star-rating-btn" form="submitRating" value="3" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 3) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
-                                    <button class="star-rating star-rating-btn" form="submitRating" value="4" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 4) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
-                                    <button class="star-rating star-rating-btn" form="submitRating" value="5" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 5) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
+                                    <button class="star-rating star-rating-btn" aria-label="Rate 1 star" form="submitRating" value="1" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 1) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
+                                    <button class="star-rating star-rating-btn" aria-label="Rate 2 star" form="submitRating" value="2" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 2) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
+                                    <button class="star-rating star-rating-btn" aria-label="Rate 3 star" form="submitRating" value="3" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 3) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
+                                    <button class="star-rating star-rating-btn" aria-label="Rate 4 star" form="submitRating" value="4" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 4) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
+                                    <button class="star-rating star-rating-btn" aria-label="Rate 5 star" form="submitRating" value="5" name="rating" type="submit"><i class="bi {% if (session['user']) and (existing_user_rating >= 5) %}bi-star-fill user-rated{% else %}bi-star{% endif %} mx-1 h4"></i></button>
                                 </div>
                                 {% if (session["user"]) and (existing_user_rating) %}
                                     <div class="row justify-content-center">
