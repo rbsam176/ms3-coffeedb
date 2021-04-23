@@ -6,8 +6,11 @@
 
 {% block title %}CoffeeDB: Browse {% if ("page" in request.args) and not (page_variable == 1) %}(Page {{ page_variable }}){% endif %}{% endblock %}
 
+{% block styles %}
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+{% endblock %}
+
 {% block content %}
-    
     <div class="container">
         <!-- SEARCH -->
         <div class="row justify-content-center">
@@ -158,7 +161,7 @@
                                 {% endif %}
                             {% endfor %}
                             {% set newArgs = {"origin": request.args.getlist('origin'), "roast": request.args.getlist('roast'), "organicRequired": request.args.getlist('organicRequired'), "tag": tagList, "conditionType": request.args.getlist('conditionType') } %}
-                            <a href="{{ url_for('browse', **newArgs) }}" class="filterValidation">{{ tag|title }} <i class="ml-1 bi bi-x-circle"></i></i></a>
+                            <a href="{{ url_for('browse', **newArgs) }}" class="filterValidation">{{ tag|title }} <i class="ml-1 bi bi-x-circle"></i></a>
                         {% endfor %}
                     {% endif %}
                     <!-- ROAST VALIDATION -->
@@ -196,5 +199,6 @@
 <p id="content"></p>
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='browse.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ url_for('static', filename='browse.js') }}"></script>
 {% endblock %}

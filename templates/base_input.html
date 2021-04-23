@@ -2,6 +2,10 @@
 {% import 'individual_card.html' as individual_card %}
 {% import 'card.html' as card_stack %}
 
+{% block styles %}
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+{% endblock %}
+
 {% block content %}
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -182,6 +186,4 @@
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
-<script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
-<script src="https://www.filestack.com/docs/js/picker.js"></script>
 {% endblock %}

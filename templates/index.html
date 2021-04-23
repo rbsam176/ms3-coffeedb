@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% import 'individual_card.html' as single_card %}
 {% import 'quick_search.html' as quickSearch %}
+
 {% block title %}CoffeeDB{% endblock %}
+{% block styles %}
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+{% endblock %}
 
 {% block content %}
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -155,6 +159,8 @@
         </div>
     </div>
 {% endblock %}
+
 {% block scripts %}
-<script src="{{ url_for('static', filename='index.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
 {% endblock %}
