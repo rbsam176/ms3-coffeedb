@@ -24,14 +24,16 @@ mongo = PyMongo(app)
 
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
+    # GATHER DATA TO BE PASSED TO FRONTEND
     values = {
         "brands" : list(getCoffeeData()['brand_names']),
         "names" : list(mongo.db.beans.distinct('name')),
         "origins" : list(getCoffeeData()['origin_types']),
         "notes" : list(getCoffeeData()['unique_notes'])
     }
+    # CONVERT LIST TO JSON
     json_values = json.dumps(values)
-    
+    # SEND TO TEMPLATE
     return jsonify(autocomplete_values=json_values)
 
 def dynamicValues(fixed, databaseKey):

@@ -49,12 +49,11 @@ $("select, input").on("keyup change", function() {
 })
 
 // LISTENS FOR ORGANIC CHECKBOX CHANGE
-$("#organicToggle").on("click", function() {
-    if($(this).is(':checked')){
-        $("#organic-preview").text("True")
-    } else if(!$(this).is(':checked')){
-        $("#organic-preview").text("False")
-    }
+$("#organicTrue").on("click", function() {
+    $(".organic-preview").text("Organic")
+})
+$("#organicFalse").on("click", function() {
+    $(".organic-preview").text("Not organic")
 })
 
 // ASSIGNS LIVE PREVIEW LINK TO USER INPUT
