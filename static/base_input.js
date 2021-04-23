@@ -37,7 +37,7 @@ dynamicElements = [
 
 // LISTENS FOR CHANGES TO TEXT INPUTS AND SELECTS
 $("select, input").on("keyup change", function() {
-    for (x in dynamicElements){
+    for (var x in dynamicElements){
         if (dynamicElements[x].includes($(this).attr("id"))){
             if ($(`#${dynamicElements[x][0]}`).val() == "Other..."){
                 return
@@ -145,7 +145,7 @@ $("#customNoteInput").keydown(function (e) {
 
 $(document).ready(function() {
     // CHECKS IF NOTES CHECKBOXES ARE CHECKED ON LOAD AND APPENDS TO LIVE PREVIEW
-    for (x in $(".note-checkbox")) {
+    for (var x in $(".note-checkbox")) {
         if ($(".note-checkbox").eq(x).is(':checked')){
             console.log($(".note-checkbox").eq(x).parent().text())
             appendToPreview($(".note-checkbox").eq(x).parent().text())
