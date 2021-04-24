@@ -121,16 +121,16 @@ $("input:password").on('input', function(){
 
     // IF ALL CRITERIA IS MET ON SIGN UP, ENABLE SUBMIT
     if (!Object.values(passwordCriteria).includes(false)){
-        $(".password-criteria").attr('disabled', false)
+        $(".password-criteria").prop('disabled', false)
     } else {
         // ELSE MAKE IT DISABLED
-        $(".password-criteria").attr('disabled', true)
+        $(".password-criteria").prop('disabled', true)
     }
 
     // IF EXISTING PASSWORD HAS BEEN ENTERED ON UPDATE ACCOUNT, ENABLE SUBMIT
     if ($("#inputExistingPassword").val().length > 7){
-        $(".password-criteria").attr('disabled', false)
+        $(".password-criteria").prop('disabled', false)
     } else {
-        $(".password-criteria").attr('disabled', true)
+        $(".password-criteria").prop('disabled', true)
     }
 })
