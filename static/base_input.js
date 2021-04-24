@@ -164,7 +164,7 @@ $(document).ready(function() {
             source: jsonParsed.origins
         });
         // ASSIGNS LIST OF NOTES TO CUSTOM NOTE INPUT FIELD AUTOCOMPLETE
-        $( "#customNotes" ).autocomplete({
+        $( "#customNoteInput" ).autocomplete({
             source: jsonParsed.notes
         });
     });
