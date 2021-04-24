@@ -143,6 +143,28 @@ $("#customNoteInput").keydown(function (e) {
     }
 })
 
+var totalNotes = $(".add-notes").children('span.checkbox-container').length
+
+$("#showMoreNotes").on('click', function(){
+    if ($("#showMoreNotes").text().includes("Show all")) {
+        // TOGGLE BUTTON TEXT
+        $("#showMoreNotes").html("Show less <i class='bi bi-chevron-compact-up'></i>")
+        // SHOWS EXTRA NOTES
+        $( ".checkbox-container" ).each(function( index ) {
+            $(this).css('display', 'inline-block')
+        });
+    } else if ($("#showMoreNotes").text().includes("Show less")){
+        // TOGGLE BUTTON TEXT
+        $("#showMoreNotes").html(`Show all ${totalNotes} notes <i class='bi bi-chevron-compact-down'></i>`)
+        // HIDE EXTRA NOTES EXCEPT THOSE THAT ARE CHECKED
+        $( ".checkbox-container" ).each(function( index ) {
+            if (index > 10 && $(this).children('input').prop('checked') != true){
+                $(this).css('display', 'none')
+            }
+        });
+    }
+})
+
 $(document).ready(function() {
     // CHECKS IF NOTES CHECKBOXES ARE CHECKED ON LOAD AND APPENDS TO LIVE PREVIEW
     for (var x in $(".note-checkbox")) {
@@ -151,6 +173,14 @@ $(document).ready(function() {
             appendToPreview($(".note-checkbox").eq(x).parent().text())
         }
     }
+
+    // SHOW ONLY 10 NOTES AND THOSE THAT ARE CHECKED BY DEFAULT ON PAGE LOAD
+    $( ".checkbox-container" ).each(function( index ) {
+        if (index > 10 && $(this).children('input').prop('checked') != true){
+            $(this).css('display', 'none')
+        }
+    });
+
     // AUTOCOMPLETE ASSIGNMENT
     $.getJSON('/autocomplete', function(data) {     
         // PARSES JSON DATA PULLED FROM MONGODB

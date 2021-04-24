@@ -136,6 +136,8 @@
                                         <label for="{{ note }}" class="filter-toggle">{{ note }}</label>
                                     </span>
                                 {% endfor %}
+                                <br>
+                                <button id="showMoreNotes" aria-label="Toggle visibility of more note options" type="button" class="show-more w-100 my-2">Show all {{ uniqueNotes|length }} notes <i class="bi bi-chevron-compact-down"></i></button>
                             </div>
                         </div>
                         <div class="form-group row">
