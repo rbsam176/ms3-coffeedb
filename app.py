@@ -839,7 +839,7 @@ def profile(username):
 
         return render_template("profile.html", **context)
     else:
-        # REDIRECTS TO HOMEPAGE IS URL USERNAME DOESN'T EXIST IN DATABASE
+        # REDIRECTS TO HOMEPAGE IF URL USERNAME DOESN'T EXIST IN DATABASE
         return redirect(url_for("index"))
 
 
@@ -875,7 +875,9 @@ def update_account(username):
                 "first_name": request.form.get("inputFirstName").lower(),
                 "last_name": request.form.get("inputLastName").lower(),
                 "email": request.form.get("inputEmail").lower(),
-                "username": request.form.get("inputUsername")
+                "username": request.form.get("inputUsername"),
+                "password": generate_password_hash(
+                    request.form.get("inputPassword"))
             }
 
             # CREATES FULL NAME FROM EDITED VALUES
@@ -891,6 +893,7 @@ def update_account(username):
             mongo.db.beans.update_many(
                 {"username": session["user"]},
                 {"$set": {"username": editedPreferences["username"]}})
+
             # UPDATE ALL BEANS TO NEW FULL NAME
             mongo.db.beans.update_many(
                 {"full_name": existing_full_name},
