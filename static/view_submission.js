@@ -14,6 +14,11 @@ $("#reviewContent").keyup(function() {
 })
 
 $( document ).ready(function() {
+    // ON PAGE LOAD, ADJUST CHARACTER COUNT IF REVIEW PRE-EXISTS
+    if ($("#reviewContent").val().length > 0){
+        $("#characterCounter").text(150 - $("#reviewContent").val().length)
+    }
+
     // GETS INDEX VALUE OF FIRST UNFILLED STAR
     var firstEmptyStar = indexFill.length
 
