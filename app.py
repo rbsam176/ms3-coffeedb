@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 import math
 import base64
 import json
+import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import (
     Flask, flash, render_template,
@@ -721,6 +722,7 @@ def signup():
                 {"email": request.form.get("inputEmail").lower()})
             existing_user_username = mongo.db.users.find_one(
                 {"username": request.form.get("inputUsername").lower()})
+
             if existing_user_email:
                 flash(u"An account with this email already exists", "warning")
                 return redirect(url_for("signup"))
@@ -736,10 +738,17 @@ def signup():
                 "password": generate_password_hash(
                     request.form.get("inputPassword"))
             }
-            mongo.db.users.insert_one(newUser)
-            session["user"] = request.form.get("inputUsername").lower()
-            flash(u"Registration Successful!", "success")
-            return redirect(url_for("profile", username=session["user"]))
+            # IF PASSWORD MEETS CRITERIA
+            if re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
+                         request.form.get("inputPassword")):
+                mongo.db.users.insert_one(newUser)
+                # SET SESSION TOKEN
+                session["user"] = request.form.get("inputUsername").lower()
+                flash(u"Registration Successful!", "success")
+                return redirect(url_for("profile", username=session["user"]))
+            else:
+                flash(u"Password criteria not met", "warning")
+                return redirect(url_for("signup"))        
 
         return render_template("signup.html")
     # IF USER IS LOGGED IN, REDIRECT
