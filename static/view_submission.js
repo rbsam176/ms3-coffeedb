@@ -24,16 +24,16 @@ $( document ).ready(function() {
 
     // ADDS FILL ON ICONS BETWEEN PRE-FILLED AND CURRENTLY HOVERED ICON
     $( ".star-rating-btn" ).on("mouseover", function () {
-        var hoverIndex = $("i.bi").index($(this).children('i'))
-        for (x = firstEmptyStar; x < hoverIndex + 1; x++) {
+        var hoverIndex = $(this).index()
+        for (x = firstEmptyStar; x <= hoverIndex; x++) {
             $(".star-rating-btn").children('i').eq(x).removeClass('bi-star')
             $(".star-rating-btn").children('i').eq(x).addClass('bi-star-fill')
         }
     })
     // REMOVES FILL ON ICONS BETWEEN PRE-FILLED AND CURRENTLY HOVERED ICON
     $( ".star-rating-btn" ).on("mouseout", function () {
-        var hoverIndex = $("i.bi").index($(this).children('i'))
-        for (x = firstEmptyStar; x < hoverIndex + 1; x++) {
+        var hoverIndex = $(this).index()
+        for (x = firstEmptyStar; x <= hoverIndex; x++) {
             $(".star-rating-btn").children('i').eq(x).addClass('bi-star')
             $(".star-rating-btn").children('i').eq(x).removeClass('bi-star-fill')
         }
