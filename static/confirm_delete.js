@@ -1,6 +1,6 @@
 $("#confirmUsername, #confirmPassword").on('input', function() {
     if ($("#confirmUsername").val().length > 2 && $("#confirmPassword").val().length > 2) {
-        $("#initialDelete").attr('disabled', false)
+        $("#initialDelete").prop('disabled', false)
     }
 })
 
@@ -8,5 +8,5 @@ $("#confirmUsername, #confirmPassword").on('input', function() {
 $("#initialDelete").on('click', function() {
     $("#initialDelete").css('display', 'none')
     $("#confirmDelete, #confirmMessage").css('display', 'block')
-    $("#confirmDelete").attr('disabled', false)
+    $("#confirmDelete").prop('disabled', false)
 })

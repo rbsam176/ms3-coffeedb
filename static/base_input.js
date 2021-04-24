@@ -3,11 +3,11 @@ $('.dynamicSelection').on('change', function () {
     var toggleInput = $(this).parent().next('.toggleInput')
     if ($(this).val() == "Other..."){
         $(toggleInput).css('display', 'block')
-        $(toggleInput).children().attr('required', true)
+        $(toggleInput).children().prop('required', true)
         $(toggleInput).children('input').focus()
     } else {
         $(toggleInput).css('display', 'none')
-        $(toggleInput).children().attr('required', false)
+        $(toggleInput).children().prop('required', false)
     }
 });
 
@@ -16,9 +16,9 @@ $(".toggleInput").on('input', function() {
     var parentSelect = $(this).prev('div').children('.dynamicSelection')
     var dynamicInput = $(this).children('.dynamicInput')
     if( $(dynamicInput).val().length === 0 ) {
-        $(parentSelect).attr("disabled", false);
+        $(parentSelect).prop("disabled", false);
     } else {
-        $(parentSelect).attr("disabled", true);
+        $(parentSelect).prop("disabled", true);
         if ($(this).prev().children('select').attr('id') == "brandInput"){
             $("#brand-preview").text(dynamicInput.val())
         } else if ($(this).prev().children('select').attr('id') == "originInput") {

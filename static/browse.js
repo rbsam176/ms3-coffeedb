@@ -1,14 +1,3 @@
-// $( "input[name='tag']" ).on("change", function(){
-//     var checkedLength = $( "input[name='tag']:checked" ).length;
-//     if(checkedLength == 0){
-//         // UNCHECKING LAST CHECKBOX WILL REDIRECT TO /BROWSE
-//         window.location.href = "/browse"
-//     } else {
-//         // CLICKING ON NOTES TAG WILL SUBMIT FORM
-//         $( "#submitCriteria" ).click()
-//     }
-// });
-
 // CLICKING SHOW MORE ON NOTES
 $("#showMoreNotes").on('click', function(){
     if ($("#showMoreNotes").text().includes("Show more")) {
