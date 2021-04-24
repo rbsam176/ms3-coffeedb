@@ -3,6 +3,19 @@
 
 {% block content %}
 <div class="container-fluid">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'success' %}
+                    <div class="row text-center mt-2 justify-content-center">
+                        <div class="col-10 justify-content-center alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <h2 class="text-center mt-4 custom-capitalize">{{ getUserData.firstName }}'s profile</h2>
     <h6 class="text-center">Member since {{ getUserData.userSince }}</h6>
     {% if getUserData.userSubmissionsCount > 0 %}<h6 class="text-center">{{ getUserData.userSubmissionsCount }} submission{% if getUserData.userSubmissionsCount > 1 %}s{% endif %} </h6>{% endif %}

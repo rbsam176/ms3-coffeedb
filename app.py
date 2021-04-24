@@ -769,7 +769,7 @@ def login():
                 if check_password_hash(userEmailMatch["password"],
                                        request.form.get("loginPassword")):
                     session["user"] = matchedUsername
-                    flash(u"Welcome {}".format(
+                    flash(u"Welcome back {}".format(
                         userEmailMatch["first_name"].capitalize()), "success")
                     return redirect(url_for("profile",
                                     username=session["user"]))
