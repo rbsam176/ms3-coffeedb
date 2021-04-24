@@ -22,16 +22,34 @@ $("#inputFirstName, #inputLastName").on('focusout', function() {
     }
 })
 
+formCriteria = {
+    "firstName": false,
+    "lastName": false,
+    "email": false,
+    "username": false
+}
+
+passwordCriteria = {
+    "passwordLength": false,
+    "passwordUppercase": false,
+    "passwordNumber": false,
+    "passwordMatch": false
+}
+
 // PASSWORD LENGTH CHECKER
 function characterLength(iconId){
     if ($("#inputPassword").val().length > 7){
+        // SET CRITERIA TO TRUE
+        passwordCriteria['passwordLength'] = true
         // IF IT ISN'T ALREADY FILLED
         if (!$(iconId).hasClass('bi-check-circle-fill')){
             $(iconId).removeClass()
             $(iconId).addClass('bi bi-check-circle-fill')
         }
-        // IF INPUT FIELD LENGTH IS NOT WITHIN RANGE
+        // ELSE INPUT FIELD LENGTH IS NOT WITHIN RANGE
     } else {
+        // SET CRITERIA TO FALSE
+        passwordCriteria['passwordLength'] = false
         // IF IT ISN'T ALREADY WITHOUT FILL
         if (!$(iconId).hasClass('bi-check-circle')){
             $(iconId).removeClass()
@@ -43,12 +61,24 @@ function characterLength(iconId){
 // UPPERCASE/NUMBER CHECKER
 function regexCheck(iconId, regex){
     if ($("#inputPassword").val().match(regex)){
+        // SET CRITERIA TO TRUE FOR EACH ID
+        if (iconId == '#uppercaseCheck'){
+            passwordCriteria['passwordUppercase'] = true
+        } else if (iconId == "#numberCheck"){
+            passwordCriteria['passwordNumber'] = true
+        }
         // IF IT ISN'T ALREADY FILLED
         if (!$(iconId).hasClass('bi-check-circle-fill')){
             $(iconId).removeClass()
             $(iconId).addClass('bi bi-check-circle-fill')
         }
     } else {
+        // SET CRITERIA TO FALSE FOR EACH ID
+        if (iconId == '#uppercaseCheck'){
+            passwordCriteria['passwordUppercase'] = false
+        } else if (iconId == "#numberCheck"){
+            passwordCriteria['passwordNumber'] = false
+        }
         // IF IT ISN'T ALREADY WITHOUT FILL
         if (!$(iconId).hasClass('bi-check-circle')){
             $(iconId).removeClass()
@@ -63,12 +93,16 @@ function passwordMatch(firstId, secondId, iconId){
     if ($(firstId).val().length > 0 && $(secondId).val().length > 0){
         // IF BOTH INPUTS HAVE THE SAME VALUE
         if ($(firstId).val() == $(secondId).val()){
+            // SET CRITERIA TO TRUE
+            passwordCriteria['passwordMatch'] = true
             // IF IT ISN'T ALREADY FILLED
             if (!$(iconId).hasClass('bi-check-circle-fill')){
                 $(iconId).removeClass()
                 $(iconId).addClass('bi bi-check-circle-fill')
             }
         } else {
+            // SET CRITERIA TO FALSE
+            passwordCriteria['passwordMatch'] = false
             // IF IT ISN'T ALREADY WITHOUT FILL
             if (!$(iconId).hasClass('bi-check-circle')){
                 $(iconId).removeClass()
@@ -84,4 +118,12 @@ $("input:password").on('input', function(){
     regexCheck("#uppercaseCheck", "[A-Z]")
     regexCheck("#numberCheck", "[0-9]")
     passwordMatch("#inputPassword", "#inputConfirmPassword", "#matchCheck")
+
+    // IF ALL CRITERIA IS MET, ENABLE SUBMIT
+    if (!Object.values(passwordCriteria).includes(false)){
+        $("#submitSignup").attr('disabled', false)
+    } else {
+        // ELSE MAKE IT DISABLED
+        $("#submitSignup").attr('disabled', true)
+    }
 })

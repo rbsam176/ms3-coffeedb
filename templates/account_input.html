@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 {% if request.endpoint == 'signup' %}<small>Already have an account? <a href="{{ url_for('login') }}"><u>Sign in to your account here.</u></a></small><br>{% endif %}
-                <button type="submit" class="btn btn-custom mt-3">Save changes</button>
+                <button id="submitSignup" type="submit" disabled class="btn btn-custom mt-3">{% if request.endpoint == 'signup' %}Sign up{% else %}Save changes{% endif %}</button>
             </form>
         </div>
     </div>

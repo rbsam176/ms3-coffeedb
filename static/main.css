@@ -74,7 +74,11 @@ h2, h3 {
     box-shadow: 3px 3px black;
 }
 
-.btn-custom:hover {
+.btn-custom:hover:enabled {
+    background-color: white;
+}
+
+.btn-custom:disabled {
     background-color: white;
 }
 
