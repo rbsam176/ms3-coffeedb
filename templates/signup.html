@@ -4,7 +4,53 @@
 {% block title %}CoffeeDB: Sign Up{% endblock %}
 
 {% block content %}
-    {{ accountForm.input("signup", None, None, None, None) }}
+    <div class="account-input mx-auto">
+        <h3 class="card-title text-center">Account information</h3>
+        <h6 class="text-center">* Required</h6>
+        <div class="row my-4 justify-content-center mx-auto">
+            <form id="{{ signup }}" method="POST" class="w-100">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputFirstName">First name*</label>
+                        <input type="text" class="form-control custom-capitalize custom-input" name="inputFirstName" id="inputFirstName" placeholder="John/Jane" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputLastName">Last name*</label>
+                        <input type="text" class="form-control custom-capitalize custom-input" name="inputLastName" id="inputLastName" placeholder="Smith" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                    <label for="inputEmail">Email*</label>
+                    <input type="email" class="form-control custom-input" name="inputEmail" id="inputEmail" placeholder="email@domain.com" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputUsername">Username*</label>
+                        <input type="text" class="form-control custom-input" name="inputUsername" id="inputUsername" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="form-row mt-4 w-100">
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword">Password*</label>
+                        <input type="password" class="form-control mb-3 custom-input" minlength="8" name="inputPassword" id="inputPassword" placeholder="Password" required>
+                        <label for="inputConfirmPassword">Confirm password*</label>
+                        <input type="password" class="form-control custom-input" minlength="8" name="inputConfirmPassword" id="inputConfirmPassword" placeholder="Confirm Password" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword">Password criteria</label>
+                        <div class="bg-light password-checker p-3 w-100">
+                            <i id="characterLength" class="bi bi-check-circle"></i> At least 8 characters<br>
+                            <i id="uppercaseCheck" class="bi bi-check-circle"></i> At least 1 uppercase letter<br>
+                            <i id="numberCheck" class="bi bi-check-circle"></i> At least 1 number<br>
+                            <i id="matchCheck" class="bi bi-check-circle"></i> Passwords must match
+                        </div>
+                    </div>
+                </div>
+                <small>Already have an account? <a href="{{ url_for('login') }}"><u>Sign in to your account here.</u></a></small><br>
+                <button type="submit" disabled class="btn btn-custom password-criteria px-4 mt-4">Sign up</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 {% block scripts %}
     <script src="{{ url_for('static', filename='account_input.js') }}"></script>

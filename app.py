@@ -860,7 +860,9 @@ def update_account(username):
             "email": mongo.db.users.find_one(
                 {"username": session["user"]})["email"],
             "username": mongo.db.users.find_one(
-                {"username": session["user"]})["username"]
+                {"username": session["user"]})["username"],
+            "password": mongo.db.users.find_one(
+                {"username": session["user"]})["password"]
         }
 
         # CREATES FULL NAME FROM EXISTING VALUES
@@ -870,68 +872,123 @@ def update_account(username):
 
         # IF UPDATE REQUEST IS SENT
         if request.method == "POST":
-            # RETRIEVES NEW PREFERENCES
-            editedPreferences = {
-                "first_name": request.form.get("inputFirstName").lower(),
-                "last_name": request.form.get("inputLastName").lower(),
-                "email": request.form.get("inputEmail").lower(),
-                "username": request.form.get("inputUsername"),
-                "password": generate_password_hash(
-                    request.form.get("inputPassword"))
-            }
-
-            # CREATES FULL NAME FROM EDITED VALUES
-            edited_first_name = existingPreferences["first_name"]
-            edited_last_name = existingPreferences["last_name"]
-            edited_full_name = edited_first_name + " " + edited_last_name
-
             # FINDS THE USERS UNIQUE ID IDENTIFIER
             userId = mongo.db.users.find_one(
                 {"username": session["user"]})["_id"]
 
-            # UPDATE ALL BEANS TO NEW USERNAME
-            mongo.db.beans.update_many(
-                {"username": session["user"]},
-                {"$set": {"username": editedPreferences["username"]}})
+            if "updateAccount" in request.form:
+                print('updateAccount')
 
-            # UPDATE ALL BEANS TO NEW FULL NAME
-            mongo.db.beans.update_many(
-                {"full_name": existing_full_name},
-                {"$set": {"full_name": edited_full_name}})
-
-            # UPDATE ALL RATINGS TO NEW USERNAME
-            mongo.db.beans.update_many(
-                {"rating.username": session["user"]},
-                {
-                    "$set": {
-                        "rating.$.username": editedPreferences["username"]
-                    }
+                # RETRIEVES NEW PREFERENCES
+                editedPreferences = {
+                    "first_name": request.form.get("inputFirstName").lower(),
+                    "last_name": request.form.get("inputLastName").lower(),
+                    "email": request.form.get("inputEmail").lower(),
+                    "username": request.form.get("inputUsername")
                 }
-            )
 
-            # UPDATE ALL REVIEWS TO NEW USERNAME
-            mongo.db.beans.update_many(
-                {"review.username": session["user"]},
-                {
-                    "$set": {
-                        "review.$.username": editedPreferences["username"]
+                # CREATES FULL NAME FROM EDITED VALUES
+                edited_first_name = existingPreferences["first_name"]
+                edited_last_name = existingPreferences["last_name"]
+                edited_full_name = edited_first_name + " " + edited_last_name
+
+                print("updated account details")
+
+                # UPDATE ALL BEANS TO NEW USERNAME
+                mongo.db.beans.update_many(
+                    {"username": session["user"]},
+                    {"$set": {"username": editedPreferences["username"]}})
+
+                # UPDATE ALL BEANS TO NEW FULL NAME
+                mongo.db.beans.update_many(
+                    {"full_name": existing_full_name},
+                    {"$set": {"full_name": edited_full_name}})
+
+                # UPDATE ALL RATINGS TO NEW USERNAME
+                mongo.db.beans.update_many(
+                    {"rating.username": session["user"]},
+                    {
+                        "$set": {
+                            "rating.$.username": editedPreferences["username"]
+                        }
                     }
-                }
-            )
+                )
 
-            # UPDATES THE USERS COLLECTION WITH NEW VALUES
-            mongo.db.users.update_one(
-                {"_id": userId},
-                {"$set": editedPreferences}
-            )
+                # UPDATE ALL REVIEWS TO NEW USERNAME
+                mongo.db.beans.update_many(
+                    {"review.username": session["user"]},
+                    {
+                        "$set": {
+                            "review.$.username": editedPreferences["username"]
+                        }
+                    }
+                )
 
-            # UPDATE SESSION TOKEN TO NEW USERNAME VALUE
-            session["user"] = editedPreferences["username"]
+                # UPDATES THE USERS COLLECTION WITH NEW VALUES
+                mongo.db.users.update_one(
+                    {"_id": userId},
+                    {"$set": editedPreferences}
+                )
 
-            # VALIDATES THE UPDATE HAS COMPLETED
-            flash(u"Your changes have been saved", "success")
-            return redirect(url_for("update_account",
-                                    username=session["user"]))
+                # UPDATE SESSION TOKEN TO NEW USERNAME VALUE
+                session["user"] = editedPreferences["username"]
+
+                # VALIDATES THE UPDATE HAS COMPLETED
+                flash(u"Your changes have been saved", "success")
+                return redirect(url_for("update_account",
+                                        username=session["user"]))
+
+
+            if "changePassword" in request.form:
+                print('changePassword')
+
+            # USER ENTERED EXISTING PASSWORD
+            inputExistingPassword = request.form.get("inputExistingPassword")
+
+            newPassword = generate_password_hash(request.form.get("inputPassword"))
+
+            # CHECK PRE-EXISTING PASSWORD MATCHES USER ENTERED EXISTING PASSWORD
+            if check_password_hash(existingPreferences['password'], inputExistingPassword):
+                # IF NEW PASSWORD CONFORMS TO CRITERIA
+                if re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
+                         request.form.get("inputPassword")):
+                    # IF BOTH NEW PASSWORDS MATCH
+                    if request.form.get("inputPassword") == request.form.get("inputConfirmPassword"):
+
+                        print("updated account details")
+
+                        # UPDATES THE USERS COLLECTION WITH NEW PASSWORD
+                        mongo.db.users.update_one(
+                            {"_id": userId},
+                            {
+                                "$set": {
+                                    "password": newPassword
+                                }
+                            }
+                        )
+
+                        # VALIDATES THE UPDATE HAS COMPLETED
+                        flash(u"Your password has been changed successfully", "success")
+                        return redirect(url_for("update_account",
+                                                username=session["user"]))
+
+                    else:
+                        print("New passwords do not match")
+                        flash(u"New passwords do not match", "warning")
+                        return redirect(url_for("update_account",
+                                        username=session["user"]))
+
+                else:
+                    print("New password doesn't meet criteria")
+                    flash(u"New password doesn't meet criteria", "warning")
+                    return redirect(url_for("update_account",
+                                            username=session["user"]))
+        
+            else:
+                print("Existing password entered incorrectly")
+                flash(u"Existing password entered incorrectly", "warning")
+                return redirect(url_for("update_account",
+                                        username=session["user"]))
 
         context = {
             'username': existingPreferences["username"],

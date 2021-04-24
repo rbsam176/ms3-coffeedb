@@ -66,6 +66,24 @@ h2, h3 {
     outline: 2px solid black;
 }
 
+.account_input_btn {
+    background-color: #FFBF04;
+    border-radius: 0;
+    border: 2px solid black;
+    box-shadow: 3px 3px black;
+    height: 50px;
+    margin-top: 32px;
+    width: 200px;
+}
+
+.account_input_btn:hover:enabled {
+    background-color: white;
+}
+
+.account_input_btn:disabled {
+    background-color: white;
+}
+
 .btn-custom {
     background-color: #FFBF04;
     border-radius: 0;

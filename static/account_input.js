@@ -119,11 +119,18 @@ $("input:password").on('input', function(){
     regexCheck("#numberCheck", "[0-9]")
     passwordMatch("#inputPassword", "#inputConfirmPassword", "#matchCheck")
 
-    // IF ALL CRITERIA IS MET, ENABLE SUBMIT
+    // IF ALL CRITERIA IS MET ON SIGN UP, ENABLE SUBMIT
     if (!Object.values(passwordCriteria).includes(false)){
-        $("#submitSignup").attr('disabled', false)
+        $(".password-criteria").attr('disabled', false)
     } else {
         // ELSE MAKE IT DISABLED
-        $("#submitSignup").attr('disabled', true)
+        $(".password-criteria").attr('disabled', true)
+    }
+
+    // IF EXISTING PASSWORD HAS BEEN ENTERED ON UPDATE ACCOUNT, ENABLE SUBMIT
+    if ($("#inputExistingPassword").val().length > 7){
+        $(".password-criteria").attr('disabled', false)
+    } else {
+        $(".password-criteria").attr('disabled', true)
     }
 })
