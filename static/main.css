@@ -34,6 +34,10 @@ a:hover {
     color: #F8A825;
 }
 
+footer a:hover {
+    color: black;
+}
+
 .custom-capitalize {
     text-transform: capitalize;
 }
@@ -194,6 +198,10 @@ a.anchor {
     border: 2px solid black;
     color: black;
     box-shadow: 3px 3px black;
+}
+
+.go-to-top:hover {
+    background-color: #F8F8F8;
 }
 
 .custom-container {

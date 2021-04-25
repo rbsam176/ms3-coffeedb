@@ -9,14 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CoffeeDB provides a database of wholebean coffee to enable you to find your perfect brew.">
     <!-- FAVICON AND WEB APP ICONS-->
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/favicon-16x16.png">
-    <link rel="manifest" href="/static/assets/site.webmanifest">
-    <link rel="mask-icon" href="/static/assets/safari-pinned-tab.svg" color="#f8a825">
-    <link rel="shortcut icon" href="/static/assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='assets/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='assets/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='assets/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='/static/assets/safari-pinned-tab.svg') }}" color="#f8a825">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/static/assets/favicon.ico') }}">
     <meta name="msapplication-TileColor" content="#f8a825">
-    <meta name="msapplication-config" content="/static/assets/browserconfig.xml">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='/static/assets/browserconfig.xml') }}">
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css2?family=Codystar&family=Hind+Madurai&family=Montserrat:wght@800&family=Pacifico&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@
         <div class="row h-100">
             <div class="col-12 col-md-4 text-center order-10 order-md-2 align-self-center my-2">Copyright CoffeeDB 2021</div>
             <div class="col-12 col-md-4 text-center order-2 order-md-10 align-self-center my-3"><a class="go-to-top" href="#">Go to top</a></div>
-            <div class="col-12 col-md-4 text-center order-11 order-md-11 align-self-center"><a href="#">Contact us</a></div>
+            <div class="col-12 col-md-4 text-center order-11 order-md-11 align-self-center"><a href="mailto:rb.sam@icloud.com">Contact us</a></div>
         </div>
     </footer>
 
