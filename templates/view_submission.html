@@ -75,7 +75,7 @@
                                     <i class="star-rating bi {% if averageRating >= 5 %}bi-star-fill{% else %}bi-star{% endif %} mx-1 h4"></i>
                                 </div>
                                 <div class="row justify-content-center">
-                                    <small class="mt-2">{% if averageRating < 1 %}No ratings yet{% else %}Average {{ averageRating }}/5 ({{ total_ratings }} reviews){% endif %}</small>
+                                    <small class="mt-2">{% if averageRating < 1 %}No ratings yet{% else %}Average {{ averageRating }}/5 ({{ total_ratings }} rating{% if total_ratings > 1 %}s{% endif %}){% endif %}</small>
                                 </div>
                             </div>
                         </div>
