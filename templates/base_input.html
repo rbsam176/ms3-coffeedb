@@ -30,6 +30,7 @@
         <div class="row gy-4 justify-content-center">
             <div class="col-12 col-lg-6 p-2">
                 <form id="{{ form_type }}" name="{{ form_type }}" class="card data-card mx-2" method="POST" enctype='multipart/form-data'>
+                    <h6 class="text-center text-muted mt-4 mb-0">Required*</h6>
                     <div class="d-block d-lg-none img-upload form-group">
                         <img class="img-preview card-img-top" src="{% if submissionImg %}data:image/jpeg;base64,{{ submissionImg | safe }}{% else %}{{ coffeeImg }}{% endif %}">
                     </div>
@@ -62,13 +63,13 @@
                                 </select>
                             </div>
                             <div class="col-md-12 col-lg-9 offset-lg-3 toggleInput">
-                                <input id="customBrand" type="text" name="brand" class="dynamicInput mt-3 form-control form-control-lg custom-input" placeholder="Enter new brand">
+                                <input id="customBrand" type="text" maxlength="35" name="brand" class="dynamicInput mt-3 form-control form-control-lg custom-input" placeholder="Enter new brand">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="nameInput" class="col-md-12 col-lg-3 col-form-label text-center">Name*</label>
                             <div class="col-md-12 col-lg-9">
-                                <input id="nameInput" name="name" type="text" {% if coffee_name %}value="{{ coffee_name }}"{% else %}placeholder="Enter coffee name"{% endif %} class="form-control form-control-lg custom-capitalize custom-input" required>
+                                <input id="nameInput" name="name" maxlength="35" type="text" {% if coffee_name %}value="{{ coffee_name }}"{% else %}placeholder="Enter coffee name"{% endif %} class="form-control form-control-lg custom-capitalize custom-input" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -107,7 +108,7 @@
                                 </select>
                             </div>
                             <div class="col-md-12 col-lg-9 offset-lg-3 toggleInput">
-                                <input type="text" id="customOrigin" name="origin" class="dynamicInput mt-3 custom-input form-control form-control-lg" placeholder="Enter new origin">
+                                <input type="text" id="customOrigin" maxlength="20" name="origin" class="dynamicInput mt-3 custom-input form-control form-control-lg" placeholder="Enter new origin">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -128,12 +129,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <span class="col-md-12 col-lg-3 col-form-label text-center">Notes<br><span class="text-muted">(Max 4)</span></span>
+                            <span class="col-md-12 col-lg-3 col-form-label text-center">Notes*<br><span class="text-muted">(Max 4)</span></span>
                             <div class="col-md-12 col-lg-9 add-notes">
                                 {% for note in uniqueNotes %}
                                     <span class="checkbox-container m-1">
-                                        <input type="checkbox" id="{{ note }}" class="note-checkbox" name="note" value="{{ note }}" {% if note is in notes_input %}checked{% endif %}>
-                                        <label for="{{ note }}" class="filter-toggle">{{ note }}</label>
+                                        <input type="checkbox" id="{{ note|replace(' ', '') }}" class="note-checkbox" name="note" value="{{ note }}" {% if note is in notes_input %}checked{% endif %}>
+                                        <label for="{{ note|replace(' ', '') }}" class="filter-toggle">{{ note }}</label>
                                     </span>
                                 {% endfor %}
                                 <br>

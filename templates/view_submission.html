@@ -116,7 +116,7 @@
                     <form method="POST" id="submitReview">
                         <div class="row">
                             <div class="form-group col-12">
-                                <textarea class="form-control custom-input" maxlength=150 id="reviewContent" name="reviewContent" rows="3" {% if not session['user'] %}disabled placeholder="You must login to write a review"{% else %}placeholder="Type your review here"{% endif %}>{% if existing_user_review %}{{ existing_user_review }}{% endif %}</textarea>
+                                <textarea class="form-control custom-input" maxlength="150" id="reviewContent" name="reviewContent" rows="3" {% if not session['user'] %}disabled placeholder="You must login to write a review"{% else %}placeholder="Type your review here"{% endif %}>{% if existing_user_review %}{{ existing_user_review }}{% endif %}</textarea>
                                 <small class="float-right"><span id="characterCounter">150</span> characters left</small>
                             </div>
                         </div>

@@ -413,6 +413,10 @@ a.anchor {
     width: 75%;
 }
 
+.coffee-card-title {
+    font-size: 1.3rem;
+}
+
 .hero-text {
     font-family: sans-serif;
     font-weight: 600;
