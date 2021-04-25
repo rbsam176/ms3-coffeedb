@@ -51,7 +51,10 @@
 | Add/Edit                 |                       | Only shows if user is logged in                                                                                                 |
 |                          |                       | On desktop, left half is input fields, right half is live preview                                                               |
 |                          |                       | Live preview updates with every change user makes to input fields                                                               |
-|                          |                       | All fields required except Website                                                                                              |
+|                          |                       | All fields required except Website (and image if on Edit endpoint)                                                              |
+|                          |                       | Image submitted gets encoded into base64 and submitted to database                                                              |
+|                          |                       | After image file uploaded, file input label changes to validate user action                                                     |
+|                          |                       | Only image files permitted to be selected                                                                                       |
 |                          |                       | Selecting 'Other...' on Brand and Origin selection presents user with custom text input field                                   |
 |                          |                       | Custom Brand and Origin text input fields presents autocomplete suggestions if pre-existing values to prevent duplicates        |
 |                          |                       | Only 4 flavour notes permitted, notes should become disabled when 4th is clicked                                                |
@@ -66,6 +69,7 @@
 |                          |                       | 'Submit' button submits all data to database                                                                                    |
 |                          |                       | After submitting, user is taken to 'View Submission' page with flash message validating user action                             |
 |                          |                       | If user is on Edit endpoint, text input values are pre-filled with submission data                                              |
+|                          |                       | Edit endpoint shows Delete submission option, clicking it triggers a second button to click                                     |
 |                          |                       |                                                                                                                                 |
 | Profile (default view)   |                       | First name of user is displayed, member since date and number of submissions                                                    |
 |                          |                       | Default view of profile shows all user submissions                                                                              |
@@ -103,10 +107,11 @@
 |                          |                       | As user is typing, character count below text input box updates accordingly                                                     |
 |                          |                       | If user already has a review submitted, the character count on page load already adjusts to pre-existing review                 |
 |                          |                       | 'Write a review' / 'Edit your review' header depending on if user already has review submitted                                  |
-|                          |                       | If more than 4 reviews exist, 'See all reviews' button becomes visible                                                          |
-|                          |                       | 3 reviews visible on page + users own review, in total 4 reviews only ever displayed                                            |
+|                          |                       | If more than 3 reviews exist, 'See all reviews' button becomes visible                                                          |
+|                          |                       | 3 reviews visible on page only                                                                                                  |
 |                          |                       | Review shows user rating if it exists                                                                                           |
 |                          |                       | User's own review is highlighted yellow                                                                                         |
+|                          |                       | Hovering over rating icons will highlight all icons left of hovered icon                                                        |
 |                          |                       |                                                                                                                                 |
 | All Reviews              |                       | User's own review is highlighted yellow                                                                                         |
 |                          |                       | Sortable by date (recent and old) and rating (high > low and low > high)                                                        |
