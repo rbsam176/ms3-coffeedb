@@ -584,7 +584,7 @@ ul.add-notes-container li label {
 
 #livePreview {
     position: sticky;
-    top: 0px;
+    top: 85px;
 }
 
 .card-sticky {
@@ -704,6 +704,11 @@ ul.bean-info {
 
 .checkbox-container {
     display: inline-block;
+}
+
+.note-checkbox:disabled + label.filter-toggle {
+    border: 1px solid #616161;
+    background-color: #ebebeb;
 }
 
 input[name="tag"] {

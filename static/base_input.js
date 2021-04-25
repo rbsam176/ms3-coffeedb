@@ -67,18 +67,37 @@ function appendToPreview(tag){
     $(".preview-notes-container").append(`<span class="note-bubble card-notes tag-preview bean-note">${tag}</span>`)
 }
 
+// CHECKS NUMBER OF CHECKED NOTES AND DISABLES TO PREVENT FURTHER ADDITIONS
+function limitNotes(){
+    if ($('input:checkbox.note-checkbox:checked').length >= 4){
+        $("input:checkbox.note-checkbox").each(function() {
+            if(!$(this).is(':checked')){
+                $(this).prop('disabled', true)
+                $("#customNoteInput").prop('disabled', true)
+            }
+        });
+    }
+    if ($('input:checkbox.note-checkbox:checked').length < 4){
+        console.log('else')
+        $("input:checkbox.note-checkbox").each(function(index) {
+            if($("input:checkbox.note-checkbox").eq(index).is(':disabled')){
+                $(this).prop('disabled', false)
+                $("#customNoteInput").prop('disabled', false)
+            }
+        });
+    }
+}
+
 // LISTENS FOR NOTE CHECKED AND RUNS APPENDING FUNCTION OR REMOVES
 // HAD DOM BUBBLING ISSUE, WHERE IF THE ELEMENT DOESN'T EXIST ON DOCUMENT READY THEN IT CAN'T TARGET DYNAMICALLY CREATED ELEMENTS
 // USED https://stackoverflow.com/a/40280312 FOR SUPPORT
 $("form").on('change', 'input:checkbox.note-checkbox', function() {
     if($(this).is(':checked')){
-        console.log('checked, appending')
+        limitNotes()
         appendToPreview($(this).parent().text())
     } else if(!$(this).is(':checked')){
-        console.log('remove')
-        console.log($(this).parent().text())
-        console.log($(".preview-notes-container").children('.tag-preview').text())
         $(".preview-notes-container").children(`.tag-preview:contains(${$(this).parent().text().trim()})`).remove()
+        limitNotes()
     }
 })
 
@@ -86,10 +105,7 @@ $("form").on('change', 'input:checkbox.note-checkbox', function() {
 $("#addNote").on('click', function(e) {
     e.preventDefault()
     var rawInputText = $("#customNoteInput").val()
-    console.log(rawInputText)
-    console.log(rawInputText.replace(' ', ''))
     if (rawInputText.length > 0){
-        // $(".add-notes-container").append(`<li class="add-notes-checkboxes"><label><input class="note-checkbox" name="note" value="${rawInputText}" type="checkbox" checked>${rawInputText}</label></li>`)
         $(".add-notes").append(`
         <span class="checkbox-container m-1">
             <input type="checkbox" id="${rawInputText.replace(' ', '')}" class="note-checkbox" name="note" value="${rawInputText}" checked>
@@ -98,6 +114,7 @@ $("#addNote").on('click', function(e) {
         `)
         appendToPreview(rawInputText)
         $("#customNoteInput").val('')
+        limitNotes()
     } else {
         $("#customNoteInput").effect("shake")
         $("#customNoteInput").focus()

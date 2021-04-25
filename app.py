@@ -308,19 +308,18 @@ def wordCloud(list, uniqueList):
         percentage = itemPercentage.get(num) / most_common_percentage * 100
         # ROUNDS IT DOWN <<< OLD
         itemPercentageDict[num] = round(percentage, 1)
-
-    newItemPercentageList = []
+    itemPercentageList = []
     for key, value in itemPercentageDict.items():
-        newItemPercentageList.append((key[0], value))
+        itemPercentageList.append((key[0], value))
 
-    itemPercentagesLabelled = []
-    for index, item in enumerate(newItemPercentageList):
+    itemPercentagesSplit = []
+    for index, item in enumerate(itemPercentageList):
         if index >= 10:
-            itemPercentagesLabelled.append((item[0], item[1], "extra-note"))
+            itemPercentagesSplit.append((item[0], item[1], "extra-note"))
         else:
-            itemPercentagesLabelled.append(item)
+            itemPercentagesSplit.append(item)
 
-    return itemPercentagesLabelled
+    return itemPercentagesSplit
 
 
 # CREATES OFFSET AMOUNT BASED ON SPECIFIED QUANTITY SHOWN PER PAGE

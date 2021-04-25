@@ -111,7 +111,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="organicToggle" class="col-md-12 col-lg-3 col-form-label text-center">Organic</label>
+                            <label for="organicToggle" class="col-md-12 col-lg-3 col-form-label text-center">Organic*</label>
                             <div class="col-md-12 col-lg-8 text-center text-lg-left pt-1">
                                 <div class="checkbox-container">
                                     <input type="radio" id="organicFalse" name="organicRequired" value=False {% if not organic_choice %}checked{% endif %}>
@@ -128,7 +128,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <span class="col-md-12 col-lg-3 col-form-label text-center">Notes</span>
+                            <span class="col-md-12 col-lg-3 col-form-label text-center">Notes<br><span class="text-muted">(Max 4)</span></span>
                             <div class="col-md-12 col-lg-9 add-notes">
                                 {% for note in uniqueNotes %}
                                     <span class="checkbox-container m-1">
@@ -143,7 +143,7 @@
                         <div class="form-group row">
                             <label for="customNoteInput" class="col-12 col-form-label text-center">Add another note</label>
                             <div class="col-12 input-group">
-                                <input id="customNoteInput" id="customNotes" type="text" class="form-control custom-input">
+                                <input id="customNoteInput" id="customNotes" maxlength="25" type="text" class="form-control custom-input">
                                 <div class="input-group-append">
                                     <button id="addNote" aria-label="Add note" class="btn add-btn" type="button" disabled>Add</button>
                                 </div>
