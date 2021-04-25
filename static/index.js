@@ -23,6 +23,26 @@ $(document).ready(function(){
         }
     });
 
+
+    function arrowDown() {
+        $('.down-btn').animate({
+            top: '10px',
+        }, 1000, function() {
+            arrowUp();
+        });
+    }
+
+    function arrowUp() {
+        $('.down-btn').animate({
+            top: '0px',
+        }, 1000, function() {
+            arrowDown();
+        });
+    }
+
+    arrowDown();
+
+
     // AUTOCOMPLETE ASSIGNMENT
     $.getJSON('/autocomplete', function(data) {     
         // PARSES JSON DATA PULLED FROM MONGODB

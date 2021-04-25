@@ -341,6 +341,7 @@ a.anchor {
 .down-btn {
     font-size: 45px;
     color: RGBA(0,0,0,0.52);
+    position: relative;
 }
 
 .down-btn:hover {
