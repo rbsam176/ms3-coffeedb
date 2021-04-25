@@ -48,7 +48,7 @@
 |                          |                       | Clicking flavour notes takes user to Browse page with clicked note as filter criteria                                           |
 |                          |                       | Displays username of user that made the submission, links to their profile which displays all of their submissions              |
 |                          |                       |                                                                                                                                 |
-| Add                      |                       | Only shows if user is logged in                                                                                                 |
+| Add/Edit                 |                       | Only shows if user is logged in                                                                                                 |
 |                          |                       | On desktop, left half is input fields, right half is live preview                                                               |
 |                          |                       | Live preview updates with every change user makes to input fields                                                               |
 |                          |                       | All fields required except Website                                                                                              |
@@ -65,6 +65,7 @@
 |                          |                       | Custom notes appear below 'Show more'/'Show less' button                                                                        |
 |                          |                       | 'Submit' button submits all data to database                                                                                    |
 |                          |                       | After submitting, user is taken to 'View Submission' page with flash message validating user action                             |
+|                          |                       | If user is on Edit endpoint, text input values are pre-filled with submission data                                              |
 |                          |                       |                                                                                                                                 |
 | Profile (default view)   |                       | First name of user is displayed, member since date and number of submissions                                                    |
 |                          |                       | Default view of profile shows all user submissions                                                                              |
@@ -102,15 +103,24 @@
 |                          |                       | As user is typing, character count below text input box updates accordingly                                                     |
 |                          |                       | If user already has a review submitted, the character count on page load already adjusts to pre-existing review                 |
 |                          |                       | 'Write a review' / 'Edit your review' header depending on if user already has review submitted                                  |
-|                          |                       | If more than 3 reviews exist, 'See all reviews' button becomes visible                                                          |
+|                          |                       | If more than 4 reviews exist, 'See all reviews' button becomes visible                                                          |
+|                          |                       | 3 reviews visible on page + users own review, in total 4 reviews only ever displayed                                            |
 |                          |                       | Review shows user rating if it exists                                                                                           |
+|                          |                       | User's own review is highlighted yellow                                                                                         |
 |                          |                       |                                                                                                                                 |
-| All Reviews              |                       |                                                                                                                                 |
+| All Reviews              |                       | User's own review is highlighted yellow                                                                                         |
+|                          |                       | Sortable by date (recent and old) and rating (high > low and low > high)                                                        |
+|                          |                       | User ratings displayed                                                                                                          |
+|                          |                       | Back button displayed in top left corner                                                                                        |
 |                          |                       |                                                                                                                                 |
+| Signup                   |                       | All fields required                                                                                                             |
+|                          |                       | Password criteria shows 'filled' icon when each criteria has been met                                                           |
+|                          |                       | Displays link to login if user already has an account                                                                           |
+|                          |                       | Clicking 'Sign Up' actions request and adds user to database                                                                    |
+|                          |                       | After signing up, user is redirected to profile page with flash message validating action                                       |
+|                          |                       | User is prevented from signing up with already-existing email or username                                                       |
+|                          |                       | After entering first and last name, the username text input value is pre-filled with suggested username                         |
 |                          |                       |                                                                                                                                 |
+| 404 Error                |                       | Presented if user go to non-existing endpoint                                                                                   |
 |                          |                       |                                                                                                                                 |
-|                          |                       |                                                                                                                                 |
-|                          |                       |                                                                                                                                 |
-|                          |                       |                                                                                                                                 |
-|                          |                       |                                                                                                                                 |
-|                          |                       |                                                                                                                                 |
+| None-page-specific       |                       | If user goes to page that requires being logged in, and are not logged in, they are redirected to another page                  |
