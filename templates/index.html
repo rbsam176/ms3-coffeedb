@@ -117,7 +117,7 @@
                             {% else %}
                                 <h4 class="text-center p-3">No beans have been rated yet!</h4>
                                 {% if session['user'] %}
-                                    <h5 class="text-center px-2"><a href="{{ url_for('add') }}">Go to the <a href="{{ url_for('browse') }}">Browse</a> page to find some submissions to rate.</a></h5>
+                                    <h5 class="text-center px-2">Go to the <a href="{{ url_for('browse') }}">Browse</a> page to find some submissions to rate.</h5>
                                 {% else %}
                                     <h5 class="text-center px-2"><a href="{{ url_for('login') }}">Click here to login so you can start rating.</a></h5>
                                 {% endif %}
