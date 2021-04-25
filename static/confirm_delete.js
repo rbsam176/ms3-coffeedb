@@ -1,6 +1,8 @@
 $("#confirmUsername, #confirmPassword").on('input', function() {
     if ($("#confirmUsername").val().length > 2 && $("#confirmPassword").val().length > 2) {
         $("#initialDelete").prop('disabled', false)
+    } else if ($("#confirmUsername").val().length < 3 || $("#confirmPassword").val().length < 3) {
+        $("#initialDelete").prop('disabled', true)
     }
 })
 

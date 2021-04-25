@@ -173,7 +173,7 @@
                             <li>Roast: <span id="roast-preview">{% if roast_choice %}{{ roast_choice }}{% endif %}</span></li>
                             <li>Origin: <span id="origin-preview">{% if origin_choice %}{{ origin_choice }}{% endif %}</span></li>
                             <li class="organic-preview">{% if organic_choice == True %}Organic{% else %}Not organic{% endif %}</li>
-                            <li><a id="website-preview" href="{% if url_input %}{{ url_input }}{% endif %}">More Info</a></li>
+                            <li><a id="website-preview" href="{% if url_input %}{{ url_input }}{% else %}#{% endif %}">More Info</a></li>
                         </ul>
                         <h5 class="text-center my-3">Notes:</h5>
                         <div class="preview-notes-container"></div>

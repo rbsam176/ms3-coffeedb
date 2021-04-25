@@ -392,7 +392,7 @@ def browse():
         originsOccurances = countOccurances(origins, uniqueOrigins)
 
     # SET DEFAULT HEADER FOR BROWSE
-    browseHeader = "Results"
+    browseHeader = "All results"
 
     # DYNAMICALLY CREATES A FIND QUERY
     # ADAPTED FROM:
