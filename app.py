@@ -77,15 +77,16 @@ def index():
         {}, sort=[('_id', -1)]
         )
 
-    # CONTAINS DOC ID, AVERAGE RATING AND NUMBER OF RATINGS
+    # # CONTAINS DOC ID, AVERAGE RATING AND NUMBER OF RATINGS
     averages = []
-    # COLLECTION CONTAINING ALL DOCUMENTS WITH RATINGS
-    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}})
+    # # COLLECTION CONTAINING ALL DOCUMENTS WITH RATINGS
+    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}}, projection={"img-base64": 0})
 
     # LOOPS THROUGH COLLECTION AND APPENDS TO AVERAGES LIST
     for doc in list(ratingsTrue):
         averages.append((doc['_id'], getAverageRating(doc['_id']),
                         len(gatherRatings(doc['_id']))))
+    
 
     # SORTS BY AVERAGE RATING THEN BY QUANTITY OF RATINGS
     sortedAverages = sorted(averages, key=lambda average:
@@ -96,10 +97,10 @@ def index():
     top5docs = []
     for submission in top5tuples:
         top5docs.append((submission, mongo.db.beans.find_one(
-            {"_id": ObjectId(submission[0])})))
+            {"_id": ObjectId(submission[0])}, projection={"img-base64": 0})))
 
     # COLLECTION CONTAINING ALL DOCUMENTS WITH REVIEWS
-    reviewsTrue = mongo.db.beans.find({"review": {"$exists": True}})
+    reviewsTrue = mongo.db.beans.find({"review": {"$exists": True}}, projection={"img-base64": 0})
     # CONTAINS DOC DATA AND REVIEWS
     reviewsCollection = []
     for doc in list(reviewsTrue):
@@ -482,7 +483,7 @@ def browse():
 
 def gatherRatings(submissionId):
     submission_data = mongo.db.beans.find_one(
-            {"_id": ObjectId(submissionId)})
+            {"_id": ObjectId(submissionId)}, projection={"img-base64": 0})
 
     # LIST CONTAINING ALL RATING NUMBERS OF DISPLAYED SUBMISSION
     ratings = []
