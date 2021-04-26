@@ -354,7 +354,7 @@ def pagination_sort(beans):
 @app.route("/browse", methods=["GET"])
 def browse():
     # GETS ALL DATA FROM BEANS COLLECTION (SORTED BY MOST RECENT)
-    data = mongo.db.beans.find().sort("_id", -1)
+    # data = mongo.db.beans.find().sort("_id", -1)
 
     # RETURNS NUMBER OF DOCUMENTS IN BEANS COLLECTION
     count = mongo.db.beans.count_documents({})
@@ -363,16 +363,21 @@ def browse():
     offset, perPage, page, beansCount, pageQuantity = pagination(6, count)
 
     # USES PAGINATION VARIABLES TO ASSIGN OFFSET AND NUMBER PER PAGE
-    beans = data.skip(offset).limit(perPage)
+    # beans = data.skip(offset).limit(perPage)
+    # merged 'data' variable find sort into beans variable skip limit version
+    beans = mongo.db.beans.find().sort("_id", -1).skip(offset).limit(perPage)
 
     # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
-    notes = mongo.db.beans.find({}, {"notes": 1})
+    # notes = mongo.db.beans.find({}, {"notes": 1})
+    notes = mongo.db.beans.find({}, projection={"notes": 1})
 
     # RETURNS LIST OF ALL UNIQUE NOTES
     uniqueNotes = getCoffeeData()["unique_notes"]
 
     # RETURNS LIST OF ALL NON-UNIQUE ORIGINS IN DB
-    originColl = mongo.db.beans.find({}, {"origin": 1})
+    # originColl = mongo.db.beans.find({}, {"origin": 1})
+    originColl = mongo.db.beans.find({}, projection={"origin": 1})
+
     origins = []
     for doc in originColl:
         origins.append(doc['origin'])
@@ -417,10 +422,8 @@ def browse():
 
         # CHECKS IF LIST VALUES EXIST AND APPENDS TO DYNAMIC QUERY
         if request.args.getlist("roast"):
-            print(request.args.getlist("roast"))
             dynamicQuery["$and"].append({"roast": {"$in":
                                         request.args.getlist("roast")}})
-            print(dynamicQuery)
         if request.args.getlist("origin"):
             dynamicQuery["$and"].append({"origin": {"$in":
                                         request.args.getlist("origin")}})
@@ -443,8 +446,10 @@ def browse():
 
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
-            findQuery = mongo.db.beans.find(
-                dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
+
+            # findQuery = mongo.db.beans.find(
+            #     dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
+
             # REASSIGNS VALUES TO PAGINATION VARIABLES
             offset, perPage, page, beansCount, pageQuantity = pagination(
                 6, mongo.db.beans.count_documents(dynamicQuery))
