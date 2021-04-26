@@ -739,14 +739,15 @@ def signup():
                     request.form.get("inputPassword"))
             }
             # IF PASSWORD MEETS CRITERIA
-            if re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
+            if re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
                          request.form.get("inputPassword")):
                 mongo.db.users.insert_one(newUser)
                 # SET SESSION TOKEN
                 session["user"] = request.form.get("inputUsername").lower()
                 flash(u"Registration Successful!", "success")
                 return redirect(url_for("profile", username=session["user"]))
-            else:
+            elif not re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
+                         request.form.get("inputPassword")):
                 flash(u"Password criteria not met", "warning")
                 return redirect(url_for("signup"))        
 
