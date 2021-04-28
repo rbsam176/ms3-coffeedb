@@ -21,7 +21,7 @@ View the Github repo: [here](https://github.com/rbsam176/ms3-coffeedb)
 	  * [Version 1 (Image URL)](#version-1-image-url)
 	  * [Version 2 (FileStack API)](#version-2-filestack-api)
 	  * [Version 3 (Base64 in MongoDB)](#version-3-base64-in-mongodb)
-	  * [Version 4 (ImageKit.io API)](#ersion-4-imagekitio-api)
+	  * [Version 4 (ImageKit.io API)](#version-4-imagekitio-api)
 	* [Dynamic Queries](#dynamic-queries)
 	* [Word cloud (tasting notes)](#word-cloud-tasting-notes)
 	* [Pagination](#pagination)
@@ -504,6 +504,10 @@ An older version of the checkbox UI before redesigning them to have a hidden che
 
 
 <insert image of various logos >
+
+```
+![alt text](/static/assets/logos.png "Logo iterations")
+```
 
 A selection of logos made before deciding on what became the final logo.
 
