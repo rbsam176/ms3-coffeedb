@@ -3,7 +3,6 @@ import sys
 import random
 from datetime import datetime, timezone
 import math
-import base64
 import json
 import re
 from imagekitio.client import ImageKit
@@ -88,7 +87,7 @@ def index():
     # # CONTAINS DOC ID, AVERAGE RATING AND NUMBER OF RATINGS
     averages = []
     # # COLLECTION CONTAINING ALL DOCUMENTS WITH RATINGS
-    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}}, projection={"img-base64": 0})
+    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}})
 
     # LOOPS THROUGH COLLECTION AND APPENDS TO AVERAGES LIST
     for doc in list(ratingsTrue):
@@ -105,10 +104,10 @@ def index():
     top5docs = []
     for submission in top5tuples:
         top5docs.append((submission, mongo.db.beans.find_one(
-            {"_id": ObjectId(submission[0])}, projection={"img-base64": 0})))
+            {"_id": ObjectId(submission[0])})))
 
     # COLLECTION CONTAINING ALL DOCUMENTS WITH REVIEWS
-    reviewsTrue = mongo.db.beans.find({"review": {"$exists": True}}, projection={"img-base64": 0})
+    reviewsTrue = mongo.db.beans.find({"review": {"$exists": True}})
     # CONTAINS DOC DATA AND REVIEWS
     reviewsCollection = []
     for doc in list(reviewsTrue):
@@ -140,10 +139,6 @@ def index():
                            top5docs=top5docs, recentReviews=recentReviews)
 
 
-def encode64(file):
-    image_string = base64.b64encode(file.read())
-    return image_string.decode('utf8')
-
 
 def gatherInputs(matchedBean=None):
     # HOLDS LIST OF NOTES FROM DATABASE
@@ -162,8 +157,6 @@ def gatherInputs(matchedBean=None):
         "organic": True if "True" in request.form.getlist('organicRequired')
         else False,
         "url": request.form["website"],
-        "img-base64": encode64(request.files['upload64'])
-        if request.files['upload64'] else matchedBean["img-base64"],
         "username": mongo.db.users.find_one(
             {"username": session["user"]})["username"]
     }
@@ -197,18 +190,18 @@ def add():
             inputDictionary["full_name"] = full_name
 
             imagekitUpload = imagekit.upload_file(
-                file = request.files['uploadImgur'],
-                file_name = request.files['uploadImgur'].filename,
+                file = request.files['uploadImg'],
+                file_name = request.files['uploadImg'].filename,
                 options={
                     "is_private_file": False,
                 },
             )
 
-            print(imagekitUpload['error'])
-            print(imagekitUpload['response']['url'])
-            print(imagekitUpload['response']['fileType'])
-
-            inputDictionary['img-url'] = imagekitUpload['response']['url']
+            if imagekitUpload['error'] != None:
+                inputDictionary['img-url'] = imagekitUpload['response']['url']
+            else:
+                flash(u"An error occured uploading your image. Please try again.", "warning")
+                return redirect(url_for("add"))
 
 
 
@@ -235,7 +228,7 @@ def edit(beanId):
             {"_id": ObjectId(beanId)})
     # IF USER LOGGED IN IS USER OF SUBMISSION
     if session["user"] == matchedBean["username"]:
-        submissionImg = matchedBean["img-base64"]
+        submissionImg = matchedBean["img-url"]
         full_name = matchedBean["full_name"]
         brand_choice = matchedBean["brand"]
         coffee_name = matchedBean["name"]
@@ -512,7 +505,7 @@ def browse():
 
 def gatherRatings(submissionId):
     submission_data = mongo.db.beans.find_one(
-            {"_id": ObjectId(submissionId)}, projection={"img-base64": 0})
+            {"_id": ObjectId(submissionId)})
 
     # LIST CONTAINING ALL RATING NUMBERS OF DISPLAYED SUBMISSION
     ratings = []

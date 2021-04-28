@@ -32,31 +32,18 @@
                 <form id="{{ form_type }}" name="{{ form_type }}" class="card data-card mx-2" method="POST" enctype='multipart/form-data'>
                     <h6 class="text-center text-muted mt-4 mb-0">Required*</h6>
                     <div class="d-block d-lg-none img-upload form-group">
-                        <img class="img-preview card-img-top" src="{% if submissionImg %}data:image/jpeg;base64,{{ submissionImg | safe }}{% else %}{{ coffeeImg }}{% endif %}">
+                        <img class="img-preview card-img-top" src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}">
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
-                            <label for="upload64" class="col-md-12 col-lg-3 col-form-label text-center">Image{% if request.endpoint == 'add' %}*{% endif %}</label>
+                            <label for="uploadImg" class="col-md-12 col-lg-3 col-form-label text-center">Image{% if request.endpoint == 'add' %}*{% endif %}</label>
                             <div class="col-md-12 col-lg-9 mb-2">
                                 <div class="custom-file">
-                                    <input type="file" accept="image/*" name="upload64" id="upload64" class="custom-file-input" {% if request.endpoint == 'add' %}required{% endif %}>
-                                    <label class="custom-file-label data-card form-control form-control-lg" for="upload64">Choose image file</label>
+                                    <input type="file" accept="image/*" name="uploadImg" id="uploadImg" class="custom-file-input" {% if request.endpoint == 'add' %}required{% endif %}>
+                                    <label class="custom-file-label data-card form-control form-control-lg" for="uploadImg">Choose image file</label>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- EXPERIMENTAL -->
-                        <div class="form-group row">
-                            <label for="uploadImgur" class="col-md-12 col-lg-3 col-form-label text-center">Imgur{% if request.endpoint == 'add' %}*{% endif %}</label>
-                            <div class="col-md-12 col-lg-9 mb-2">
-                                <div class="custom-file">
-                                    <input type="file" accept="image/*" name="uploadImgur" id="uploadImgur" class="custom-file-input" {% if request.endpoint == 'add' %}required{% endif %}>
-                                    <label class="custom-file-label data-card form-control form-control-lg" for="uploadImgur">Choose image file</label>
-                                </div>
-                            </div>
-                        </div>
-
-
                         <div class="form-group row">
                             <label for="brandInput" class="col-md-12 col-lg-3 col-form-label text-center">Brand*</label>
                             <div class="col-md-12 col-lg-9">

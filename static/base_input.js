@@ -123,7 +123,7 @@ $("#addNote").on('click', function(e) {
 
 // RECEIVES UPLOADED IMAGE, CONVERTS TO BASE64 AND DISPLAYS IN LIVE PREVIEW
 // SOURCE https://stackoverflow.com/questions/12660124/javascript-jquery-preview-image-before-upload
-$("#upload64").on('change', function(){
+$("#uploadImg").on('change', function(){
     var reader = new FileReader();
     reader.onload = function(e) {
         $('.img-preview').attr('src', e.target.result);
