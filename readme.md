@@ -44,7 +44,6 @@ View the Github repo: [here](https://github.com/rbsam176/ms3-coffeedb)
   * [Manual testing](#manual-testing)
   * [Code Validation](#code-validation)
 * [Deployment](#deployment)
-* [Final Product (Before & After)](#final-product-before--after)
 * [Credits & Attributes](#credits--attributes)
 
 ## Strategy
@@ -104,7 +103,7 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
 
 - #### Index
 
-  - Search input available for users to quickly enter a brand or coffee product name straight from the homepage. Autocomplete has been added to this search field, so if the user begins to write an already existing brand name or coffee name they are presented with it as a suggested input.<br>[Click here to read about how the autocomplete code works](#autocomplete).
+  - Search input available for users to quickly enter a brand or coffee product name straight from the homepage. Autocomplete has been added to this search field, so if the user begins to write an already existing brand name or coffee name they are presented with it as a suggested input.<br>[Click here to read about how the autocomplete code works](#auto-suggest).
   - A down arrow has been animated (moving up and down) to grab the users attention to indicate there is more content below the initial hero splash page they see when they first visit the homepage.
   - Clicking the down arrow scrolls the user down to the container below the title container, but scrolls smoothly so it is clear that the content is further down and not actually on a different page.
   - I have included a 'latest addition' section. One of the purposes of this is to motivate users to add more content to the database as their input is highlighted on the homepage of CoffeeDB for however long until the next user adds a submission. 
@@ -116,17 +115,17 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
 
 - #### Browse
 
-  - **Search input**<br>available for users to enter a brand or coffee product name, in addition to another additional filter such as roast type, origin, organic, flavour notes. Autocomplete has been added to this search field, so if the user begins to write an already existing brand name or coffee name they are presented with it as a suggested input.<br>[Click here to read about how the autocomplete code works](#autocomplete).
+  - **Search input**<br>available for users to enter a brand or coffee product name, in addition to another additional filter such as roast type, origin, organic, flavour notes. Autocomplete has been added to this search field, so if the user begins to write an already existing brand name or coffee name they are presented with it as a suggested input.<br>[Click here to read about how the autocomplete code works](#auto-suggest).
 
   - **Filter options:**
 
     - *Roast*: Dark / Medium / Light
     - *Origin default values*: Brazil / Ethiopia / Blend / Colombia, other values are taken from any custom origin inputs users have added to the database. 4 are shown and then a button is presented that will present all origins to be shown.
     - *Organic*: A toggle switch which when set to 'Required' will only show results that are marked as being organic. The default value is 'Not required'.
-    - *Popular tasting notes*: This is presented in the form of a '[word cloud](https://en.wikipedia.org/wiki/Tag_cloud)'. The font size of a 'note' is representative of its frequency of occurance in the database. The top 10 are shown by default and then a 'Show more' button is presented for the user to see all notes. <br>[Click here to read about how the word cloud code was written](#wordcloud).
+    - *Popular tasting notes*: This is presented in the form of a '[word cloud](https://en.wikipedia.org/wiki/Tag_cloud)'. The font size of a 'note' is representative of its frequency of occurance in the database. The top 10 are shown by default and then a 'Show more' button is presented for the user to see all notes. <br>[Click here to read about how the word cloud code was written](#word-cloud-tasting-notes).
     - *All/any toggle*: This toggle allows the user to specify if their results should contain ALL of the tasting notes that they have checked, or if their results can contain any of the notes that they have checked.
     - The filter allows for multiple selections, for example the user can select to see results that are either Dark or Medium roast, from Brazil or Colombia but that must have a flavour note of 'Dark chocolate'.
-    - The filter submission will generate a GET request which means the URL of the search results reflect the users criteria. This allows the user to bookmark the page for future reference or send to a friend. A potentially common use-case of this could be a family member wanting to buy coffee as a gift, the user can send their preferences as the URL so the family member can choose a coffee that the user will likely enjoy.<br>[Click here to read about how the dynamic filter queries are generated](#dynamicquery).
+    - The filter submission will generate a GET request which means the URL of the search results reflect the users criteria. This allows the user to bookmark the page for future reference or send to a friend. A potentially common use-case of this could be a family member wanting to buy coffee as a gift, the user can send their preferences as the URL so the family member can choose a coffee that the user will likely enjoy.<br>[Click here to read about how the dynamic filter queries are generated](#dynamic-queries).
 
   - **Sorting:**
 
@@ -137,11 +136,9 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
     - Brand (A > Z)
     - Brand (Z > A)
 
-    [Click here to read about how the sort code was written](#sort).
-
   - **Pagination**<br>allows the results to be split over multiple pages. CoffeeDB will only present 6 submissions per page as this occupies a reasonable amount of screen space on all devices from mobile to desktop without introducing a huge area for the user to have to scroll through. Displaying only 6 results per page also reduces the amount of time needed to load a page, and reduces the amount of data downloaded if the user didn't want to search through all results. The user is also informed about how many results were returned from their filter criteria, along with the page that they are on and how many pages their criteria is split across.<br>[Click here to read about how the pagination code was written](#pagination).
 
-  - **Validation**<br>When a user makes a filter selection, they are presented with the filters listed above the results so that if they wish to remove one of the filters they are able to. This also validates their selection so they know if they've made a mistake.<br>[Click here to read about how this validation code was written](#filter-validation).
+  - **Validation**<br>When a user makes a filter selection, they are presented with the filters listed above the results so that if they wish to remove one of the filters they are able to. This also validates their selection so they know if they've made a mistake.<br>[Click here to read about how this validation code was written](#filter-criteria-validation).
 
   - **Navigation**<br>As the homepage has an immediate hero container presenting the CoffeeDB logo and a dedicated navigation, a secondary nav was needed for when the user scrolled down past this container. The mobile nav appears when the user begins to scroll and its positioning becomes 'sticky' when the secondary nav hits the top of the users viewport. If the navigation is collapsed and the user scrolls back to the top, the navigation is closed automatically.
 
@@ -154,9 +151,9 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
 
 - #### Add
 
-  - Image uploader which will only accept image files and is sent to an external image hosting service.<br>[Click here to read more about how the images are kept in the database](#database).<br>[Click here to read about how the image hosting API code was written](#api).
-  - Brand and Origin dropdown 'select' inputs. This presents a list of brands/origins that they user can select. The values have some default values, and the other values come from whatever users have previously entered into the database. Another option is to select 'Other...' which will then disable the dropdown selector and dynamically create a text input field below. This allows the user to type in a new brand/origin that doesn't exist as an option already. [Autocomplete](#autocomplete) has been added to this text input to assist users in case they're entering a value that already exists.
-  - Notes only permits the user to 'check' 4 values, the other notes become disabled when 4 have been selected by the user, until one is unchecked. The user can type in a new flavour note if one does not exist as an optional already, [Autocomplete](#autocomplete) has been added to this text input. If 3 ntoes have been checked and the user types in a 4th manually then the disabled state still gets trigerred.
+  - Image uploader which will only accept image files and is sent to an external image hosting service.<br>[Click here to read more about how the images are kept in the database](#storing-images-in-mongodb).<br>[Click here to read about how the image hosting API code was written](#version-4-imagekitio-api).
+  - Brand and Origin dropdown 'select' inputs. This presents a list of brands/origins that they user can select. The values have some default values, and the other values come from whatever users have previously entered into the database. Another option is to select 'Other...' which will then disable the dropdown selector and dynamically create a text input field below. This allows the user to type in a new brand/origin that doesn't exist as an option already. [Autocomplete](#auto-suggest) has been added to this text input to assist users in case they're entering a value that already exists.
+  - Notes only permits the user to 'check' 4 values, the other notes become disabled when 4 have been selected by the user, until one is unchecked. The user can type in a new flavour note if one does not exist as an optional already, [Autocomplete](#auto-suggest) has been added to this text input. If 3 ntoes have been checked and the user types in a 4th manually then the disabled state still gets trigerred.
   - Submitting data to the databse will add any new attributes like custom brand/origin/notes to the options in the filter section on the Browse page. They also become options if any user then goes to add a new entry.
   - For desktop users, a live preview of their input is available on the right half of the screen. This dynamically updates with the users input while they're typing, including the image they have uploaded. This is primary so that the user can see what their submission will look like before they submit. In particular, this provides validaiton that the image they have uploaded is proportioned correctly, so the image live preview is also available for mobile users.
 
@@ -455,9 +452,7 @@ Throughout CoffeeDB you will see custom toggle buttons, they are used for specif
 
 When a user makes a filter criteria query, they are presented with some UI validation which allows them to remove individual elements of their query, while informing them of the actions they just made.
 
-
-
-<image of UI >
+<img src="static/assets/filter-validation.png" alt="Filter criteria validation screenshot" style="zoom:50%;" />
 
 
 
@@ -469,7 +464,9 @@ In addition to this, if the user opened the filter validation panel again they w
 
 ## View structure
 
-diagram of inheritance including macros
+This diagram describes how the Jinja macros fit into the project and which views are inheriting which base templates.
+
+<img src="static/assets/basemacro.png" alt="Diagram of base templates and macros" style="zoom:50%;" />
 
 
 
@@ -491,21 +488,19 @@ By default, the Browse page filter controls are hidden, so the user is immediate
 
 ## Wireframes
 
-< insert image of wireframe >
+<img src="static/assets/wireframe.png" alt="Wireframe"/>
 
 The project started with making a wireframe of the homepage and Browse page. You can see that the UI evolved fairly substantially, but from the beginning the UI decisions led the functional implementations, demonstrated by the early wireframe showing a word cloud as a way to display tasting notes. The dropdown selector within the search input field was eventually dropped in favour of a universal search, so it searches for brands and coffee names without the user having to specifically select which one.
 
 
 
-< insert image of old checkboxes >
+<img src="static/assets/old-checkboxes.png" alt="Original tasting notes screenshot" style="zoom:50%;" />
 
 An older version of the checkbox UI before redesigning them to have a hidden checkbox.
 
 
 
-```
-![alt text](https://raw.githubusercontent.com/rbsam176/ms3-coffeedb/master/static/assets/logos.png "Logo iterations")
-```
+<img src="static/assets/logos.png" alt="Logo iterations" style="zoom:50%;" />
 
 A selection of logos made before deciding on what became the final logo.
 
@@ -521,7 +516,9 @@ Secondary theme colour: #643F00
 
 
 
-<insert image of box shadow and strong borders >
+<img src="static/assets/strongborders.png" alt="Screenshot showing thick border" style="zoom:50%;" /><img src="static/assets/boxshadow.png" alt="Screenshot showing box-shadow" style="zoom:40%;" />
+
+
 
 A reoccuring motif throughout CoffeeDB is the use of strong borders and/or box-shadows. I felt as though having strong borders made identifying certain elements of the structure very quick and easy. A users first impression when they arrive at a page and they immediately know where to look as it is boxed in specific areas. Adding the box-shadow to certain elements, but not all, provided 'depth' to the design so it didn't feel overly boxy and square.
 
@@ -533,35 +530,35 @@ All non-default fonts were imported via Google Fonts.
 
 
 
-<insert image of logo>
+<img src="static/assets/logo.png" alt="Final logo" style="zoom:50%;" />
 
 The CoffeeDB logo, found on the homepage and the navigation bar is made up of two fonts. 'Coffee' is using Pacifico, and 'DB' is using Codystar. 
 
 
 
-<insert image of coffee header>
+<img src="static/assets/coffeeheader.png" alt="Header font screenshot" style="zoom:50%;" />
 
 Headers, such as the title of a coffee submission, are using a bold Montserrat.
 
 
 
-All other fonts are using default Bootstrap sans-serif fonts.
+*All other fonts are using default Bootstrap sans-serif fonts.*
 
+------
 
-
-<insert image of bean >
+<img src="static/assets/bean.png" alt="Homepage bean icon" style="zoom:50%;" />
 
 3 bean icons are scattered on the homepage, providing a visual cue that the theme of the website is coffee. [Source of icon](https://pngtree.com/freepng/coffee-beans-icon-outline-style_5104840.html).
 
 
 
-<insert image of 404>
+<img src="static/assets/404.png" alt="Logo iterations" title="Logo iterations" style="zoom:40%;" />
 
 A variation on the bean icon presented on the 404 error page of an unknown endpoint, edited by me from source above.
 
 
 
-<insert image of arrow>
+<img src="static/assets/arrow.png" alt="404 bean icon" style="zoom:50%;" />
 
 Arrow icons throughout CoffeeDB all originate from Bootstrap's icons collection.
 
@@ -623,11 +620,27 @@ I have run the Python code through a [pep8 compliancy checker](http://pep8online
 
 # Deployment
 
-
-
-# Final Product (Before & After)
+CoffeeDB is running off of Heroku, with automatic commiting enabled to GitHub. The env.py file, which is not sent externally, contains the necessary MongoDB information (IP, PORT, SECRET_KEY, MONGO_URI, MONGO_DBNAME), as well as the public, private and endpoint for the ImageKit API. Before the final deployment I performed a pip freeze in order to update my requirements.txt file with any modules needed to run the app.
 
 
 
 # Credits & Attributes
+
+[Real Favicon Generator](https://realfavicongenerator.net/): for easy image resizing for various favicons.
+
+Animated down arrow on homepage is based on a combination of StackOverflow posts. [Link 1](https://stackoverflow.com/a/32465265) and [Link 2](https://forum.jquery.com/topic/problem-with-using-variable-as-animate-s-properties).
+
+The homepage features two videos in a loop. Both videos are free for non-commercial use, and request a credit to the author. [Link 1](https://www.pexels.com/video/food-wood-dawn-love-7487666/) and [Link 2](https://www.pexels.com/video/food-wood-dawn-man-7487681/).
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/49619445/how-to-append-to-a-list-in-jinja2-for-ansible#comment103228666_49642227) for guidance on how to avoid Jinja printing None when appending to an array.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/10732690/offsetting-an-html-anchor-to-adjust-for-fixed-header) for guidance on how to offset the position of a hyperlink scrolling to an anchor point to account for the height of a stickied navbar.
+
+[ImageKit API Documentation](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload)
+
+[This article](https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/) for guidance on how to keep the footer stickied to the bottom of the viewport even if the content fits all on one page.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/11961952/objectid-object-has-no-attribute-gettimestamp/11962000) for guidance on how to extract the timestamp from the Object ID in MongoDB.
+
+The homepage and 404 page both make [use of this icon](https://pngtree.com/freepng/coffee-beans-icon-outline-style_5104840.html), which is free for non-commercial use.
 
