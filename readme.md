@@ -15,32 +15,34 @@ View the Github repo: [here](https://github.com/rbsam176/ms3-coffeedb)
 	* [Current Features](#current-features)
 	* [Long-term Vision](#long-term-vision)
 * [Code Walkthrough & Challenges](#code-walkthrough-and-challenges)
+	
 	* [Auto-suggest](#auto-suggest)
 	* [Storing Images in MongoDB](#storing-images-in-mongodb)
 	  * [Version 1 (Image URL)](#version-1-image-url)
 	  * [Version 2 (FileStack API)](#version-2-filestack-api)
 	  * [Version 3 (Base64 in MongoDB)](#version-3-base64-in-mongodb)
 	  * [Version 4 (ImageKit.io API)](#version-4-imagekit-io-api)
-	* Dynamic Queries
-	* Word cloud (tasting notes)
-	* Pagination
-	* Checkbox toggles
-	* Filter criteria validation
-	* Macros
-	* [UX](#ux)
-	* [Visual Structure](#visual-structure)
-	* [Wireframing ](#wireframing)
-	* [Colour](#colour)
-	* [Typography/Icons](#typographyicons)
-* [Accessibility](#accessibility)
-	* [Interactive Elements](#interactive-elements)
-* [Technologies Used](#technologies-used)
-* [Resources](#resources)
+	* [Dynamic Queries](#dynamic-queries)
+	* [Word cloud (tasting notes)](#word-cloud-tasting-notes)
+	* [Pagination](#pagination)
+	* [Checkbox toggles](#checkbox-toggles)
+	* [Filter criteria validation](#filter-criteria-validation)
+	* [Macros](#macros)
+	
+* [UX](#ux)
+
+  * [Visual Structure](#visual-structure)
+  * [Wireframing ](#wireframing)
+  * [Colour](#colour)
+  * [Typography/Icons](#typography-icons)
+
 * [Testing](#testing)
-	* [Manual testing](#manual-test-cases)
-    * [Validation](#validation)
-    * [Lighthouse](#lighthouse)
-    * [Accessibility Testing](#accessibility-testing)
+
+  * [Accessibility](#accessibility)
+  * [Performance, Best Practices, SEO](#performance-best-practices-seo)
+
+  * [Manual testing](#manual-testing)
+  * [Code Validation](#code-validation)
 * [Deployment](#deployment)
 * [Final Product (Before/After)](#final-product-beforeafter)
 * [Credits & Attributes](#credits--attributes)
