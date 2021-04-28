@@ -503,10 +503,8 @@ An older version of the checkbox UI before redesigning them to have a hidden che
 
 
 
-<insert image of various logos >
-
 ```
-![alt text](static/assets/logos.png "Logo iterations")
+![alt text](https://raw.githubusercontent.com/rbsam176/ms3-coffeedb/master/static/assets/logos.png "Logo iterations")
 ```
 
 A selection of logos made before deciding on what became the final logo.
