@@ -14,27 +14,27 @@ View the Github repo: [here](https://github.com/rbsam176/ms3-coffeedb)
 * [Scope](#scope)
 	* [Current Features](#current-features)
 	* [Long-term Vision](#long-term-vision)
-* [Code Walkthrough & Challenges](#code-walkthrough-and-challenges)
+* [Code Walkthrough & Challenges](#code-walkthrough--challenges)
 	
 	* [Auto-suggest](#auto-suggest)
 	* [Storing Images in MongoDB](#storing-images-in-mongodb)
 	  * [Version 1 (Image URL)](#version-1-image-url)
 	  * [Version 2 (FileStack API)](#version-2-filestack-api)
 	  * [Version 3 (Base64 in MongoDB)](#version-3-base64-in-mongodb)
-	  * [Version 4 (ImageKit.io API)](#version-4-imagekit-io-api)
+	  * [Version 4 (ImageKit.io API)](#ersion-4-imagekitio-api)
 	* [Dynamic Queries](#dynamic-queries)
 	* [Word cloud (tasting notes)](#word-cloud-tasting-notes)
 	* [Pagination](#pagination)
 	* [Checkbox toggles](#checkbox-toggles)
 	* [Filter criteria validation](#filter-criteria-validation)
-	* [Macros](#macros)
+	* [View Structure](#view-structure)
 	
 * [UX](#ux)
 
   * [Visual Structure](#visual-structure)
-  * [Wireframing ](#wireframing)
+  * [Wireframes ](#wireframes)
   * [Colour](#colour)
-  * [Typography/Icons](#typography-icons)
+  * [Typography/Icons](#typographyicons)
 
 * [Testing](#testing)
 
@@ -44,7 +44,7 @@ View the Github repo: [here](https://github.com/rbsam176/ms3-coffeedb)
   * [Manual testing](#manual-testing)
   * [Code Validation](#code-validation)
 * [Deployment](#deployment)
-* [Final Product (Before/After)](#final-product-beforeafter)
+* [Final Product (Before & After)](#final-product-before--after)
 * [Credits & Attributes](#credits--attributes)
 
 ## Strategy
@@ -620,4 +620,12 @@ I have run the Python code through a [pep8 compliancy checker](http://pep8online
 
 
 # Deployment
+
+
+
+# Final Product (Before & After)
+
+
+
+# Credits & Attributes
 
