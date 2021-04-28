@@ -32,7 +32,7 @@
                 <form id="{{ form_type }}" name="{{ form_type }}" class="card data-card mx-2" method="POST" enctype='multipart/form-data'>
                     <h6 class="text-center text-muted mt-4 mb-0">Required*</h6>
                     <div class="d-block d-lg-none img-upload form-group">
-                        <img class="img-preview card-img-top" src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}">
+                        <img class="img-preview card-img-top" src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}" alt="Submission image">
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -163,7 +163,7 @@
             </div>
             <div id="livePreview" class="col-6 d-none d-lg-block p-2 card-sticky h-100">
                 <div class="card data-card">
-                    <a href="#"><img src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}" class="img-preview card-img-top hover-shadow" alt="..."></a>
+                    <a href="#"><img src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}" class="img-preview card-img-top hover-shadow" alt="Submission image"></a>
                     <div class="card-body">
                         <h3 class="text-center mb-4 custom-capitalize">
                             <u><div class="mb-2" id="brand-preview">{% if brand_choice %}{{ brand_choice }}{% else %}Brand{% endif %}</div></u>
