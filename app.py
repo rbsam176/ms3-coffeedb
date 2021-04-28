@@ -87,7 +87,7 @@ def index():
     # # CONTAINS DOC ID, AVERAGE RATING AND NUMBER OF RATINGS
     averages = []
     # # COLLECTION CONTAINING ALL DOCUMENTS WITH RATINGS
-    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}})
+    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}}, projection={"rating": 1, "brand": 1, "name": 1})
 
     # LOOPS THROUGH COLLECTION AND APPENDS TO AVERAGES LIST
     for doc in list(ratingsTrue):
@@ -104,10 +104,11 @@ def index():
     top5docs = []
     for submission in top5tuples:
         top5docs.append((submission, mongo.db.beans.find_one(
-            {"_id": ObjectId(submission[0])})))
+            {"_id": ObjectId(submission[0])}, projection={"rating": 1, "brand": 1, "name": 1})))
 
     # COLLECTION CONTAINING ALL DOCUMENTS WITH REVIEWS
-    reviewsTrue = mongo.db.beans.find({"review": {"$exists": True}})
+    reviewsTrue = mongo.db.beans.find({"review": {"$exists": True}}, projection={"review": 1, "brand": 1, "name": 1, "roast": 1})
+
     # CONTAINS DOC DATA AND REVIEWS
     reviewsCollection = []
     for doc in list(reviewsTrue):
@@ -116,6 +117,7 @@ def index():
             reviews.append(review)
         reviewsCollection.append((doc['_id'], doc['brand'], doc['name'],
                                  doc['roast'], reviews))
+    
 
     # CONTAINS INDIVIDUAL TIMESTAMPS WITH DOC DATA
     reviewTimestamps = []
