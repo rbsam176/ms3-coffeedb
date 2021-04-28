@@ -535,6 +535,10 @@ a.anchor {
     border-radius: 0;
 }
 
+.card-img-top:hover {
+    filter: brightness(0.75);
+}
+
 .img-upload {
     background-color: white;
     height: 300px;
@@ -634,10 +638,6 @@ ul.add-notes-container li label {
 .addBeanInput {
     display: inline;
     white-space: nowrap;
-}
-
-.card-img-top:hover {
-    filter: grayscale(100%);
 }
 
 .avatar-circle {

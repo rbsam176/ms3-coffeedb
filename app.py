@@ -6,6 +6,7 @@ import math
 import base64
 import json
 import re
+from imagekitio.client import ImageKit
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import (
     Flask, flash, render_template,
@@ -22,6 +23,13 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 mongo = PyMongo(app)
+
+# IMAGEKIT AUTH
+imagekit = ImageKit(
+    private_key=os.environ.get("IMAGEKIT_PRIVATE"),
+    public_key=os.environ.get("IMAGEKIT_PUBLIC"),
+    url_endpoint = os.environ.get("IMAGEKIT_ENDPOINT")
+)
 
 
 @app.route('/autocomplete', methods=['GET'])
@@ -159,7 +167,6 @@ def gatherInputs(matchedBean=None):
         "username": mongo.db.users.find_one(
             {"username": session["user"]})["username"]
     }
-    print(userInput)
     return userInput
 
 
@@ -188,6 +195,23 @@ def add():
 
             inputDictionary = gatherInputs()
             inputDictionary["full_name"] = full_name
+
+            imagekitUpload = imagekit.upload_file(
+                file = request.files['uploadImgur'],
+                file_name = request.files['uploadImgur'].filename,
+                options={
+                    "is_private_file": False,
+                },
+            )
+
+            print(imagekitUpload['error'])
+            print(imagekitUpload['response']['url'])
+            print(imagekitUpload['response']['fileType'])
+
+            inputDictionary['img-url'] = imagekitUpload['response']['url']
+
+
+
 
             if mongo.db.beans.find_one(
                                       {"name": inputDictionary["name"]}):
