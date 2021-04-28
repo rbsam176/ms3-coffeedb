@@ -28,6 +28,7 @@ View the Github repo: [here](https://github.com/rbsam176/ms3-coffeedb)
 	* [Checkbox toggles](#checkbox-toggles)
 	* [Filter criteria validation](#filter-criteria-validation)
 	* [View Structure](#view-structure)
+	* [Database Schema](#database-schema)
 	
 * [UX](#ux)
 
@@ -467,6 +468,12 @@ In addition to this, if the user opened the filter validation panel again they w
 This diagram describes how the Jinja macros fit into the project and which views are inheriting which base templates.
 
 <img src="static/assets/basemacro.png" alt="Diagram of base templates and macros" style="zoom:50%;" />
+
+
+
+# Database Schema
+
+<img src="static/assets/schema.png" alt="Screenshot of MongoDB schema" style="zoom:50%;" />
 
 
 
