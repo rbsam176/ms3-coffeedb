@@ -87,7 +87,8 @@ def index():
     # # CONTAINS DOC ID, AVERAGE RATING AND NUMBER OF RATINGS
     averages = []
     # # COLLECTION CONTAINING ALL DOCUMENTS WITH RATINGS
-    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}}, projection={"rating": 1, "brand": 1, "name": 1})
+    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}},
+                    projection={"rating": 1, "brand": 1, "name": 1})
 
     # LOOPS THROUGH COLLECTION AND APPENDS TO AVERAGES LIST
     for doc in list(ratingsTrue):
@@ -338,8 +339,8 @@ def pagination(perPage, dataCount):
     pageQuantity = math.ceil(dataCount / perPage)
     if 'page' in request.args:
         page = int(request.args.get("page"))
-        multiply = page - 1
-        offset = multiply * perPage
+        currentPage = page - 1
+        offset = currentPage * perPage
     return offset, perPage, page, dataCount, pageQuantity
 
 
