@@ -163,7 +163,7 @@
             </div>
             <div id="livePreview" class="col-6 d-none d-lg-block p-2 card-sticky h-100">
                 <div class="card data-card">
-                    <a href="#"><img src="{% if submissionImg %}data:image/jpeg;base64,{{ submissionImg | safe }}{% else %}{{ coffeeImg }}{% endif %}" class="img-preview card-img-top hover-shadow" alt="..."></a>
+                    <a href="#"><img src="{% if submissionImg %}{{ submissionImg }}{% else %}{{ coffeeImg }}{% endif %}" class="img-preview card-img-top hover-shadow" alt="..."></a>
                     <div class="card-body">
                         <h3 class="text-center mb-4 custom-capitalize">
                             <u><div class="mb-2" id="brand-preview">{% if brand_choice %}{{ brand_choice }}{% else %}Brand{% endif %}</div></u>

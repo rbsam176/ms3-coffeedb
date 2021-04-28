@@ -157,10 +157,21 @@ def gatherInputs(matchedBean=None):
         "organic": True if "True" in request.form.getlist('organicRequired')
         else False,
         "url": request.form["website"],
+        "img-url": uploadImage(request.files['uploadImg'])['response']['url'],
         "username": mongo.db.users.find_one(
             {"username": session["user"]})["username"]
     }
     return userInput
+
+def uploadImage(image):
+    imagekitUpload = imagekit.upload_file(
+        file = image,
+        file_name = image.filename,
+        options={
+            "is_private_file": False,
+        },
+    )
+    return imagekitUpload
 
 
 @app.route("/add", methods=["GET", "POST"])
@@ -188,23 +199,6 @@ def add():
 
             inputDictionary = gatherInputs()
             inputDictionary["full_name"] = full_name
-
-            imagekitUpload = imagekit.upload_file(
-                file = request.files['uploadImg'],
-                file_name = request.files['uploadImg'].filename,
-                options={
-                    "is_private_file": False,
-                },
-            )
-
-            if imagekitUpload['error'] != None:
-                inputDictionary['img-url'] = imagekitUpload['response']['url']
-            else:
-                flash(u"An error occured uploading your image. Please try again.", "warning")
-                return redirect(url_for("add"))
-
-
-
 
             if mongo.db.beans.find_one(
                                       {"name": inputDictionary["name"]}):
