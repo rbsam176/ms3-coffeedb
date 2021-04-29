@@ -62,7 +62,7 @@ If you do not wish to search for oyur own coffee to submit, feel free to use the
 	
 * [UX](#ux)
   * [Wireframes ](#wireframes)
-  * [Visual Structure/Language](#visual-structure-language)
+  * [Visual Structure/Language](#visual-structurelanguage)
   * [Colour](#colour)
   * [Typography/Icons](#typographyicons)
 
