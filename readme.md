@@ -61,9 +61,8 @@ If you do not wish to search for oyur own coffee to submit, feel free to use the
 	* [Database Schema](#database-schema)
 	
 * [UX](#ux)
-
-  * [Visual Structure](#visual-structure)
   * [Wireframes ](#wireframes)
+  * [Visual Structure](#visual-structure)
   * [Colour](#colour)
   * [Typography/Icons](#typographyicons)
 
@@ -511,6 +510,14 @@ This diagram describes how the Jinja macros fit into the project and which views
 
 # UX
 
+## Wireframes
+
+<img src="static/assets/wireframe.png" alt="Wireframe"/>
+
+The project started with making a wireframe of the homepage and Browse page. You can see that the UI evolved fairly substantially, but from the beginning the UI decisions led the functional implementations, demonstrated by the early wireframe showing a word cloud as a way to display tasting notes. The dropdown selector within the search input field was eventually dropped in favour of a universal search, so it searches for brands and coffee names without the user having to specifically select which one.
+
+
+
 ## Visual structure
 
 The structure throughout CoffeeDB is made up of *cards*, making use of a Bootstrap UI class. This provided a clean, evenly spaced vertical structure to house the information about the coffee, which could be repeated in a loop easily (eg. Browse), or used individually (eg. homepage). 
@@ -522,14 +529,6 @@ Further down on the homepage are a series of containers that relay the state of 
 In order to keep the UX consistent, and to make use of repeatable code, both the Add/Edit pages are virtually the same, with small differences such as the title and form parameters, and the Signup/Update Account pages again relying on very similar code to produce a familiar experience.
 
 By default, the Browse page filter controls are hidden, so the user is immediately greeted with the most recent coffee submissions so their discovery can begin. Bootstrap's collapse class was used in order to produce a smooth scrolling animation. 
-
-
-
-## Wireframes
-
-<img src="static/assets/wireframe.png" alt="Wireframe"/>
-
-The project started with making a wireframe of the homepage and Browse page. You can see that the UI evolved fairly substantially, but from the beginning the UI decisions led the functional implementations, demonstrated by the early wireframe showing a word cloud as a way to display tasting notes. The dropdown selector within the search input field was eventually dropped in favour of a universal search, so it searches for brands and coffee names without the user having to specifically select which one.
 
 
 
