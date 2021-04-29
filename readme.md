@@ -220,8 +220,8 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
 - While CoffeeDB demonstrates usage of a non-relational database, it also makes use of MongoDB's ability to include limited relationships between sets of data. While this is functional in this current build, for CoffeeDB to expand and provide features such as recommending coffee to users based on their previous ratings/reviews, a transition to a dedicated relationship database management system such as MySQL would be beneficial.
 - In a future build I would like to include the ability to share profile pages over social media. This would be beneficial to the user as it would provide easy means to share their favourite coffee with friends. It would be beneficial to CoffeeDB in that it would promote word-of-mouth advertising.
 - Within the users profile page it should provide recommendations of coffee based on the what ratings the user has given to other coffee submissions. This suggestion would be based submissions that were also highly rated by users that rated the common submission.
-- A future implementaiton should include the ability to have different user types, with different permissions. Currently all users are treated the same, there is no admin user other than who has access to the code itself (me). I would like to introduce an admin user so that reviews/submissions can be removed easily if they contain inappropriate material.
-- The current build of CoffeeDB only permits sorting by rating on the 'All reviews' page. All other sort functionality is purely by brand name/coffee name and submission date. This was partly due to the nature of MongoDB not fully supporting relationships. A change to the schema may allow this, by separately ratings and reviews to their own collection, but the benefits need to be weighed when deciding whether to proceed with a document based database such as MongoDB versus a relationtional database like MySQL.
+- A future implementation should include the ability to have different user types, with different permissions. Currently all users are treated the same, there is no admin user other than who has access to the code itself (me). I would like to introduce an admin user so that reviews/submissions can be removed easily if they contain inappropriate material.
+- The current build of CoffeeDB only permits sorting by rating on the 'All reviews' page. All other sort functionality is purely by brand name/coffee name and submission date. This was partly due to the nature of MongoDB not fully supporting relationships. A change to the schema may allow this, by separately ratings and reviews to their own collection, but the benefits need to be weighed when deciding whether to proceed with a document based database such as MongoDB versus a relational database like MySQL.
 - Currently a user is unable to easily see all submissions they have rated or reviewed, it would rely on them remembering the submission and finding it via Browse. I would like this to be introduced within their profile page in a future build.
 - The ability to 'watch' other users so that you are notified if someone you follow has submitted a new coffee, or recently reviewed/rated a coffee. This would introduce a light social network to CoffeeDB which I believe could influence users to return more often.
 - The search container is positioned at the top of the second half of the homepage when viewing on desktop. Due to the grid system in bootstrap it is moved below other containers when viewing on mobile. For consistency I would like to update this to be more consistent.
@@ -234,7 +234,7 @@ In order to provide suggestions to the user while they are typing into a text in
 
 However, because CoffeeDB is a Flask app, the values don't exist natively in the front end, so this presented a challenge on how I was going to pass this information to the source list for autocomplete. If the information was visible on the page, this would be fairly easy, as jQuery could read from this list in the DOM and use this as the source. However, the information that needed to be passed was a list of brands, coffee names and flavour notes.
 
-My research pointed me to the use of AJAX, which I would like to include in a future build as I believe it would be useful elsewhere on CoffeeDB, such as verifying if a users input already exists in real-time (like signing up and typing in a username). My solution was to create a new view called autocomplete which wouldn't be linked to any on CoffeeDB, so it would only be accessible to those who know the URL. While this isn't secure, I determined that this was an appropriate use-case as the data was not senstive. I considered using this method to include verification of pre-existing usernames, but deemed a list of all usernames to be too sensitive.
+My research pointed me to the use of AJAX, which I would like to include in a future build as I believe it would be useful elsewhere on CoffeeDB, such as verifying if a users input already exists in real-time (like signing up and typing in a username). My solution was to create a new view called autocomplete which wouldn't be linked to any on CoffeeDB, so it would only be accessible to those who know the URL. While this isn't secure, I determined that this was an appropriate use-case as the data was not sensitive. I considered using this method to include verification of pre-existing usernames, but deemed a list of all usernames to be too sensitive.
 
 
 
@@ -294,7 +294,7 @@ While working on MS2 I had worked with base64 to encode some CSV data to allow t
 
 Unfortunately all of a sudden CoffeeDB's homepage, browse page and profile pages all became extremely slow to use. After some troubleshooting I discovered this was because of MongoDB, as when I tried to view the data in the database it was also very slow to use. After contacting MongoDB's developer support they explained that because I was using the free tier they had throttled my account as it had sent 12gb of requests within the period of a week. 
 
-I initially didn't understand how this was possible as the combined size of data in MongoDB came to just a few megabytes. I looked through my code and discovered that where I was not able to write a MongoDB find query to get access to sub-arrays (ratings), I had written a loop to extract the informtion I needed and this meant iterating over the large base64 strings over multiple times. I was able to mitigate this by using 'projection' in my MongoDB query.
+I initially didn't understand how this was possible as the combined size of data in MongoDB came to just a few megabytes. I looked through my code and discovered that where I was not able to write a MongoDB find query to get access to sub-arrays (ratings), I had written a loop to extract the information I needed and this meant iterating over the large base64 strings over multiple times. I was able to mitigate this by using 'projection' in my MongoDB query.
 
 
 
@@ -330,7 +330,7 @@ I created the above function, guided by the ImageKit documentation, and had it r
 
 ## Dynamic Queries
 
-The default view of the Browse page is to show all results, in order of most recently added. The user is able to select from multiple options to form their criteria, this includes roast type, searchable brand name/coffee name, origin, whether submissions should be organic, and tasting notes. In order to proceess the query, the form sends a GET request which is processed by the browse view in Python. 
+The default view of the Browse page is to show all results, in order of most recently added. The user is able to select from multiple options to form their criteria, this includes roast type, searchable brand name/coffee name, origin, whether submissions should be organic, and tasting notes. In order to process the query, the form sends a GET request which is processed by the browse view in Python. 
 
 I created an empty list called 'dynamicQuery' which gets added to depending on the arguments of the GET request. If arguments are detected for each input in the filter controls then it gets appended to 'dynamicQuery'. Once all of the arguments have been appended, a MongoDB find query is made using '$and' so that multiple arguments can be passed.
 
@@ -374,7 +374,7 @@ The word cloud function receives 2 arguments, a list and a unique list. For my u
     itemCount = sorted(itemCount, key=lambda item: item[1], reverse=True)
 ```
 
-I used a for loop to iterate over the unique list and count how many times that particular note occured in the non-unique list. This list was then sorted in order of the most frequently occuring note in the database.
+I used a for loop to iterate over the unique list and count how many times that particular note occurred in the non-unique list. This list was then sorted in order of the most frequently occurring note in the database.
 
 
 
@@ -446,7 +446,7 @@ Demonstrating sending the offset and limit queries to MongoDB.
 
 ## Checkbox toggles
 
-Throughout CoffeeDB you will see custom toggle buttons, they are used for specifying criteria to the Browse filter, along with adding a submission. These toggles are actually masked checkboxes which have their default checkbox UI hidden using CSS. The button text is still wrapped in a label, making these custom toggles accessiblity-friendly.
+Throughout CoffeeDB you will see custom toggle buttons, they are used for specifying criteria to the Browse filter, along with adding a submission. These toggles are actually masked checkboxes which have their default checkbox UI hidden using CSS. The button text is still wrapped in a label, making these custom toggles accessibility-friendly.
 
 
 
@@ -484,7 +484,7 @@ This diagram describes how the Jinja macros fit into the project and which views
 
 The structure throughout CoffeeDB is made up of *cards*, making use of a Bootstrap UI class. This provided a clean, evenly spaced vertical structure to house the information about the coffee, which could be repeated in a loop easily (eg. Browse), or used individually (eg. homepage). 
 
-The homepage presents a hero splash page, with the CoffeeDB logo occupying the majority of the viewport, along with a dedicated navigation bar. This almost mimicks the UX of an app launching, rather than being immediately met with your typical website structure you are instead presented with the brand and have easy access to the pages the user is likely wanting to visit first, eg. Browse or Add.
+The homepage presents a hero splash page, with the CoffeeDB logo occupying the majority of the viewport, along with a dedicated navigation bar. This almost mimics the UX of an app launching, rather than being immediately met with your typical website structure you are instead presented with the brand and have easy access to the pages the user is likely wanting to visit first, eg. Browse or Add.
 
 Further down on the homepage are a series of containers that relay the state of the database in that moment the user is visiting. It shows the most recent addition, the top 5 highest average ratings and the most recent 3 reviews. These all link the user to 'view submission' pages, providing an alternative way to discover coffee than just entering filters on the Browse page.
 
@@ -528,7 +528,7 @@ Secondary theme colour: #643F00
 
 
 
-A reoccuring motif throughout CoffeeDB is the use of strong borders and/or box-shadows. I felt as though having strong borders made identifying certain elements of the structure very quick and easy. A users first impression when they arrive at a page and they immediately know where to look as it is boxed in specific areas. Adding the box-shadow to certain elements, but not all, provided 'depth' to the design so it didn't feel overly boxy and square.
+A reoccurring motif throughout CoffeeDB is the use of strong borders and/or box-shadows. I felt as though having strong borders made identifying certain elements of the structure very quick and easy. A users first impression when they arrive at a page and they immediately know where to look as it is boxed in specific areas. Adding the box-shadow to certain elements, but not all, provided 'depth' to the design so it didn't feel overly boxy and square.
 
 
 
@@ -628,7 +628,7 @@ I have run the Python code through a [pep8 compliancy checker](http://pep8online
 
 # Deployment
 
-CoffeeDB is running off of Heroku, with syncronisation enabled to GitHub. The env.py file, which is not sent externally, contains the necessary MongoDB information (IP, PORT, SECRET_KEY, MONGO_URI, MONGO_DBNAME), as well as the public, private and endpoint for the ImageKit API. Before the final deployment I performed a pip freeze in order to update my requirements.txt file with any modules needed to run the app. Since the beginning of developing CoffeeDB I used Git for version control and worked in a virtual environment in order to keep track of which modules were imported, it also has the added benefit of freezing the version of the modules so that if I ever installed a newer version on my computer in the future it wouldn't risk breaking old code reliant on an older version of the module.
+CoffeeDB is running off of Heroku, with synchronisation enabled to GitHub. The env.py file, which is not sent externally, contains the necessary MongoDB information (IP, PORT, SECRET_KEY, MONGO_URI, MONGO_DBNAME), as well as the public, private and endpoint for the ImageKit API. Before the final deployment I performed a pip freeze in order to update my requirements.txt file with any modules needed to run the app. Since the beginning of developing CoffeeDB I used Git for version control and worked in a virtual environment in order to keep track of which modules were imported, it also has the added benefit of freezing the version of the modules so that if I ever installed a newer version on my computer in the future it wouldn't risk breaking old code reliant on an older version of the module.
 
 
 
