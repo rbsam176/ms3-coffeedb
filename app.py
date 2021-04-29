@@ -981,11 +981,12 @@ def update_account(username):
                                         username=session["user"]))
 
             if "changePassword" in request.form:
-            # USER ENTERED EXISTING PASSWORD
-            inputExistingPassword = request.form.get("inputExistingPassword")
+                # USER ENTERED EXISTING PASSWORD
+                inputExistingPassword = request.form.get(
+                    "inputExistingPassword")
 
-            newPassword = generate_password_hash(request.form.get(
-                                                "inputPassword"))
+                newPassword = generate_password_hash(request.form.get(
+                                                    "inputPassword"))
 
             # CHECK EXISTING PASSWORD MATCHES NEW PASSWORD
             if check_password_hash(
