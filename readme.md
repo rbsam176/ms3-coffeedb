@@ -62,7 +62,7 @@ If you do not wish to search for oyur own coffee to submit, feel free to use the
 	
 * [UX](#ux)
   * [Wireframes ](#wireframes)
-  * [Visual Structure](#visual-structure)
+  * [Visual Structure/Language](#visual-structure-language)
   * [Colour](#colour)
   * [Typography/Icons](#typographyicons)
 
@@ -518,7 +518,7 @@ The project started with making a wireframe of the homepage and Browse page. You
 
 
 
-## Visual structure
+## Visual structure/language
 
 The structure throughout CoffeeDB is made up of *cards*, making use of a Bootstrap UI class. This provided a clean, evenly spaced vertical structure to house the information about the coffee, which could be repeated in a loop easily (eg. Browse), or used individually (eg. homepage). 
 
