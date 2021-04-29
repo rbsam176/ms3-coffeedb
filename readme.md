@@ -670,3 +670,5 @@ Credit to [this Stackoverflow post](https://stackoverflow.com/questions/12660124
 
 [This code](https://www.w3schools.com/howto/howto_css_smooth_scroll.asp#section2) from W3 was used to enable smooth scrolling on multiple browsers including Safari.
 
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a) on Regex examples for password criteria.
+
