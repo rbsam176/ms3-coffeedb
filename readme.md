@@ -555,7 +555,7 @@ Secondary theme colour: #643F00
 
 
 
-<img src="static/assets/strongborders.png" alt="Screenshot showing thick border" style="zoom:50%;" /><img src="static/assets/boxshadow.png" alt="Screenshot showing box-shadow" style="zoom:40%;" />
+<img src="static/assets/strongborders.png" alt="Screenshot showing thick border" width="200"/><img src="static/assets/boxshadow.png" alt="Screenshot showing box-shadow" width="300" />
 
 
 
