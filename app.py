@@ -980,7 +980,16 @@ def update_account(username):
                 return redirect(url_for("update_account",
                                         username=session["user"]))
 
+            # SOURCE:
+            # https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+            regexBase = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)"
+            regexNoSymbol = "[a-zA-Z\d]{8,}$"
+            regexSymbol = "(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+            regexPlain = regexBase + regexNoSymbol
+            regexSpecial = regexBase + regexSymbol
+
             if "changePassword" in request.form:
+
                 # USER ENTERED EXISTING PASSWORD
                 inputExistingPassword = request.form.get(
                     "inputExistingPassword")
@@ -992,9 +1001,15 @@ def update_account(username):
             if check_password_hash(
                                    existingPreferences['password'],
                                    inputExistingPassword):
+
+                # CHECK REGEX MATCHES
+                regexSpecialCheck = re.search(
+                    regexSpecial, request.form.get("inputPassword"))
+                regexPlainCheck = re.search(
+                    regexPlain, request.form.get("inputPassword"))
+
                 # IF NEW PASSWORD CONFORMS TO CRITERIA
-                if re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
-                             request.form.get("inputPassword")):
+                if regexPlainCheck or regexSpecialCheck:
                     # IF BOTH NEW PASSWORDS MATCH
                     if request.form.get("inputPassword") == request.form.get(
                                                     "inputConfirmPassword"):
