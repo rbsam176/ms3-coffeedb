@@ -190,6 +190,7 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
   - If the user has already submitted a review, the review text input field will already contain their review so they can edit it or replace it with another.
   - The character counter will reflect the number of characters if the review already exists and is in the text input field on page load.
   - Reviews will show the review text, username of the reviewer, timestamp of when the review was written and their rating if it exists.
+  - The review timestamp is recorded in UTC but displayed to the user in their local timezone.
   - If more than 3 reviews exist, a link to 'View all reviews' is triggered.
 
 - #### All reviews
@@ -627,7 +628,7 @@ I have run the Python code through a [pep8 compliancy checker](http://pep8online
 
 # Deployment
 
-CoffeeDB is running off of Heroku, with automatic commiting enabled to GitHub. The env.py file, which is not sent externally, contains the necessary MongoDB information (IP, PORT, SECRET_KEY, MONGO_URI, MONGO_DBNAME), as well as the public, private and endpoint for the ImageKit API. Before the final deployment I performed a pip freeze in order to update my requirements.txt file with any modules needed to run the app. Since the beginning of developing CoffeeDB I used Git for version control and worked in a virtual environment in order to keep track of which modules were imported, it also has the added benefit of freezing the version of the modules so that if I ever installed a newer version on my computer in the future it wouldn't risk breaking old code reliant on an older version of the module.
+CoffeeDB is running off of Heroku, with syncronisation enabled to GitHub. The env.py file, which is not sent externally, contains the necessary MongoDB information (IP, PORT, SECRET_KEY, MONGO_URI, MONGO_DBNAME), as well as the public, private and endpoint for the ImageKit API. Before the final deployment I performed a pip freeze in order to update my requirements.txt file with any modules needed to run the app. Since the beginning of developing CoffeeDB I used Git for version control and worked in a virtual environment in order to keep track of which modules were imported, it also has the added benefit of freezing the version of the modules so that if I ever installed a newer version on my computer in the future it wouldn't risk breaking old code reliant on an older version of the module.
 
 
 
@@ -650,4 +651,22 @@ Credit to [this Stackoverflow post](https://stackoverflow.com/questions/10732690
 Credit to [this Stackoverflow post](https://stackoverflow.com/questions/11961952/objectid-object-has-no-attribute-gettimestamp/11962000) for guidance on how to extract the timestamp from the Object ID in MongoDB.
 
 The homepage and 404 page both make [use of this icon](https://pngtree.com/freepng/coffee-beans-icon-outline-style_5104840.html), which is free for non-commercial use.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/14091636/get-dict-key-by-max-value/14091645#14091645) for guidance on how to get the top value from a dictionary.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/65823199/dynamic-mongo-query-with-python) which served as inspiration for how I would write a dynamic query for the Browse page.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/55447599/how-to-send-data-in-flask-to-another-page) which helped when trying to figure out how to get the search input value from the homepage to a GET request landing on the Browse page.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/17649875/why-does-random-shuffle-return-none) to help implement a random ordered list.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/4563272/convert-a-python-utc-datetime-to-a-local-datetime-using-only-python-standard-lib) for guidance on how to convert UTC to the users local timezone.
+
+[This page](https://docs.python.org/3/howto/sorting.html) in Python's documentation was used for guidance on how to sort a dictionary by a sub-level value.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/a/40280312) for answers on how to work around DOM bubbling when targeting a dynamically created element.
+
+Credit to [this Stackoverflow post](https://stackoverflow.com/questions/12660124/javascript-jquery-preview-image-before-upload) for guidance on how to convert a user uploaded image to base64 for the purposes of previewing it before submitting a form request.
+
+[This code](https://www.w3schools.com/howto/howto_css_smooth_scroll.asp#section2) from W3 was used to enable smooth scrolling on multiple browsers including Safari.
 

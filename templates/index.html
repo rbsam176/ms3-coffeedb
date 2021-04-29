@@ -131,7 +131,7 @@
                                 {% for review in recentReviews %}
                                     <blockquote class="rating-row mx-3 d-flex my-2 row">
                                         <div class="col-11 my-auto">
-                                            <div class="row mb-1 lead"><span class="roast {% if review[3] == 'dark' %}dark-roast{% elif review[3] == 'medium' %}medium-roast{% elif review[3] == 'light' %}light-roast{% endif %} my-auto mr-2"></span><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}">{{ review[1]|title }}: {{ review[2]|title }}</a></div>
+                                            <div class="row mb-1 lead"><a href="{{ url_for('viewSubmission', submissionId=review[0]) }}">{{ review[1]|title }}: {{ review[2]|title }}</a></div>
                                             <div class="row mb-1">{{ review[4].text }}</div>
                                             <div class="row text-muted">
                                                 <span>

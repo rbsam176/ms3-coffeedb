@@ -1,5 +1,4 @@
 import os
-import sys
 import random
 from datetime import datetime, timezone
 import math
@@ -27,7 +26,7 @@ mongo = PyMongo(app)
 imagekit = ImageKit(
     private_key=os.environ.get("IMAGEKIT_PRIVATE"),
     public_key=os.environ.get("IMAGEKIT_PUBLIC"),
-    url_endpoint = os.environ.get("IMAGEKIT_ENDPOINT")
+    url_endpoint=os.environ.get("IMAGEKIT_ENDPOINT")
 )
 
 
@@ -87,14 +86,16 @@ def index():
     # # CONTAINS DOC ID, AVERAGE RATING AND NUMBER OF RATINGS
     averages = []
     # # COLLECTION CONTAINING ALL DOCUMENTS WITH RATINGS
-    ratingsTrue = mongo.db.beans.find({"rating": {"$exists": True}},
-                    projection={"rating": 1, "brand": 1, "name": 1})
+    ratingsTrue = mongo.db.beans.find(
+                                     {"rating": {"$exists": True}},
+                                     projection={
+                                                 "rating": 1, "brand": 1,
+                                                 "name": 1})
 
     # LOOPS THROUGH COLLECTION AND APPENDS TO AVERAGES LIST
     for doc in list(ratingsTrue):
         averages.append((doc['_id'], getAverageRating(doc['_id']),
                         len(gatherRatings(doc['_id']))))
-    
 
     # SORTS BY AVERAGE RATING THEN BY QUANTITY OF RATINGS
     sortedAverages = sorted(averages, key=lambda average:
@@ -105,10 +106,13 @@ def index():
     top5docs = []
     for submission in top5tuples:
         top5docs.append((submission, mongo.db.beans.find_one(
-            {"_id": ObjectId(submission[0])}, projection={"rating": 1, "brand": 1, "name": 1})))
+            {"_id": ObjectId(submission[0])}, projection={
+                "rating": 1, "brand": 1, "name": 1})))
 
     # COLLECTION CONTAINING ALL DOCUMENTS WITH REVIEWS
-    reviewsTrue = mongo.db.beans.find({"review": {"$exists": True}}, projection={"review": 1, "brand": 1, "name": 1, "roast": 1})
+    reviewsTrue = mongo.db.beans.find({"review": {
+        "$exists": True}}, projection={
+        "review": 1, "brand": 1, "name": 1, "roast": 1})
 
     # CONTAINS DOC DATA AND REVIEWS
     reviewsCollection = []
@@ -118,7 +122,6 @@ def index():
             reviews.append(review)
         reviewsCollection.append((doc['_id'], doc['brand'], doc['name'],
                                  doc['roast'], reviews))
-    
 
     # CONTAINS INDIVIDUAL TIMESTAMPS WITH DOC DATA
     reviewTimestamps = []
@@ -140,7 +143,6 @@ def index():
 
     return render_template("index.html", recentSubmission=recentSubmission,
                            top5docs=top5docs, recentReviews=recentReviews)
-
 
 
 def gatherInputs(matchedBean=None):
@@ -166,10 +168,11 @@ def gatherInputs(matchedBean=None):
     }
     return userInput
 
+
 def uploadImage(image):
     imagekitUpload = imagekit.upload_file(
-        file = image,
-        file_name = image.filename,
+        file=image,
+        file_name=image.filename,
         options={
             "is_private_file": False,
         },
@@ -367,9 +370,6 @@ def pagination_sort(beans):
 
 @app.route("/browse", methods=["GET"])
 def browse():
-    # GETS ALL DATA FROM BEANS COLLECTION (SORTED BY MOST RECENT)
-    # data = mongo.db.beans.find().sort("_id", -1)
-
     # RETURNS NUMBER OF DOCUMENTS IN BEANS COLLECTION
     count = mongo.db.beans.count_documents({})
 
@@ -377,19 +377,15 @@ def browse():
     offset, perPage, page, beansCount, pageQuantity = pagination(6, count)
 
     # USES PAGINATION VARIABLES TO ASSIGN OFFSET AND NUMBER PER PAGE
-    # beans = data.skip(offset).limit(perPage)
-    # merged 'data' variable find sort into beans variable skip limit version
     beans = mongo.db.beans.find().sort("_id", -1).skip(offset).limit(perPage)
 
     # RETURNS LIST OF ALL NON-UNIQUE NOTES IN DB
-    # notes = mongo.db.beans.find({}, {"notes": 1})
     notes = mongo.db.beans.find({}, projection={"notes": 1})
 
     # RETURNS LIST OF ALL UNIQUE NOTES
     uniqueNotes = getCoffeeData()["unique_notes"]
 
     # RETURNS LIST OF ALL NON-UNIQUE ORIGINS IN DB
-    # originColl = mongo.db.beans.find({}, {"origin": 1})
     originColl = mongo.db.beans.find({}, projection={"origin": 1})
 
     origins = []
@@ -461,12 +457,10 @@ def browse():
         # REPLACES BEANS DATA WITH DYNAMIC QUERY IF EXISTS
         if dynamicQuery["$and"]:
 
-            # findQuery = mongo.db.beans.find(
-            #     dynamicQuery).sort("_id", -1).skip(offset).limit(perPage)
-
             # REASSIGNS VALUES TO PAGINATION VARIABLES
             offset, perPage, page, beansCount, pageQuantity = pagination(
                 6, mongo.db.beans.count_documents(dynamicQuery))
+
             # REASSIGNS BEANS VARIABLE TO INCLUDE QUERY
             # AND PAGINATION OFFSET/LIMIT
             beans = mongo.db.beans.find(
@@ -729,6 +723,14 @@ def allReviews(submissionId):
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    # SOURCE:
+    # https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+    regexBase = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)"
+    regexNoSymbol = "[a-zA-Z\d]{8,}$"
+    regexSymbol = "(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+    regexPlain = regexBase + regexNoSymbol
+    regexSpecial = regexBase + regexSymbol
+
     # IF USER IS NOT LOGGED IN ALREADY
     if "user" not in session:
         if request.method == "POST":
@@ -752,18 +754,22 @@ def signup():
                 "password": generate_password_hash(
                     request.form.get("inputPassword"))
             }
+
+            regexSpecialCheck = re.search(
+                regexSpecial, request.form.get("inputPassword"))
+            regexPlainCheck = re.search(
+                regexPlain, request.form.get("inputPassword"))
+
             # IF PASSWORD MEETS CRITERIA
-            if re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
-                         request.form.get("inputPassword")):
+            if regexPlainCheck or regexSpecialCheck:
                 mongo.db.users.insert_one(newUser)
                 # SET SESSION TOKEN
                 session["user"] = request.form.get("inputUsername").lower()
                 flash(u"Registration Successful!", "success")
                 return redirect(url_for("profile", username=session["user"]))
-            elif not re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
-                         request.form.get("inputPassword")):
+            elif not regexPlainCheck or regexSpecialCheck:
                 flash(u"Password criteria not met", "warning")
-                return redirect(url_for("signup"))        
+                return redirect(url_for("signup"))
 
         return render_template("signup.html")
     # IF USER IS LOGGED IN, REDIRECT
@@ -892,7 +898,6 @@ def update_account(username):
                 {"username": session["user"]})["_id"]
 
             if "updateAccount" in request.form:
-                print('updateAccount')
 
                 # RETRIEVES NEW PREFERENCES
                 editedPreferences = {
@@ -902,12 +907,34 @@ def update_account(username):
                     "username": request.form.get("inputUsername")
                 }
 
-                # CREATES FULL NAME FROM EDITED VALUES
-                edited_first_name = existingPreferences["first_name"]
-                edited_last_name = existingPreferences["last_name"]
-                edited_full_name = edited_first_name + " " + edited_last_name
+                edited_user_email = mongo.db.users.find_one(
+                    {"email": editedPreferences["email"]})
+                edited_user_username = mongo.db.users.find_one(
+                    {"username": editedPreferences["username"]})
 
-                print("updated account details")
+                # IF EXISTING INPUT IS NOT THE SAME AS POST REQUEST VALUE
+                if editedPreferences["email"] != existingPreferences["email"]:
+                    # IF NEW EMAIL ALREADY EXISTS
+                    if edited_user_email:
+                        flash(
+                            u"An account with this email already exists",
+                            "warning")
+                        return redirect(url_for("update_account",
+                                                username=session["user"]))
+                # IF EXISTING INPUT IS NOT THE SAME AS POST REQUEST VALUE
+                if editedPreferences["username"] != existingPreferences[
+                                                    "username"]:
+                    # IF NEW USERNAME ALREADY EXISTS
+                    if edited_user_username:
+                        flash(u"An account with this username already exists",
+                              "warning")
+                        return redirect(url_for("update_account",
+                                                username=session["user"]))
+
+                # CREATES FULL NAME FROM EDITED VALUES
+                edited_first_name = editedPreferences["first_name"]
+                edited_last_name = editedPreferences["last_name"]
+                edited_full_name = edited_first_name + " " + edited_last_name
 
                 # UPDATE ALL BEANS TO NEW USERNAME
                 mongo.db.beans.update_many(
@@ -953,22 +980,25 @@ def update_account(username):
                 return redirect(url_for("update_account",
                                         username=session["user"]))
 
-
             if "changePassword" in request.form:
                 print('changePassword')
 
             # USER ENTERED EXISTING PASSWORD
             inputExistingPassword = request.form.get("inputExistingPassword")
 
-            newPassword = generate_password_hash(request.form.get("inputPassword"))
+            newPassword = generate_password_hash(request.form.get(
+                                                "inputPassword"))
 
-            # CHECK PRE-EXISTING PASSWORD MATCHES USER ENTERED EXISTING PASSWORD
-            if check_password_hash(existingPreferences['password'], inputExistingPassword):
+            # CHECK EXISTING PASSWORD MATCHES NEW PASSWORD
+            if check_password_hash(
+                                   existingPreferences['password'],
+                                   inputExistingPassword):
                 # IF NEW PASSWORD CONFORMS TO CRITERIA
                 if re.search("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
-                         request.form.get("inputPassword")):
+                             request.form.get("inputPassword")):
                     # IF BOTH NEW PASSWORDS MATCH
-                    if request.form.get("inputPassword") == request.form.get("inputConfirmPassword"):
+                    if request.form.get("inputPassword") == request.form.get(
+                                                    "inputConfirmPassword"):
 
                         print("updated account details")
 
@@ -983,7 +1013,8 @@ def update_account(username):
                         )
 
                         # VALIDATES THE UPDATE HAS COMPLETED
-                        flash(u"Your password has been changed successfully", "success")
+                        flash(u"Your password has been changed successfully",
+                              "success")
                         return redirect(url_for("update_account",
                                                 username=session["user"]))
 
@@ -998,7 +1029,7 @@ def update_account(username):
                     flash(u"New password doesn't meet criteria", "warning")
                     return redirect(url_for("update_account",
                                             username=session["user"]))
-        
+
             else:
                 print("Existing password entered incorrectly")
                 flash(u"Existing password entered incorrectly", "warning")

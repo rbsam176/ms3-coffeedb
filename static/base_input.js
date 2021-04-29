@@ -57,7 +57,6 @@ $("#organicFalse").on("click", function() {
 })
 
 // ASSIGNS LIVE PREVIEW LINK TO USER INPUT
-// CURRENTLY HTML FORCES HTTP REQUIREMENT, TRY TO ALLOW JUST WWW. <-----
 $("#websiteInput").on('input', function() {
     $("#website-preview").attr('href', $(this).val())
 })
@@ -89,8 +88,7 @@ function limitNotes(){
 }
 
 // LISTENS FOR NOTE CHECKED AND RUNS APPENDING FUNCTION OR REMOVES
-// HAD DOM BUBBLING ISSUE, WHERE IF THE ELEMENT DOESN'T EXIST ON DOCUMENT READY THEN IT CAN'T TARGET DYNAMICALLY CREATED ELEMENTS
-// USED https://stackoverflow.com/a/40280312 FOR SUPPORT
+// SOURCE https://stackoverflow.com/a/40280312
 $("form").on('change', 'input:checkbox.note-checkbox', function() {
     if($(this).is(':checked')){
         limitNotes()
