@@ -8,6 +8,36 @@ View the deployed project: [here](https://ms3-coffeedb.herokuapp.com)
 
 View the Github repo: [here](https://github.com/rbsam176/ms3-coffeedb)
 
+
+
+The 'All Reviews' page is only visible when more than 3 reviews exist in the database per submission.<br>[Click here to see an example of a submission](http://ms3-coffeedb.herokuapp.com/view/608408fa9f27253818935e4e) with more than 3 reviews in order to experience the 'All Reviews' page.
+
+
+
+*Please note that any issues relating to the speed of CoffeeDB is currently due to a temporary throttling issue with MongoDB.<br>[Click here for a more detailed explanation.](#version-3-base64-in-mongodb)<br>[Click here to see the actual performance scores from Lighthouse](#performance-best-practices-seo).*
+
+## Example input
+
+If you do not wish to search for oyur own coffee to submit, feel free to use the below example input data.
+
+[Click here for the image](https://www.abelandcole.co.uk/media/8574_24710_z.jpg). *(Download to your device and upload to CoffeeDB)*
+
+**Brand**: Eat Your Hat
+
+**Name**: Wholebean Espresso
+
+**Roast**: Medium
+
+**Origin**: Blend
+
+**Organic**: Yes
+
+**Website:** https://www.eatyourhat.com/products/whole-bean-espresso/
+
+**Notes:** Milk Chocolate, Peanut
+
+
+
 ## Table of Contents
 * [Strategy](#Strategy)
 	* [User Stories & Project Objectives](#user-stories--project-objectives)
@@ -195,6 +225,7 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
 
 - #### All reviews
 
+  - [Click here to see an example](http://ms3-coffeedb.herokuapp.com/view/608408fa9f27253818935e4e) of a submission containing more than 3 reviews which triggers a link to appear to visit an 'All Reviews' page.
   - All reviews for a submission are listed on one page.
   - The ability to sort reviews by date or number of ratings is available.
   - As the 'all reviews' page is 2 pages deep, meaning the previous page is not accessible via the navigation menu, a back button is presented which returns the user to the 'View Submission' page.
