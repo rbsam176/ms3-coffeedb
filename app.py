@@ -981,8 +981,6 @@ def update_account(username):
                                         username=session["user"]))
 
             if "changePassword" in request.form:
-                print('changePassword')
-
             # USER ENTERED EXISTING PASSWORD
             inputExistingPassword = request.form.get("inputExistingPassword")
 
@@ -999,8 +997,6 @@ def update_account(username):
                     # IF BOTH NEW PASSWORDS MATCH
                     if request.form.get("inputPassword") == request.form.get(
                                                     "inputConfirmPassword"):
-
-                        print("updated account details")
 
                         # UPDATES THE USERS COLLECTION WITH NEW PASSWORD
                         mongo.db.users.update_one(
@@ -1019,19 +1015,16 @@ def update_account(username):
                                                 username=session["user"]))
 
                     else:
-                        print("New passwords do not match")
                         flash(u"New passwords do not match", "warning")
                         return redirect(url_for("update_account",
                                         username=session["user"]))
 
                 else:
-                    print("New password doesn't meet criteria")
                     flash(u"New password doesn't meet criteria", "warning")
                     return redirect(url_for("update_account",
                                             username=session["user"]))
 
             else:
-                print("Existing password entered incorrectly")
                 flash(u"Existing password entered incorrectly", "warning")
                 return redirect(url_for("update_account",
                                         username=session["user"]))
