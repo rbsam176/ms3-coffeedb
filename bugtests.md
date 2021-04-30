@@ -17,7 +17,7 @@
 |                          |                       |                                                              |
 | Browse                   | Search                | Actions search query                                         |
 |                          |                       | Queries permitted: 'Brand' and 'Coffee name'                 |
-|                          | Open filter controls  | Clicking toggles state between 'Open filter controls' and 'Close filter controls' with corresponding arrow icon |
+|                          | Open filter controls  | Clicking will toggle state between 'Open filter controls' and 'Close filter controls' with corresponding arrow icon. *Known bug where clicking numerous times in quick succession confuses toggle state, will be addressed in future build.* |
 |                          | Filter: Roast         | Allows user to select multiple roast types                   |
 |                          |                       | On clicking 'Search' the results returned only show results containing user 'roast' selection |
 |                          | Filter: Origin        | Allows user to select multiple origin types                  |
