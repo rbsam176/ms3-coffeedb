@@ -9,7 +9,6 @@ body {
 
 .base-content {
     flex: 1;
-    /* what is this doing? */
     padding-bottom: 20px;
 }
 
@@ -24,10 +23,6 @@ input {
 a {
     color: #643F00;
 }
-
-/* select, option, input:not([type="email"]):not([type="password"]):not([type="date"]) {
-    text-transform: capitalize;
-} */
 
 a:hover {
     text-decoration: none;
@@ -167,7 +162,6 @@ h2, h3 {
 #index-bg {
     background-color: #F8A825;
     width: 100vw;
-    /* height: 100vh; */
     min-height: 100vh;
 }
 
@@ -310,7 +304,6 @@ a.anchor {
 
 .sub-title {
     font-family: 'Montserrat', sans-serif;
-    /* SOURCE: https://stackoverflow.com/a/37836926 */
     font-size:calc(12px + 1.7vw);
     color: #643F00;
 }
@@ -576,7 +569,6 @@ ul.add-notes-container li {
 .individual-card {
     max-width: 600px;
     border: 2px solid black;
-    /* height: 700px; */
     min-height: 600px;
 }
 
@@ -847,7 +839,6 @@ input[type=radio]:checked + label.filter-toggle {
 
 .originOptionsExtra {
     display: none;
-    /* visibility: none; */
 }
 
 
