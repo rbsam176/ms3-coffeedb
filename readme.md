@@ -255,6 +255,7 @@ Signing up is quick and easy, anyone with an account can submit new coffee to th
 - Currently a user is unable to easily see all submissions they have rated or reviewed, it would rely on them remembering the submission and finding it via Browse. I would like this to be introduced within their profile page in a future build.
 - The ability to 'watch' other users so that you are notified if someone you follow has submitted a new coffee, or recently reviewed/rated a coffee. This would introduce a light social network to CoffeeDB which I believe could influence users to return more often.
 - The search container is positioned at the top of the second half of the homepage when viewing on desktop. Due to the grid system in bootstrap it is moved below other containers when viewing on mobile. For consistency I would like to update this to be more consistent.
+- A bug exists with the collapsible filter controls on the Browse page that should be rewritten in a future build. If the user clicks to open the filter controls more than once in quick succession it will confuse the toggle state and be in an open state when the controls are closed, and vice-versa. This is more likely a Bootstrap component issue, but a workaround can be found, or alternatively a different method of writing a collapsible container can be included.
 
 # Code Walkthrough & Challenges
 
