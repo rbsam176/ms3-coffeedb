@@ -64,7 +64,7 @@
                             <div class="col-12 text-center form-group">
                                 <h4>Organic</h4>
                                 <div class="checkbox-container">
-                                    <input type="radio" id="organicFalse" name="organicRequired" value=False {% if not request.args %}checked{% elif request.args['organicRequired'] == 'False' %}checked{% endif %}>
+                                    <input type="radio" id="organicFalse" name="organicRequired" value=False {% if not request.args %}checked{% elif request.args['organicRequired'] == 'False' %}checked{% elif 'organicRequired' not in request.args %}checked{% endif %}>
                                     <label for="organicFalse" class="filter-toggle">Not required</label>
                                     <input type="radio" id="organicTrue" name="organicRequired" value=True {% if request.args['organicRequired'] == "True" %}checked{% endif %}>
                                     <label for="organicTrue" class="filter-toggle">Required</label>
